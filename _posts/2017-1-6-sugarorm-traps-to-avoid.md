@@ -1,5 +1,4 @@
 
-# SugarORM, traps to avoid
 
 For those who had deal with Android sqlite database before, there must be a times when you had to wrote the schema for each and every models of your app. For once, I tried and it’s just a boring afternoon spent on implementing all the schemas and queries for each models.
 

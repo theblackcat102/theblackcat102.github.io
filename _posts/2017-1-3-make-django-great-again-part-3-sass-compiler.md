@@ -1,8 +1,4 @@
 
-# Make Django Great Again (Part 3) : Sass compiler
-
-
-
 Sass 是一種CSS 的進階寫法，具有巢狀迴圈、變數、運算、函數、可繼承（Mixins）的語法。但是本身卻無法直接被瀏覽器解讀，因此需要借助“編譯器” 轉換成CSS 才能使用。
 
 簡單說一說為什麼2017 年應該拋棄CSS，而使用Sass(SCSS)、less 來編寫CSS代碼。
@@ -117,7 +113,7 @@ base.html
 
     …
 
-    <link rel=”stylesheet” type=”text/css” href=”{% sass_src ‘extra-styles/scss/style.scss’ %}”>
+    <link rel=”stylesheet” type=”text/css” href=”\{\% sass_src ‘extra-styles/scss/style.scss’ \%\}”>
 
     …
 

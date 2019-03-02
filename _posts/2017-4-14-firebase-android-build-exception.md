@@ -1,6 +1,4 @@
 
-# Firebase Android build Exception Error
-
 最近興致勃勃的在專案加入Firebase 整合NoSQL 資料時，將gradle 都設置好以後，點擊同步Gradle 時出現了Exception Error 問題….@@
 
 gradle Console 出現Error 如下

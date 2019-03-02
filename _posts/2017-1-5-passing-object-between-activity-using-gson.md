@@ -1,6 +1,4 @@
 
-# Passing Object between Android Activity using Gson
-
 So you wanna pass data between different activity however you are passing a custom object list which is not parseable using putExtra function.
 
 Hence your options include : Parcelable, Serializable, Gson+Type token. For performance wise, Parcelable is noticeable faster then the later two. However, for code maintainability, Gson is much better than both thanks to less additional method code and the flexibility for list object parsing.

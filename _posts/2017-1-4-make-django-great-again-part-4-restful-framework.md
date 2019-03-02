@@ -1,6 +1,4 @@
 
-# Make Django Great Again (Part 4) : RESTful Framework
-
 
 
 當我們將 Django 前端交由React處理後，自然就做到前後端的分割的型態（React render 前端component, 資料由Django 供給）。此時Django 分開成兩部分，也就是在Django template view中不會再出現參數丟到 html 檔案中，而是透過RESTful API 由javascipt獲取資料，再透過react 的props 或 state 呈現出資料數值。此時前端不再需要後端將資料丟進來，也因此另一個作法就是將前端改由NodeJS做後端的 serving, 而Django 角色變成一個RESTful API。這樣專案開發起來，協同性變得非常的好，同時Django views 處理的可以大大的降低。

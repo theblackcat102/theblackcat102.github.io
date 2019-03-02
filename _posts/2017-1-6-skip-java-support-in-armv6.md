@@ -1,8 +1,3 @@
-
-# 跳過Java server在ARMv6不支援VM問題
-
-
-
 最近花了幾天將自己的三個電腦叢架上Hadoop([什麼是Hadoop](http://blog.jobbole.com/1321/)) , 其中一個datanode是一代的raspberry pi
 
 而在啟動start-dfs.sh時，遇到了

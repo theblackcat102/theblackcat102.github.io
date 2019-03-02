@@ -1,5 +1,4 @@
 
-# Building a Deep Learning Introduction Machine under 1000 dollar
 
 It all started when I was introduced into machine learning during a AI competition. As my old Macbook Air was running scalding hot training word embeddings, the provided Azure GPU service ended (the service was provided by the competition host and only lasted for 3 days). Finally, I decided to get myself a new desktop machine for deep learning purpose. The usual recommendation i found online was usually going for an i5 / i7, a GTX 1070 with a fairly large SSD paired with HDD. However, i decided to go for an abnormal approach with a slow CPU and more GPUs which may allow me to cover more “grounds” in a faster pace.
 

@@ -1,6 +1,4 @@
 
-# Ansible Introduction
-
 Recently I got my hands on a brand new orange pi. However, I found myself stuck in typing the same boring command across all sessions. Hence, I believe this serves as a good opportunity to anisible for better automation across all servers.
 
 Simple walkthrough the steps to install anisible in master server:
