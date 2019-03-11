@@ -33,3 +33,5 @@
 <iframe src="https://medium.com/media/9fd813ce65eeea6dca6aea95fed28d49" frameborder=0></iframe>
 
 如此以後更改任何檔案都不需要再手動更新了，且搭配屏幕效果更佳～
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

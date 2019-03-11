@@ -62,3 +62,5 @@ this command send the same command to all servers
 **Here’s a great proper introduction to ansible by Jeff Geeriling**
 
 [youtube [https://www.youtube.com/watch?v=ZNB1at8mJWY&w=560&h=315]](https://www.youtube.com/watch?v=ZNB1at8mJWY&w=560&h=315])
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

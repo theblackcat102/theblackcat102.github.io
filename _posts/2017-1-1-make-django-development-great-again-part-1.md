@@ -253,3 +253,7 @@ index.html 內容如下：
 ![](https://cdn-images-1.medium.com/max/2000/1*qTRfk65zlDZp1D32e7w4Aw.png)
 
 參考：[https://medium.com/@urangurang/react-on-django-boilerplate-3c3735df41f2](https://medium.com/@urangurang/react-on-django-boilerplate-3c3735df41f2)
+
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)
+

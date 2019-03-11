@@ -117,3 +117,5 @@
 ![我有兩個users 名字分別叫 django-admin與 theblackcat](https://cdn-images-1.medium.com/max/2000/1*QehJaDZ7J4aC8qecAXAM5Q.png)*我有兩個users 名字分別叫 django-admin與 theblackcat*
 
 最後一篇Make Django Great Again 就到此為止咯。希望透過這系列的文章，能跳脫以往都在教Django MTV (MVC)模式，讓大家認識下不一樣的Django。如果反應好的話，我應該會繼續寫類似系列的文章吧。
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

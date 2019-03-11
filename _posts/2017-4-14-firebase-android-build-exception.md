@@ -43,3 +43,5 @@ gradle Console 出現Error 如下
 再次build 以後，問題消失了，並且firebase 能順利操作。
 
 雖然不知道這方法到底正確不正確，算是一個小繞道吧？但總算解決了檔案衝突的問題。
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

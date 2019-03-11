@@ -34,3 +34,5 @@ export HADOOP_DATANODE_OPTS=”-Dcom.sun.management.jmxremote $HADOOP_DATANODE_O
 這樣便可以避開使用java -server 的指令。
 
 圖源：https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Hadoop_logo.svg/2000px-Hadoop_logo.svg.png
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

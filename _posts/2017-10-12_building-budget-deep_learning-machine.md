@@ -49,3 +49,4 @@ I came into realised choosing 120G of SSD wasn’t a good choice and wished I ha
 1. Choose CPU with more than 2 physical cores ( Coffelake i3 has 4 physical cores, which is more suitable for this budget build)
 
 1. Power supply with 600W or above gives you more room for future upgrade.
+

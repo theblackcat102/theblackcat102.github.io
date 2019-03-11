@@ -54,3 +54,5 @@ The following method can be considered as serialisation, however in performance 
 ![Photo & Data source : [http://blog.prolificinteractive.com/2014/07/18/why-we-love-parcelable/](http://blog.prolificinteractive.com/2014/07/18/why-we-love-parcelable/)](https://cdn-images-1.medium.com/max/2000/1*GpBWHjlp6A3VViEI4g_INg.png)*Photo & Data source : [http://blog.prolificinteractive.com/2014/07/18/why-we-love-parcelable/](http://blog.prolificinteractive.com/2014/07/18/why-we-love-parcelable/)*
 
 In the next article I will be trying using parcelable in my recent project and compare whether there is noticeable improvement between two passing method. Meanwhile be sure to follow me, I will share my thoughts and boring coding stories each week.
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

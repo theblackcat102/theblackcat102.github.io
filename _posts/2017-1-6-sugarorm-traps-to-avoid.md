@@ -106,3 +106,5 @@ if you plan to use SugarORM in your next project or integrate this to any of you
 1. If you don’t want to change database version every time you made a change to the class member, you will need to do the extra steps to clear the app data manually.
 
 1. Disable instant run and check any improper meta field in AndroidManifest
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)

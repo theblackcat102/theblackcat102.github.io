@@ -122,3 +122,5 @@ base.html
     python manage.py runserver
 
 任何 sass/ scss 就會被自動編譯，搭配前一篇的 livereload 設置的話，開發時就可以省去重新刷新瀏覽器的功夫了。
+
+如果你喜歡我的文章或side projects，可以[捐贈我一杯大熱美（大杯美式咖啡）支持我。](https://www.buymeacoffee.com/theblackcat102)
