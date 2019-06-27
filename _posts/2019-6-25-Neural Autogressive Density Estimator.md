@@ -1,9 +1,4 @@
-類神經網路自回歸密度估計 Neural Autoregressive Density Estimation (測試中)
-
-
-[code 實作DocNADE](http://blog.aylien.com/tensorflow-implementation-neural-autoregressive-topic-model-docnade/)
-
-[Hugo Larochelle 演講的 Slide ](http://helper.ipam.ucla.edu/publications/gss2012/gss2012_10616.pdf)
+# 類神經網路自回歸密度估計 Neural Autoregressive Density Estimation
 
 ### 介紹 NADE 基本架構
 
@@ -44,3 +39,12 @@ $$
 
 其中 RealNADE 與 LaplaceNADE 相似，都是將每個輸出對應到一種參數不同但同類的機率分佈函數權重（例如不同平均、標準差的高斯分佈）。透過相同的訓練方式學習到某實數的機率函數。
 
+## 衍生閱讀：
+
+* [ArXiv NADE 論文網址](https://arxiv.org/abs/1605.02226)
+
+* [code 實作DocNADE](http://blog.aylien.com/tensorflow-implementation-neural-autoregressive-topic-model-docnade/)
+
+* [Hugo Larochelle Youtube 演講](https://www.youtube.com/watch?v=R8fx2b8Asg0)
+
+* [Hugo Larochelle 演講的 Slide ](http://helper.ipam.ucla.edu/publications/gss2012/gss2012_10616.pdf)
