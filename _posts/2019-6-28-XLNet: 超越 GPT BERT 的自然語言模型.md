@@ -1,4 +1,4 @@
-## XLNet: Generalized Autoregressive Pretraining for Language Understanding
+2019 年最新的論文 [XLNet: Generalized Autoregressive Pretraining for Language Understanding](https://arxiv.org/abs/1906.08237), 作者在結果中證實超越了目前 NLP 模型中最好的模型如 GPT, BERT。這裡就稍微解析一下為何 XLNet 的架構可以超越 GPT、BERT 模型吧～
 
 在過去自然語言 (NLP) state of the art (SOTA) 的模型如 ：GPT, BERT 中還未解決的問題如下：
 
@@ -18,9 +18,9 @@
 
 問題 2,3 ：
 
-作者根據 NADE 的論文中提到，任意一個第$$d$$ 緯度可以由 $$1:d-1$$ 維度的因式分解組成，將目前需要補上的字與其他被屏蔽的字的關係也學習起來。如第二問題中舉例的 New York is a city。可以意因式分解的可能有： New → York → is → a → city, York → New → is → a → city, city → is → a → New → York *。接著再使用自回歸來學習這些句子的因式分解變形即可學習到前後文的資訊。如此一來，模型可以使用雙向設計學習句子前後的關係。
+作者根據類神經網路自回歸密度估計 (NADE) 的論文中提到，任意一個第$$d$$ 緯度可以由 $$1:d-1$$ 維度的因式分解組成，將目前需要補上的字與其他被屏蔽的字的關係也學習起來。如第二問題中舉例的 New York is a city。可以意因式分解的可能有： New → York → is → a → city, York → New → is → a → city, city → is → a → New → York *。接著再使用自回歸來學習這些句子的因式分解變形即可學習到前後文的資訊。如此一來，模型可以使用雙向設計學習句子前後的關係。
 
-到這裡，XLNet 架構既結合了 AR 的優勢（預訓練於微調整資訊對等），也用到 BERT 的雙向 Transformer 結構但在預訓練階段不會有 MASK 的字出現。
+到這裡，XLNet 架構既結合了 AR 的優勢（預訓練於微調整資訊對等），也用到 BERT 的雙向 Transformer 結構但在預訓練階段不會有 MASK 的字出現。關於 NADE 的論文我在之前發文講解過有興趣的話可以[點過去看看](https://theblackcat102.github.io/%E9%A1%9E%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF%E8%87%AA%E5%9B%9E%E6%AD%B8%E5%AF%86%E5%BA%A6%E4%BC%B0%E8%A8%88-Neural-Autogressive-Density-Estimator/)。
 
 *注意：這裡的文字調亂了，其 transformer 的 positional embedding 也會隨著調換，因為 self attention 在權重乘機上並沒有不會因為positional bias 而影響先後順序的概念。
 
