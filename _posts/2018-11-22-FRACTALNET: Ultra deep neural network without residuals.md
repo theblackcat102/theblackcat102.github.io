@@ -1,3 +1,11 @@
+---
+keywords:
+  - deep learning
+  - neural network
+  - skip connection
+  - 深度學習
+---
+
 這年頭時不時都來一個 skip connection, 認為此風不可長的研究員就想出了 FractalNet。基於Skip connection 解決vanishing gradient 問題的理念，Fractal Net 使用梯子設計形式，增加信息可以流向的pipeline 。由於每個 pipline 所經過的權重比較少，因此 gradient 可以透過比較沒有什麼阻抗的 pipeline 更新比較底層的權重。
 
 每個pipeline 所經過的卷積層 （ conv → batchnorm → relu ）最多兩層就與鄰居pipeline concat 或 add ( 統稱 join )起來了。這樣的設計定為一個 block, 每個block 之間做池化。每個階梯層的分離與結合稱作 path，在最後的join 層它可以結合深淺度的特徵。而整個網路中完全不依賴任何的skip connection 結構，也達到了超深的類神經網路結構

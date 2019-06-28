@@ -1,3 +1,15 @@
+---
+keywords:
+  - deep learning
+  - neural network
+  - SOTA
+  - XLNet
+  - 自然語言
+  - 深度學習
+cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/xlnet_cover_image.png
+---
+
+
 2019 年最新的論文 [XLNet: Generalized Autoregressive Pretraining for Language Understanding](https://arxiv.org/abs/1906.08237), 作者在結果中證實超越了目前 NLP 模型中最好的模型如 GPT, BERT。這裡就稍微解析一下為何 XLNet 的架構可以超越 GPT、BERT 模型吧～
 
 在過去自然語言 (NLP) state of the art (SOTA) 的模型如 ：GPT, BERT 中還未解決的問題如下：

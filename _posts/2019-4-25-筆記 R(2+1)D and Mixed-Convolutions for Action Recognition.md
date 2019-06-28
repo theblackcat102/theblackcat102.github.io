@@ -1,3 +1,12 @@
+---
+keywords:
+  - deep learning
+  - neural network
+  - 卷積類神經
+  - R3D  
+  - 深度學習
+---
+
 使用 Convolution 有效學習圖片+時間資訊: R(2+1)D and Mixed-Convolutions for Action Recognition
 
 [網址](https://arxiv.org/pdf/1711.11248.pdf)
