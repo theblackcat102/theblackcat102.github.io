@@ -5,6 +5,7 @@ keywords:
   - 卷積類神經
   - R3D  
   - 深度學習
+comments: true
 ---
 
 使用 Convolution 有效學習圖片+時間資訊: R(2+1)D and Mixed-Convolutions for Action Recognition

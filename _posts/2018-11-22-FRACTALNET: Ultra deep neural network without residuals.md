@@ -4,6 +4,7 @@ keywords:
   - neural network
   - skip connection
   - 深度學習
+comments: true
 ---
 
 這年頭時不時都來一個 skip connection, 認為此風不可長的研究員就想出了 FractalNet。基於Skip connection 解決vanishing gradient 問題的理念，Fractal Net 使用梯子設計形式，增加信息可以流向的pipeline 。由於每個 pipline 所經過的權重比較少，因此 gradient 可以透過比較沒有什麼阻抗的 pipeline 更新比較底層的權重。

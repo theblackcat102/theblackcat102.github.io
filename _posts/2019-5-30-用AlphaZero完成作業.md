@@ -1,3 +1,12 @@
+---
+keywords:
+  - deep learning
+  - neural network
+  - AI
+  - Artificial Intelligent
+  - 人工智慧
+comments: true
+---
 
 反正故事大概是這樣：交大人工智慧概論期末是一個人工智慧遊戲競賽，比的是一種從來沒有玩過的遊戲。為了贏得比賽我跟隊友直接訓練 Alpha Zero 類神經網路，然而中途殺出新規則限制硬體規格與不能使用套件（numpy 除外）的規定，讓我們中途放棄改用魔改 蒙地卡羅樹狀搜尋（MCTS）來繳交期末作業。
 
