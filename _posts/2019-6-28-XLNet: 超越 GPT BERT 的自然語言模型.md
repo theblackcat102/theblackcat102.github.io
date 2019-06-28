@@ -81,5 +81,11 @@ XLNet 結合過往雙向 Transformer 與 Transformer 自序列訓練(AR)方法�
 
 
 
+* [Pytorch 實作 XLNet](https://github.com/graykode/xlnet-Pytorch)
 
+* [原本論文：arxiv.org/abs/1906.08237 ](https://arxiv.org/abs/1906.08237)
+
+* 文章使用的圖片截圖自論文
+
+如果你喜歡我的文章，可以捐贈我一杯[大熱美（大杯美式咖啡）](https://www.buymeacoffee.com/theblackcat102)支持我。
 
