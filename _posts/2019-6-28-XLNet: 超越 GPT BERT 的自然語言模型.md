@@ -69,7 +69,7 @@ $$L_{XLNet} = log_{p}(city | New York is a )$$
 
 ## Transformer XL
 
-XLNet 從 Transformer XL 的論文中使用了它的相對位置編碼機制（有別於一般 Transformer 的 cosine + sine 位置編碼），相對位置編碼只在乎位置 $$i$$、 $$j$$ 之相關值。另外也借用了將 Transformer 當成一個 Recurrent cell 使用，用來處理超過傳統 Transformer 序列長度受限的問題。
+XLNet 從 Transformer XL 的論文中使用了它的相對位置編碼機制（有別於一般 Transformer 的 cosine + sine 位置編碼），相對位置編碼只在乎位置 $$i$$、 $$j$$ 之相關值。另外也借用了將 Transformer 當成一個RNN中 recurrent cell 使用，用來處理超過傳統 Transformer 序列長度受限的問題。
 
 詳細內容可以參考 Transformer XL 的論文： [arxiv.org/abs/1901.02860](https://arxiv.org/abs/1901.02860)
 
