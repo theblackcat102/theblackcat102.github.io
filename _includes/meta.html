@@ -16,3 +16,12 @@
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="twitter:title" content="{{ page.title }}" />
     {% endif %}
+
+    {% if page.keywords %}
+    <meta name="keywords" content="{{ page.keywords | join: ', ' | escape }}">
+    <meta property="og:type"               content="article" />
+    {% endif %}
+
+    {% if page.cover_image %}
+    <meta name="og:image" content="{{ page.cover_image }}">
+    {% endif %}
