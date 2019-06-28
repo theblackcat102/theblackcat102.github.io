@@ -36,4 +36,9 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 *注意：這裡的文字調亂了，其 transformer 的 positional embedding 也會隨著調換，因為 self attention 在權重乘機上並沒有不會因為positional bias 而影響先後順序的概念。
 
-（未完詳細機制我之後會陸續補上）
+## 如何實作AR的因式分解
+
+前段說過，
+
+![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/output_fhhFZ2.gif)
+
