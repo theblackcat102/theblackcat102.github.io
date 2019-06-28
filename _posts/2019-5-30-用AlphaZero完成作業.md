@@ -31,3 +31,4 @@ Alpha Go Zero 為Deepmind 圍棋AI版本 2, 而 Alpha Zero 為 Deepmind 針對�
 
 因此我嘗試將訓練了20000次的類神經模型搭配自己的貪心計策（稱為 Jump Zero + Greedy policy）與原始MCTS+貪心計策互相對弈。在20場輪流替換顏色的比賽下來， Jump Zero+ Greedy Policy 可以獲得15場的勝利。
 
+如果你喜歡我的文章或side projects，可以捐贈我一杯[大熱美（大杯美式咖啡）](https://www.buymeacoffee.com/theblackcat102)支持我。

@@ -11,3 +11,5 @@ Regularization method: 為了訓練如此龐大的網路，在訓練時每個路
 作者在最後結語說為何這樣的設計有 student teacher 形式的關鍵在使用 drop path 。假設 channel 3 是比 4 深, 當 channel 3 被丟棄時，channel 4 被迫分擔 3 的工作。作者將部分的 channel 提出組合成新的模型，它依然能正常運作（沒說準確率降低多少）。
 
 問題： 記憶體佔用，如此之大的模型其 channel 必然導致記憶體佔用量提升。這也許是為什麼作者只有做到 40 層的緣故。
+
+如果你喜歡我的文章或side projects，可以捐贈我一杯[大熱美（大杯美式咖啡）](https://www.buymeacoffee.com/theblackcat102)支持我。

@@ -44,3 +44,5 @@ $$
 * [Hugo Larochelle Youtube 演講](https://www.youtube.com/watch?v=R8fx2b8Asg0)
 
 * [Hugo Larochelle 演講的 Slide ](http://helper.ipam.ucla.edu/publications/gss2012/gss2012_10616.pdf)
+
+如果你喜歡我的文章或side projects，可以捐贈我一杯[大熱美（大杯美式咖啡）](https://www.buymeacoffee.com/theblackcat102)支持我。

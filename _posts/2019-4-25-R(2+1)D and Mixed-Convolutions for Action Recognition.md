@@ -11,3 +11,6 @@
 右圖顯示 R2+1 conv 第一層先在M個不同時序上做 dxd kernel 的卷積，接著再通過一個 t x 1 x 1 的 3D 卷積。這樣的設計除了降低參數量之外還可以在中間加入激活層或是 normalization 層。
 
 後記：是否能應用在LipNet 解讀嘴唇話語？畢竟模型需要理解時間、嘴唇熱點之間的關聯。
+
+
+如果你喜歡我的文章或side projects，可以捐贈我一杯[大熱美（大杯美式咖啡）](https://www.buymeacoffee.com/theblackcat102)支持我。
