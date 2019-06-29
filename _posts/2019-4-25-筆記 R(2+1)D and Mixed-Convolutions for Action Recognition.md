@@ -5,6 +5,7 @@ keywords:
   - 卷積類神經
   - R3D  
   - 深度學習
+title : 筆記 R(2+1)D and Mixed-Convolutions for Action Recognition
 comments: true
 ---
 
