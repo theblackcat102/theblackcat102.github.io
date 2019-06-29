@@ -7,6 +7,7 @@ keywords:
   - 自然語言
   - 深度學習
 comments: true
+title : XLNet 超越GPT、BERT的自然語言模型
 cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/xlnet_cover_image.png
 ---
 
