@@ -6,6 +6,7 @@ keywords:
   - neural network
   - 類神經網路
 comments: true
+title: Targeted Dropout 更有效的 Dropout 機制
 ---
 Dropout 作為廣泛被使用來防止類神經網路過度擬合 (ovefitting) 的一種機制，在許多大型的類神經模型都會被用到。一般的 dropout 在訓練過程中，隨機將部分的類神經網路屏蔽掉，迫使參數變少後的模型能學習到目標任務。
 
