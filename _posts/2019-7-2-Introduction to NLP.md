@@ -19,13 +19,16 @@ title: 自然語言從古至今 Part 1
 
 根據不同的任務，我們可以將它們表達為不同的機率函數。
 
-    - Language model LM:  $$p(text)$$
-        - 生成順暢且正確的句子
-        - How to generate fluent and grammatically correct text?
-        - 需要具有 Common sense （理智）如： The store went to Jane. 
-    - sequence to sequence (seq2seq) 給定一個句子輸出句子 : $$p(text | text)$$
-    - 自然語言分類或回歸任務 : $$p(label| text)$$
-    - 生成知識譜 $$P(graph\ or\ tree | text)$$
+* Language model LM:  $$p(text)$$
+    - 生成順暢且正確的句子
+    - How to generate fluent and grammatically correct text?
+    - 需要具有 Common sense （理智）如： The store went to Jane. 
+
+* sequence to sequence (seq2seq) 給定一個句子輸出句子 : $$p(text | text)$$
+
+* 自然語言分類或回歸任務 : $$p(label| text)$$
+
+* 生成知識譜 $$P(graph\ or\ tree | text)$$
 
 
 # 深度學習前的自然語言：
@@ -77,3 +80,4 @@ title: 自然語言從古至今 Part 1
 因為開頭說了很多關於知識圖（ knowledge graph ）的介紹，我就問了教授會不會談談最近發表：結合語言模型 (LM)與知識圖(KG) 的 ERNIE（ERNIE 有兩篇，一篇清華另一篇是百度）。韓國教授就說盡力這樣。(沒辦法我們都是比較內向的人把，這談話就尷尬的結束了...）
 
 
+ [演講的 Part 2 在這裡](https://theblackcat102.github.io/Introduction-to-NLP2/)
