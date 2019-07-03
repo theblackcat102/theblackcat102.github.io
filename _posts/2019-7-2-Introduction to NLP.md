@@ -9,8 +9,6 @@ comments: true
 title: 自然語言從古至今 Part 1
 ---
 
-# 前言
-
 在自然語言領域 (NLP) 做了十幾年的[韓國教授 Seung won Hwang](https://www.semanticscholar.org/author/Seung-won-Hwang/1716415) 受邀來交大給2個關於 NLP 的演講。演講大概就是分享近年 NLP 的進展程度與NLP常見的任務種類。
 
 第二天會談談在有限資源下運用知識圖來突破這些限制。
