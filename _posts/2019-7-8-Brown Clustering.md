@@ -10,7 +10,7 @@ title: Brown clustering, a class based n-grams model
 
 Projecting word to high dimensional space (word2vec) has been a normal practice in NLP domain. The most common algorithm used are continuous bag of word (CBOW) and skip-gram.
 
-Brown clustering is another variant of n-gram model. It works by assigning each word to one type of class to maximize the joint probability of all words within a sentence, hence the name of the paper : Class-based n-gram model of natural language. In the paper, the author only shows the equation for class based 2-gram model, but it should be trivial to scale this to 3-gram models.
+[Brown clustering](https://www.aclweb.org/anthology/J92-4003) is another variant of n-gram model. It works by assigning each word to one type of class to maximize the joint probability of all words within a sentence, hence the name of the paper : Class-based n-gram model of natural language. In the paper, the author only shows the equation for class based 2-gram model, but it should be trivial to scale this to 3-gram models.
 
 The definitions are as follows:
 $$
@@ -76,5 +76,17 @@ As we can see if dog, cat and a, the assigned to the same class, the joint proba
 Since n-grams model treats each word as an independent class, the required parameters will be enormous. As the n increases the frequencies of n-grams that do not exists in the running set will increase, which can be seen as a waste of parameters. Hence brown clustering assign each word to a class $$c_{i}$$ where $$i < K << V$$, significantly reduce to one third of the parameters required to represent the same n-grams model.
 
 * semantic clusters
+
+```
+we our us ourselves ours
+question questions asking answer answers answering performance performed perform performs performing tie jacket suit
+write writes writing written wrote pen
+morning noon evening night nights midnight bed attorney counsel trial court judge
+problems problem solution solve analyzed solved solving letter addressed enclosed letters correspondence large size small larger smaller
+operations operations operating operate operated school classroom teaching grade math
+published publication author publish writer titled wall ceiling walls enclosure roof
+sell buy selling buying sold
+```
+Table 6 from [Brown et al](https://www.aclweb.org/anthology/J92-4003)
 
 Brown clustering was shown to cluster words with the same morphological stem, such as publish, publication, published to the same cluster. Some cluster also contain words with similar semantic meaning such as morning, noon, evening, night, midnight. 
