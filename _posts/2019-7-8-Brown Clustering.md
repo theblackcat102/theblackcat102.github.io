@@ -13,6 +13,7 @@ Projecting word to high dimensional space (word2vec) has been a normal practice 
 [Brown clustering](https://www.aclweb.org/anthology/J92-4003) is another variant of n-gram model. It works by assigning each word to one type of class to maximize the joint probability of all words within a sentence, hence the name of the paper : Class-based n-gram model of natural language. In the paper, the author only shows the equation for class based 2-gram model, but it should be trivial to scale this to 3-gram models.
 
 The definitions are as follows:
+
 $$
 \begin{align}
 V = {w_{1}, w_{2},...,w{T}} \\
