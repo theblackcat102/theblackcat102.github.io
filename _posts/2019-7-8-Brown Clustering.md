@@ -15,8 +15,8 @@ Brown clustering is another variant of n-gram model. It works by assigning each 
 The definitions are as follows:
 $$
 \begin{align}
-    V = {w_{1}, w_{2},...,w{T}} ：V the vocabulary sets\\
-    C(w_{i}) = k, k \in {1,..., N}, t >> N ：Function C will assign each word to a class k, where the number of classes are smaller than the vocabulary set.\\
+V = {w_{1}, w_{2},...,w{T}} \textnormal{ ：V the vocabulary sets}\\
+C(w_{i}) = k, k \in {1,..., N}, t >> N\textnormal{  ：Function C will assign each word to a class k, where the number of classes are smaller than the vocabulary set.}\\
 \end{align}
 $$
 
