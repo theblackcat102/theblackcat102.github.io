@@ -13,30 +13,39 @@ Projecting word to high dimensional space (word2vec) has been a normal practice 
 Brown clustering is another variant of n-gram model. It works by assigning each word to one type of class to maximize the joint probability of all words within a sentence, hence the name of the paper : Class-based n-gram model of natural language. In the paper, the author only shows the equation for class based 2-gram model, but it should be trivial to scale this to 3-gram models.
 
 The definitions are as follows:
-
-    $$V = {w_{1}, w_{2},...,w{T}}$$ ：V the vocabulary sets
+$$
+\begin{gather}
+\begin{align}
+    V = {w_{1}, w_{2},...,w{T}} ：V the vocabulary sets\\
     
-    $$C(w_{i}) = k, k \in {1,..., N}, t >> N$$ ：Function C will assign each word to a class k, where the number of classes are smaller than the vocabulary set.
+    C(w_{i}) = k, k \in {1,..., N}, t >> N ：Function C will assign each word to a class k, where the number of classes are smaller than the vocabulary set.\\
+\end{align}\\
+\end{gather}
+$$
+
 
 Function $$C$$ must maximize the join probability ( $$p(w_{1},...,w_{m})$$ ) of a given sentence of words $$w_{1}...w_{m}$$
 
-    $$p(w_{1},w_{2},..,w_{m} ) = \prod_{i=1}^m e(w_{i}|C(w_{i})) \times q(C(w_{i}|C(w_{i-1}))$$ 
-
-
-    $$e(w_{i}|C(w_{i})) = \frac{count(w_{i})}{ \sum count(w_{k,  C(w_{k}) = C(w_{i})}), }$$
-    
-    $$q(C(w_{i})|C(w_{k})) = \frac{count(C(w_{k}),C(w_{i}))}{count(C(w_{k}))}$$
+$$
+\begin{gather}
+\begin{align}
+    p(w_{1},w_{2},..,w_{m} ) = \prod_{i=1}^m e(w_{i}|C(w_{i})) \times q(C(w_{i}|C(w_{i-1}))\\
+    e(w_{i}|C(w_{i})) = \frac{count(w_{i})}{ \sum count(w_{k,  C(w_{k}) = C(w_{i})}), }\\    
+    q(C(w_{i})|C(w_{k})) = \frac{count(C(w_{k}),C(w_{i}))}{count(C(w_{k}))}\\
+\end{align}\\
+\end{gather}
+$$
 
 For example given a vocabulary with the set as follows
 
 | word    | frequency |
-| ----- | ---- |
-| the   | 4    |
-| a     | 2    |
-| dog   | 3    |
-| cat   | 3    |
-| runs  | 3    |
-| jumps | 3    |
+| ------- | ---- |
+| the     | 4    |
+| a       | 2    |
+| dog     | 3    |
+| cat     | 3    |
+| runs    | 3    |
+| jumps   | 3    |
 
 Example 1 : $$C(the) = C(dog) = 1, C(a) = C(cat) = 2, C(runs) = C(jumps) = 3$$
 
@@ -50,11 +59,13 @@ $$
 
 Example 2 : $$C(the) = C(a) = 1, C(dog) = C(cat) = 2, C(runs) = C(jumps) = 3$$
 
-$$p(the, dog, runs) = e(the | C(the))\times q(C(the)|C(w_{0})) \times e(dog | C(dog))$$
-
-                            $$\times q(C(dog)|C(the)) \times e(runs | C(runs)) \times q(C(runs)|C(dog))$$
-                        = $$\frac{2}{3} \times \frac{6}{6} \times \frac{1}{2} \times \frac{6}{6} \times \frac{1}{2} \times \frac{6}{6}$$
-                        = $$\frac{1}{6}$$
+$$
+\begin{align}
+p(the, dog, runs) &= e(the | C(the))\times q(C(the)|C(w_{0})) \times e(dog | C(dog)) \times q(C(dog)|C(the)) \times e(runs | C(runs)) \times q(C(runs)|C(dog))\\
+&= \frac{2}{3} \times \frac{6}{6} \times \frac{1}{2} \times \frac{6}{6} \times \frac{1}{2} \times \frac{6}{6}\\
+&= \frac{1}{6}\\
+\end{align}
+$$
 
 Noted that $$w_{0}$$ also assigned to a count value of 1.
 
