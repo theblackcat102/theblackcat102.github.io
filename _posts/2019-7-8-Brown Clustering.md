@@ -5,7 +5,7 @@ keywords:
   - language model
   - brown clustering
 comments: true
-title: Brown clustering, a class based n-grams model
+title: Revisit Brown clustering, a class based n-grams model
 ---
 
 Projecting word to high dimensional space (word2vec) has been a normal practice in NLP domain. The most common algorithm used are continuous bag of word (CBOW) and skip-gram.
