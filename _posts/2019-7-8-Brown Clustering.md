@@ -40,11 +40,13 @@ For example given a vocabulary with the set as follows
 
 Example 1 : $$C(the) = C(dog) = 1, C(a) = C(cat) = 2, C(runs) = C(jumps) = 3$$
 
-$$p(the, dog, runs) = e(the | C(the))\times q(C(the)|C(w_{0})) \times e(dog | C(dog))$$
-
-                            $$\times q(C(dog)|C(the)) \times e(runs | C(runs)) \times q(C(runs)|C(dog))$$
-                        = $$\frac{4}{7} \times \frac{4}{6} \times \frac{3}{7} \times \frac{2}{7} \times \frac{1}{2} \times \frac{1}{2}$$
-                        = $$\frac{4}{343}$$
+$$
+\begin{align}
+p(the, dog, runs) &= e(the | C(the))\times q(C(the)|C(w_{0})) \times e(dog | C(dog)) \times q(C(dog)|C(the)) \times e(runs | C(runs)) \times q(C(runs)|C(dog))\\
+&= \frac{4}{7} \times \frac{4}{6} \times \frac{3}{7} \times \frac{2}{7} \times \frac{1}{2} \times \frac{1}{2}\\
+&= \frac{4}{343}\\
+\end{align}                        
+$$
 
 Example 2 : $$C(the) = C(a) = 1, C(dog) = C(cat) = 2, C(runs) = C(jumps) = 3$$
 
@@ -56,7 +58,7 @@ $$p(the, dog, runs) = e(the | C(the))\times q(C(the)|C(w_{0})) \times e(dog | C(
 
 Noted that $$w_{0}$$ also assigned to a count value of 1.
 
-As we can see if dog, cat and a, the assigned to the same class, the joint probability of the sentence will be larger. Semantically, the function $$C$$ will learn to cluster similar words into the same class. Brown clustering solve some of the n-gram problem which is each word are only assigned to one probability distribution, synonyms cannot be represented under n-gram. However, using brown clustering with a very high class number (N=1000) would require $$V^3 $$ to compute. 
+As we can see if dog, cat and a, the assigned to the same class, the joint probability of the sentence will be larger. Semantically, the function $$C$$ will learn to cluster similar words into the same class. Brown clustering solve some of the n-gram problem which is each word are only assigned to one probability distribution, synonyms cannot be represented under n-gram. However, using brown clustering with a very high class number (N=1000) would require $$V^3 $$ to compute (as compare to the naive approach of $$V^5$$). 
 
 ## Advantage to n-grams model
 
