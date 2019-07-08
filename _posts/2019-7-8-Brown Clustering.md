@@ -88,6 +88,6 @@ operations operations operating operate operated school classroom teaching grade
 published publication author publish writer titled wall ceiling walls enclosure roof
 sell buy selling buying sold
 ```
-Table 6 from [Brown et al](https://www.aclweb.org/anthology/J92-4003)
+Some words from the same class (Table 6 from [Brown et al](https://www.aclweb.org/anthology/J92-4003))
 
 Brown clustering was shown to cluster words with the same morphological stem, such as publish, publication, published to the same cluster. Some cluster also contain words with similar semantic meaning such as morning, noon, evening, night, midnight. 
