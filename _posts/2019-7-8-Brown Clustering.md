@@ -14,26 +14,21 @@ Brown clustering is another variant of n-gram model. It works by assigning each 
 
 The definitions are as follows:
 $$
-\begin{gather}
 \begin{align}
     V = {w_{1}, w_{2},...,w{T}} ：V the vocabulary sets\\
-    
     C(w_{i}) = k, k \in {1,..., N}, t >> N ：Function C will assign each word to a class k, where the number of classes are smaller than the vocabulary set.\\
-\end{align}\\
-\end{gather}
+\end{align}
 $$
 
 
 Function $$C$$ must maximize the join probability ( $$p(w_{1},...,w_{m})$$ ) of a given sentence of words $$w_{1}...w_{m}$$
 
 $$
-\begin{gather}
 \begin{align}
     p(w_{1},w_{2},..,w_{m} ) = \prod_{i=1}^m e(w_{i}|C(w_{i})) \times q(C(w_{i}|C(w_{i-1}))\\
     e(w_{i}|C(w_{i})) = \frac{count(w_{i})}{ \sum count(w_{k,  C(w_{k}) = C(w_{i})}), }\\    
     q(C(w_{i})|C(w_{k})) = \frac{count(C(w_{k}),C(w_{i}))}{count(C(w_{k}))}\\
-\end{align}\\
-\end{gather}
+\end{align}
 $$
 
 For example given a vocabulary with the set as follows
