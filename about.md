@@ -4,20 +4,27 @@ title: About
 permalink: /about/
 ---
 
-亂點技能的研究生一隻。平時做ML/DL 偶爾遊走在 Python Backend, React Frontend 之間。因為技能太亂，平時找人一起寫的Side Project。
+亂點技能的研究生一隻。平時做ML/DL 偶爾遊走在 Python/NodeJS, React Frontend, iOS/Android 開發之間。因為技能太亂，平時找人一起寫的Side Project。
+
+因為入坑研究生，這裡的文章都比較 hardcore，多數是最新的論文閱讀心得與總結。
 
 ### 關於我
 
-~~台灣交通大學主修電機系，輔修資工系的大四生。~~ 
-台灣交通大學電機研究所
-~~目前正在🎓焦慮中，踏上尋找NLP教授的道路上。~~
+* 台灣交通大學主修電機系~~，輔修資工系的大四生。~~ 
 
+* ~~目前正在🎓焦慮中，踏上尋找NLP教授的道路上。~~
 
-* [Currents API](https://currentsapi.services/) : 邁向新聞獨立，將新聞資訊變成可以用 json 消化的各式，方便自己查找網路資訊。好啦，就跟 News API 一樣，只是有更多台灣的新聞、論壇資料。
+* 台灣交通大學電機研究所
 
-* [今日頭條](https://todayheadlines.live/) : 將一個快速集群演算法，應用在新聞標題集群上。
+### 平時做了什麼
 
-* ~~[救救研究生](https://www.notify.institute/) :  預測Arvix 上的論文未來的Citation數。~~
+除了看看論文、參加比賽，我也會把某些生活想法實作出來。
+
+* [Currents API](https://currentsapi.services/) : 將全世界的新聞資訊變成可以用 json 消化的各式，方便自己查找、追蹤國際資訊變化。好啦，就跟 News API 一樣，只是有更多新、馬、港、台的新聞、論壇資料。
+
+* [今日頭條](https://todayheadlines.live/) : 實驗我快速集群演算法的平台，目標是在新聞標題上做集群，減少重複新聞閱讀。
+
+* ~~[救救研究生](https://www.notify.institute/) :  預測Arvix 上的論文未來的Citation數。~~ 死胎專案，有人想繼續可以找我交流
 
 * [Check Point Forecast](https://checkpointforecast.sg/) : 預測新馬海關之間未來交通堵塞時間。
 
