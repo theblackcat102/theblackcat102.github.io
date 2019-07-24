@@ -7,6 +7,7 @@ keywords:
   - David Publishing
 comments: true
 title: 小心David Publishing學術欺詐
+cover_image: https://theblackcat102.github.io/images/scam-mail.png
 ---
 
 今天查看信息時，收到來自自稱 David Publishing 的公司，希望能將我之前發表的一篇論文發表在他們的期刊上。乍看之下很有趣，但是細看之後發現電郵內容用語非常奇怪。例如這句 “we wish to become your friends if we may.” 應該只有華文文化才會說的（一般上正式來信不會用 friends ）。
