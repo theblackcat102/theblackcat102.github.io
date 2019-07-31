@@ -5,7 +5,7 @@ keywords:
   - language model
   - brown clustering
 comments: true
-title: Note Simple Evolutionary Optimization Can Rival Stochastic Gradient Descent in Neural Networks (LEEA)
+title: (Note) Simple Evolutionary Optimization Can Rival Stochastic Gradient Descent in Neural Networks (LEEA)
 ---
 
 This paper introduce some insight about why a gradient optimization algo such as SGD works so well and how evolution algo (EA) can perform as well as gradient based algo.
