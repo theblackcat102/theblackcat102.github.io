@@ -5,6 +5,7 @@ keywords:
   - Database
 comments: true
 title: 將 Postgresql 資料庫備份結合
+cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/database_diagram.png
 ---
 
 最近自己的資料庫即將吃滿我伺服器全部容量，但因為有些資料已經太舊，基本上不會被實時讀取。但是為了日後分析的完整性卻又不能直接刪除，因此我購置了硬碟打算在我自己的主機將所有遠端伺服器上太舊的資料轉移到我自己的本地主機。
@@ -17,7 +18,6 @@ title: 將 Postgresql 資料庫備份結合
 因此這裡我重新講解一次操作過程。
 
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/database_diagram.png#center)
-
 
 
 1. 首先你需要一個含有完整 schema 的備份，T0 這個將會是用來初始化本地端資料庫的備份
