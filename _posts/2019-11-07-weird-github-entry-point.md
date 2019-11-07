@@ -7,7 +7,9 @@ title: What is github.com.cnpmjs.org
 cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/china_github.jpg
 ---
 
-TLDR; this is an proxy for faster access to github in China
+![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/china_github.jpg)
+
+TLDR; this is an proxy for high speed access to github repo in China
 
 My friend was browsing around and stumble upon this github page which looks legit. But, when you look close at the url, the domain belongs to an open source ([https://github.com/cnpm/cnpmjs.org](https://github.com/cnpm/cnpmjs.org)) private npm registry project. 
 
