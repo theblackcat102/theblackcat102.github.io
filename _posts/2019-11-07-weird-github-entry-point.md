@@ -11,7 +11,7 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 TLDR; this is an proxy for high speed access to github repo in China
 
-My friend was browsing around and stumble upon this github page which looks legit. But, when you look close at the url, the domain belongs to an open source ([https://github.com/cnpm/cnpmjs.org](https://github.com/cnpm/cnpmjs.org)) private npm registry project. 
+My friend was browsing around and stumble upon this webpage which looks like the same as the official Github. When you take a look close at the url, the domain belongs to an open source ([https://github.com/cnpm/cnpmjs.org](https://github.com/cnpm/cnpmjs.org)) private npm registry project. 
 
 By doing a quick search on ICANN, it seems like the domain was registered from GoDaddy and belongs to a owner from Zhejiang, China. Tracing the IP address of the domain, it belongs to Alibaba cloud service (Aliyun) in Singapore.
 
