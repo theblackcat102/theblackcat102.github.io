@@ -35,7 +35,7 @@ What stadia include in their premium package aside from the gaming controllers, 
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/stadia_snapshot.png)
 
 
-I believe the above mentioned issues should already known when programmers are developing Stadia, however, likely due to the complex team structure, these issues are failed to be prioritized and solved. While the PR and sales team overestimate their product and decided to make an earning ~~and data collection~~ first, cause the inevitable fail of Stadia (which the core idea is to provide smooth stream). 
+I believe the above mentioned issues should already known when programmers are developing Stadia, however, likely due to the complex team structure, these issues are failed to be prioritized and solved [[6](https://www.reddit.com/r/Stadia/comments/e0mm7b/psa_you_cant_really_play_stadia_when_traveling/)]. While the PR and sales team overestimate their product and decided to make an earning ~~and data collection~~ first, cause the inevitable fail of Stadia (which the core idea is to provide smooth stream). 
 
 Stadia currently create the negative impression that cloud gaming is impossible even by company with its own global cloud infra and the best programmers. Causing game developers and consumer to stay away other cloud gaming services as well.
 
@@ -46,10 +46,13 @@ Stadia included a following text inside the premium package saying:
     Today we are proud to see that dream becoming a reality.
 
 
-Well, Stadia should be proud that it brings the dream of cloud gaming together to the place where all the other products Google discontinued is (Google+ anyone?).
+While I believe google will solve current issues in the future, and make that "dream" possible. Scaling the service up would still be a challenging task, as we seen Stadia experience can be so polarizing the service can be ( either playable or not ).
 
 ###  Reference
 
 [4] [https://cloud.google.com/solutions/gaming/cloud-game-infrastructure](https://cloud.google.com/solutions/gaming/cloud-game-infrastructure)
 
 [5] [https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date](https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date)
+
+[6] [https://www.reddit.com/r/Stadia/comments/e0mm7b/psa_you_cant_really_play_stadia_when_traveling/](https://www.reddit.com/r/Stadia/comments/e0mm7b/psa_you_cant_really_play_stadia_when_traveling/)
+
