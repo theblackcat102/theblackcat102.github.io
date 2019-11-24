@@ -18,6 +18,8 @@ permalink: /about/
 
 3. I am not an AI researcher or profficient in ML. Just have some basic understanding in optimization, linear algebra and coding skills.
 
+4. Multilinguist : I speak in 4 different languages (English, Chinese, Cantonese, Malay) and many other different programming language as well.
+
 4. Donate me through [Buy me a coffee](https://www.buymeacoffee.com/theblackcat102) if you find my blogs useful.
 
 
