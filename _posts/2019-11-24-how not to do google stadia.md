@@ -5,12 +5,12 @@ keywords:
   - project management
 comments: true
 title: How not to do Google Stadia
-cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/china_github.jpg
+cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/stadia_snapshot.png
 ---
 
-## How not to do a setup process for user
+Google's Stadia service, an cloud gaming service quickly destined to fail when consumer of premium package release receive their package but cannot use the service due to not receiving the activation code. With Google previously bad refund reputation[[1](https://support.google.com/pixelphone/thread/19873324?hl=en), [2](https://support.google.com/pixelphone/thread/5566830?hl=en), [3](https://www.reddit.com/r/GooglePixel/comments/a6n40d/bad_experience_for_pixel_2_xl_rma_australia_any/)]. Aside from the activation code arrival issue (likely because google wants to control the compute resource usage), there's still some lesson we should learn from their mistake.
 
-1. Setup process should we as simple as possible, with little to no hassel
+1. Setup process for a product should we as simple as possible, with little to no hassel
 
 What google did with stadia is that it requires a Pixel to activate for a premium package that was suppose to atract early adopters. What this premium package contain is a chromecast ultra with two controller which all buyers are absolutely sure to own. 
 
@@ -23,6 +23,13 @@ While in Stadia, this would be the cloud streaming service google offers. If goo
 3. Do not release unless you already tested on a wide range of user. (Only when the whole internet is looking)
 
 While I understand Google wants to do everything quick with all the resource they have. However, when you already make a huge announcement about how good your service is going to be with, people expect you deliver these promises. Even some of previous startup (Shadow, Gamefly etc) which has working on cracking the issues of cloud gaming for years didn't even try to make a worldwide annoucement.
+
+4. Entice early adopters with a good product not product segregation
+
+What stadia include in their premium package aside from the gaming controllers, chromecast, early receive and the core service (given a 130 USD price tag), is the luxury to name their account with no numbers at the end. Discount on games shouldn't be a perk when buying new graphics card and game console annual pass (Microsoft Xbox) already gave out games for free.
+
+![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/stadia_snapshot.png)
+
 
 I believe the above mentioned issues should already known when programmers are developing Stadia, however, likely due to the complex team structure, these issues are failed to be prioritized and solved. While the PR and sales team overestimate their product and decided to make an earning ~~and data collection~~ first, cause the inevitable fail of Stadia (which the core idea is to provide smooth stream). 
 
