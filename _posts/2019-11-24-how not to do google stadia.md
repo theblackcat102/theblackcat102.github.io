@@ -8,7 +8,7 @@ title: How not to do Google Stadia
 cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/stadia_snapshot.png
 ---
 
-Google's Stadia service, an cloud gaming service quickly destined to fail when consumer of premium package release receive their package but cannot use the service due to not receiving the activation code. With Google previously bad refund reputation[[1](https://support.google.com/pixelphone/thread/19873324?hl=en), [2](https://support.google.com/pixelphone/thread/5566830?hl=en), [3](https://www.reddit.com/r/GooglePixel/comments/a6n40d/bad_experience_for_pixel_2_xl_rma_australia_any/)]. Aside from the activation code arrival issue (likely because google wants to control the compute resource usage), there's still some lesson we should learn from their mistake.
+Google's Stadia service, an cloud gaming service quickly destined to fail when consumer of premium package release receive their package but cannot use the service due to not receiving the activation code. With Google previously bad refund reputation [ [1](https://support.google.com/pixelphone/thread/19873324?hl=en), [2](https://support.google.com/pixelphone/thread/5566830?hl=en), [3](https://www.reddit.com/r/GooglePixel/comments/a6n40d/bad_experience_for_pixel_2_xl_rma_australia_any/)]. Aside from the activation code arrival issue (likely because google wants to control the compute resource usage), there's still some lesson we should learn from their mistake.
 
 1. *Setup process for a product should we as simple as possible, with little to no hassel*
 
@@ -18,7 +18,7 @@ The least hassel way, which google already did with their "unify" google acccoun
 
 2. *Focus only to the core feature users are most excited about*
 
-While in Stadia, this would be the cloud streaming service google offers. If google only focus in fully solving all the problems of stream gaming ( latency, ghosting), .Heck, even Call of Duty (which is a client of google cloud[1]) has a detailed video (it seems already taken down) on how they improve multiplayer experience using movement prediction, client side correction, latency detection. Call of Duty also mentioned these "tuning" is possible because of the statistic from their beta test (which is free for a few days).
+While in Stadia, this would be the cloud streaming service google offers. If google only focus in fully solving all the problems of stream gaming ( latency, ghosting), .Heck, even Call of Duty (which is a client of google cloud[4]) has a detailed video (it seems already taken down) on how they improve multiplayer experience using movement prediction, client side correction, latency detection. Call of Duty also mentioned these "tuning" is possible because of the statistic from their beta test (which is free for a few days).
 
 
 3. *Do not release unless you already tested on a wide range of user. (Maybe not if you are a small startup)*
@@ -48,6 +48,8 @@ Stadia included a following text inside the premium package saying:
 
 Well, Stadia should be proud that it brings the dream of cloud gaming together to the place where all the other products Google discontinued is (Google+ anyone?).
 
+###  Reference
 
-[1] [https://cloud.google.com/solutions/gaming/cloud-game-infrastructure](https://cloud.google.com/solutions/gaming/cloud-game-infrastructure)
-[2] [https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date](https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date)
+[4] [https://cloud.google.com/solutions/gaming/cloud-game-infrastructure](https://cloud.google.com/solutions/gaming/cloud-game-infrastructure)
+
+[5] [https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date](https://www.polygon.com/2019/9/12/20862465/call-of-duty-modern-warfare-open-beta-release-date)
