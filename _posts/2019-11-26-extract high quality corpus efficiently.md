@@ -79,7 +79,7 @@ All my instance and cloud storage bucket are located in Iowa(US) for lowest cost
 | 8 | 64G  | 1T | Iowa  |  0.88 |
 | 4  | 32G  | 50G  |  Iowa | 0.27  |
 
-Here's my cost breakdown of computing cost. 
+Here's my cost breakdown of computing cost. About 20 dollars per day. 
 
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cost_breakdown.png)
 
