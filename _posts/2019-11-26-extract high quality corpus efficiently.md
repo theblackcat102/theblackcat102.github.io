@@ -86,7 +86,7 @@ Here's my cost breakdown of computing cost.
 
 And here's my cost of using 7TB of cloud storage space. Because local transfer between cloud storage and compute instance is free, my average daily cost lies around 5 dollars with the exception I tried to download common crawl from my workstation as well in November 18. Remote access cost more than I imagined before I stop it, it already cost me 71 dollars.
 
-![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cost_breakdown.png)
+![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cloud_storage_cost.png)
 
 Overall, my total expenditure is roughly 178 dollars (minus the extrac) .If isn't because of my mistake I would be able to extract more text corpus. But since it's free (thanks Google) and partly due to my own mistake, I will get a free pass this time.
 
