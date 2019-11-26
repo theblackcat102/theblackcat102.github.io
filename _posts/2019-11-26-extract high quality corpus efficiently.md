@@ -67,6 +67,7 @@ The breakdown of all each language compressed size are shown as follow:
 | en  | ru  | zh  | de | fr  | ja  | es  | th  | it  | pt  | ko | id | ar | fi | ms |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 148G  |  28G |  27G | 13G  | 9.4G  | 8.1G  | 7.5G  | 3.5G  |  2.7G  | 2.2G  |  1.8G | 0.26G | 0.25G  | 65M | 18M |
+{: .table}
 
 Total corpus size is 334.71 GB of compressed corpus, not a lot compared to CCNet paper results, but way more than Wikipedia's offers.
 
@@ -78,6 +79,7 @@ All my instance and cloud storage bucket are located in Iowa(US) for lowest cost
 |---|---|---|---|---|
 | 8 | 64G  | 1T | Iowa  |  0.88 |
 | 4  | 32G  | 50G  |  Iowa | 0.27  |
+{: .table}
 
 Here's my cost breakdown of computing cost. About 20 dollars per day. 
 
@@ -88,5 +90,5 @@ And here's my cost of using 7TB of cloud storage space. Because local transfer b
 
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cloud_storage_cost.png)
 
-Overall, my total expenditure is roughly 178 dollars (minus the extrac) .If isn't because of my mistake I would be able to extract more text corpus. But since it's free (thanks Google) and partly due to my own mistake, I will get a free pass this time.
+Overall, my total expenditure is roughly 178 dollars (minus my remote mistake) .If isn't because of my mistake I would be able to extract more text corpus. But since it's free (thanks Google) and partly due to my own mistake, I will get a free pass this time.
 
