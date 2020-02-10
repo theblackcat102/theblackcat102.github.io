@@ -11,6 +11,12 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 I was repeating my experiments and I notice there'a a dead process hoarding GPU memory.
 
+```
+5986            N/A   0 Compute    637MB   8%     0%       0MB N/A
+```
+
+N/A?
+
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/nvtop_snapshot.png)
 
 Using nvtop I was able to see the process using memory but when I try to kill the PID I get "No such process" error. Which isn't surprising since the parent process was already dead.
