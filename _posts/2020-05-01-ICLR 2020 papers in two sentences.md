@@ -13,7 +13,7 @@ This is a list of papers I went through during International Conference on Learn
 
 ####  Your classifier is secretly an energy based model and you should treat it like one*
 
-This paper propose to learn probability estimation as a joint probability function $$p(x,y), p(x)$$ (JEM)  as  energy function instead of joint probability $$p(x|y)$$, results show such method improve out of distribution detection, robust against adversarial attack and improved model calibration ( if the predictive confidence match with mis-classification rate ). Input x sampling is approximated via Stochastic Gradient Langevin Dynamics, JEM require careful tuning of hyper parameters as well as regularization for stability. 
+This paper propose to learn probability estimation as a joint probability function $$p(x,y), p(x)$$ (JEM)  as  energy function instead of joint probability $$p(x \| y)$$, results show such method improve out of distribution detection, robust against adversarial attack and improved model calibration ( if the predictive confidence match with mis-classification rate ). Input x sampling is approximated via Stochastic Gradient Langevin Dynamics, JEM require careful tuning of hyper parameters as well as regularization for stability. 
 
 *according to the website manager this ICLR virtual poster receives more than 1k visits traffic ( average poster visit is 400 )
 
@@ -82,5 +82,9 @@ Learn multilingual alignment via parallel corpus and create language pairs betwe
 
 Proposed to learn graph represention through time via a reversible time representation function ( kernel ), such method allows inductively infer any node feature at any given time. Based on previous GraphSAGE work, the proposed model can infer any unseen node through inductive method ( Attention in both neighbour and time dimension ) 
 
+
+#### Pretrained Encyclopedia: Weakly Supervised Knowledge-Pretrained Language Model
+
+A simple entity augmentation method to capture knowledge relations ( entity 1 -> relation -> entity 2 ) by replacing entity in a article with another to force language model to learn real world "knowledge". 
 
 
