@@ -53,3 +53,10 @@ There's a ton of NLP research in Simplified Chinese, these results are usually b
 
 I think there's more work to be done to address the difference of Chinese language from different regions, especially Cantonese. 
 
+| Task  | segmentation  | language classification  |
+|---|---|---|---|---|
+| Simplfied Chinese  | [jieba](https://github.com/fxsjy/jieba)  |   |
+|  Traditional Chinese, Taiwan | [jieba-TW](https://github.com/ldkrsi/jieba-zh_TW)  | [fastlangid](https://github.com/currentsapi/fastlangid)  |
+|  Cantonese, Hong Kong/Macau |  [pycantonese](https://github.com/jacksonllee/pycantonese) |  --- |
+
+
