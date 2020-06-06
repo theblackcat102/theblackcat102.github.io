@@ -15,6 +15,10 @@ phrases semantics : 短語語意
 
 predicates : 謂詞，提供主語資訊的部分
 
+hyponymy : 下位詞，與詞彙相同層級的其他詞彙，例如 牛、羊、狗 都是脊椎動物的下位詞。所以脊椎動物的下位詞是牛、猴... 
+
+hypernym : 上位詞，下位詞反向意思，例如狗的上位詞是脊椎動物
+
 syntax ： 語法
 
 polysemy : 一詞多義
