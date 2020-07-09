@@ -60,3 +60,12 @@ dependency tree : 相比 constituency tree, dependency tree 只有規劃出字�
 
 範例來自https://stackoverflow.com/questions/10401076/difference-between-constituency-parser-and-dependency-parser
 
+
+
+entailments: 蘊含，一般上是考慮兩個句子 A, B 假設已知A 為真，那接續後面的 B 必須也是真的。例如: A： Jojo 吃了一些蛋糕, B：Jojo 吃了寫東西
+
+implicature: 暗示、話中話。例如： Jojo 吃了一些蛋糕，話中話可以是 Jojo 沒有把蛋糕吃完
+
+presupposition: 前設，表達給定一個句子，任何前設句都是該句子可以成立先決條件。例如 Jojo 吃了蛋糕，前設：有一個蛋糕。
+
+
