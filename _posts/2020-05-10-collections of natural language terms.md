@@ -68,4 +68,12 @@ implicature: 暗示、話中話。例如： Jojo 吃了一些蛋糕，話中話�
 
 presupposition: 前設，表達給定一個句子，任何前設句都是該句子可以成立先決條件。例如 Jojo 吃了蛋糕，前設：有一個蛋糕。
 
+adpositions: 介詞，一般上是指所有介詞的名稱。介詞被使用在連結兩個概念之間的關係。例如前面的“介詞被使用...” 裡的 "被" 就是介詞
 
+prepositions: 前置介詞
+
+postposition: 後置介詞
+
+cirsumposition: 框式介詞
+
+relativizers ： relativizers （中文沒有特別名詞表達這意思？）用於代替被指定的人、事、物。例如 who is the president? 中 who 就是  relativizers 一種。常見的 relativizers 有 : which, where, who, whom, whose, when, how, that, this ... 
