@@ -61,6 +61,9 @@ dependency tree : 相比 constituency tree, dependency tree 只有規劃出字�
 範例來自https://stackoverflow.com/questions/10401076/difference-between-constituency-parser-and-dependency-parser
 
 
+function words : 功能字，如果去掉以後還是不影響句子的意義。例如 : a, the, these 
+
+stop list : 也稱作 stop words, 去掉以後介系詞子句就消失
 
 entailments: 蘊含，一般上是考慮兩個句子 A, B 假設已知A 為真，那接續後面的 B 必須也是真的。例如: A： Jojo 吃了一些蛋糕, B：Jojo 吃了寫東西
 
@@ -77,3 +80,9 @@ postposition: 後置介詞
 cirsumposition: 框式介詞
 
 relativizers ： relativizers （中文沒有特別名詞表達這意思？）用於代替被指定的人、事、物。例如 who is the president? 中 who 就是  relativizers 一種。常見的 relativizers 有 : which, where, who, whom, whose, when, how, that, this ... 
+
+collocations : words that exist in the same context, their relations doesn't need to be in the neighbour (can be far a part)
+
+concordances : given any words, you can find a sets of strings which can be placed in front and back of the words ([COCA](https://www.english-corpora.org/coca/))
+
+
