@@ -11,6 +11,8 @@ title: 自然語言專有名詞對照表
 
 (不定時更新)
 
+syntax ： 語法
+
 phrases semantics : 短語語意
 
 predicates : 謂詞，提供主語資訊的部分
@@ -19,9 +21,17 @@ hyponymy : 下位詞，與詞彙相同層級的其他詞彙，例如 牛、羊�
 
 hypernym : 上位詞，下位詞反向意思，例如狗的上位詞是脊椎動物
 
-syntax ： 語法
+polysemy : 一詞多義 例如 mole 可以指動物品種或臉上的痣
 
-polysemy : 一詞多義
+meronym : 分體詞， 例如手指是手的分體詞
+
+holonymy : 整體詞 , 例如手是手指的整體詞 
+
+homonym : 同音詞， 例如 book 可以是書本或預定
+
+antonym : 反義詞，例如 good, bad
+
+synonym : 同義詞，例如 good, great
 
 content words: 泛指能對句子的語意做出貢獻的字，一般上是名詞、形容詞、副詞。與之相反的是 function words 則是方位詞、代名詞
 
