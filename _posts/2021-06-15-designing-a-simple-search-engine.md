@@ -5,6 +5,10 @@ comments: true
 title: Designing web search for my personal need
 ---
 
+In 2021, I kept going into the idea of making a search engine ( or tools to organize the information within my bubble ). This tool should support semantic retrieval in terms of text form.
+
+## An overview of current search market
+
 Search engine is mainly dominated by Google. With the rest fighting for the < 10% market.
 
 * Bing.com
@@ -104,3 +108,10 @@ And there's of course we have some issues:
 No, probably this is bad idea, I would continue to experiments with this more later. 
 
 Built a better search engine for the truth not propaganda.
+
+
+### List of other materials I found about designing a search engine
+
+* [Cliqz blog](https://0x65.dev/) - detail writeup about how they tackle different challenges in modern search engine
+
+* [Vespa](https://vespa.ai/) - Yahoo open sourced their search engine
