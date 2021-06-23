@@ -67,6 +67,10 @@ Its unsure how to make sure good quality website can be determine algorithm way 
 
 What we search today is only 3% of what the entire searchable internet. Since everyone is just using these small percent of the internet my guess it everyones results would be similar even across different types of index. Which is why i think there might be a opportunity here for small indie search to shine.
 
+![The last 10% search results requires 90% of the cost to cover](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/90-10-rule-perception-vs-reality-19.png)
+
+
+
 ### Solutions?
 
 Well, all roads lead to Rome, you can surely make a text search engine today using swarms of elastic search for 5000 a month or [host it on S3 for under 1000 USD](https://quickwit.io/blog/commoncrawl/). Side story: this link took me 10+ queries on google.
