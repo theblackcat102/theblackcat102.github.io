@@ -5,7 +5,7 @@ comments: true
 title: Designing web search for my personal need
 ---
 
-In 2021, I kept going into the idea of making a search engine ( or tools to organize the information within my bubble ). This tool should support semantic retrieval in terms of text form.
+In 2021, I kept going into the idea of building a search engine ( or tools to organize the information within my bubble ). This tool should support semantic retrieval in terms of text form.
 
 ## An overview of current search market
 
