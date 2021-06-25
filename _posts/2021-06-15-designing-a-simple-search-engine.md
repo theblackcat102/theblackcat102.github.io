@@ -11,7 +11,7 @@ In 2021, I kept going into the idea of making a search engine ( or tools to orga
 
 Search engine is mainly dominated by Google. With the rest fighting for the < 10% market.
 
-![2021 search market overview](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/market_share.png)
+![2021 search market overview](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/market_share.png#center)
 
 * Bing.com
     
@@ -60,7 +60,7 @@ Its unsure how to make sure good quality website can be determine algorithm way 
 
 What we search today is only 3% of what the entire searchable internet. Since everyone is just using these small percent of the internet my guess it everyones results would be similar even across different types of index. Which is why i think there might be a opportunity here for small indie search to shine.
 
-![The last 10% search results requires 90% of the cost to cover](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/90-10-rule-perception-vs-reality-19.png)
+![The last 10% search results requires 90% of the cost to cover](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/90-10-rule-perception-vs-reality-19.png#center)
 
 
 #### Why build a search engine now?
