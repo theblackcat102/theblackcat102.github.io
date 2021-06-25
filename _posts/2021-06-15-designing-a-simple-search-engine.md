@@ -54,7 +54,7 @@ Some list of good website with good content. You genuine know the author spent t
 
 2. [吐納商業評論](https://tuna.to), [股癌](https://gooaye.com)
 
-Its unsure how to make sure good quality website can be determine algorithm way but I am certain one of the solutions involve neural networks and the other is distributed crypto chain.
+Its unsure how to make sure good quality website can be determine algorithmically but I am certain one of the solutions involve neural networks and the other is distributed crypto chain. Jokes aside, I think a continous stream of data collection is [unavoidable](https://0x65.dev/blog/2019-12-02/is-data-collection-evil.html), as a system without feedback loop simply can't detect a regime shift in user behavior.
 
 #### Coverage != quality
 
