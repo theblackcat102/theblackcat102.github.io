@@ -11,6 +11,8 @@ In 2021, I kept going into the idea of making a search engine ( or tools to orga
 
 Search engine is mainly dominated by Google. With the rest fighting for the < 10% market.
 
+![2021 search market overview](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/market_share.png)
+
 * Bing.com
     
     - duckduckgo and others uses the same index
@@ -30,15 +32,6 @@ Search engine is mainly dominated by Google. With the rest fighting for the < 10
 
     - China search engine sucks since they are just heavily [selling weird ads](https://zh.wikipedia.org/wiki/%E7%99%BE%E5%BA%A6%E7%AB%9E%E4%BB%B7%E6%8E%92%E5%90%8D%E4%BA%8B%E4%BB%B6) with no ethical bottom line 
 
-Relevancy over years ( content which was relevant after years and years would rank higher ).
-
-SEO, keyword spam, online spam is much different that what's 90s. 
-
-    - Content translation : csdn.net translate github issues and show it as a website
-
-    - Medium, pixnet.net, reddit.com has so many trash content that the good ones are hardly searchable or being ignored
-
-    - Trend and traffic attract shit content and makes the whole internet sucks
 
 ### How do I use google
 
@@ -70,6 +63,30 @@ What we search today is only 3% of what the entire searchable internet. Since ev
 ![The last 10% search results requires 90% of the cost to cover](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/90-10-rule-perception-vs-reality-19.png)
 
 
+#### Why build a search engine now?
+
+##### Cost 
+
+VPS service with reasonable compute power is much better compare to the last decade. [unisearch.cc] demonstrate you can run a sort of working service in 2 core VPS under 30 USD per month.
+
+##### Internet maturity
+
+When these search engine first comes out the web is still simple (mostly text) with a very open garden. For so crawler like googlebots bascially roams the entire internet freely. However, building a new bots are much challenging and more platform are blocking bots.
+
+##### How do you define good
+
+With the rise of GPT-3 models, linear algebra writes text that are more richer than human does, existing ranking method that focus in content may not be suitable anymore. What we should rank instead should be relevancy over years, content which was relevant after years and years would rank higher. Since the usable internet has exist for over 30 decades, I believe there's enough info to cover all the needed query. The missing key is only a good filter to sift out the noise.
+
+
+#####  SEO, keyword spam, online spam is much different that what's 90s. 
+
+Gaming google rank is becoming much more complex than before, these are some new methods to game. 
+
+* Content translation : csdn.net translate github issues and show it as a website
+
+* Medium, pixnet.net, reddit.com has so many trash content that the good ones are hardly searchable or being ignored
+
+* Trend and traffic attract shit content and makes the whole internet sucks
 
 ### Solutions?
 
