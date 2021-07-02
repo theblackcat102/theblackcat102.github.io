@@ -8,19 +8,25 @@ permalink: /about/
 
 1. Currently master student at National Chiao Tung University 
 
-    * Focus in NLP, data mining and other weird stuff
+    * Focus in NLP, data mining and GANs (generative adversarial networks)
 
-2. My side project progresses during midterm or final term exam
+2. Current side-projects
 
-    * [Currents API](http://currentsapi.services/) is a service I wrote for news aggregation and basis for exotic NLP corpus.
+    * [Unisearch](https://unisearch.cc/) : A vector based search engine demo. Underlying neural network is based on [CLIP](https://openai.com/blog/clip/) , but trained on title-content and text-image pair datasets. The text encoder also supports 9 different languages ( english, chinese, spanish, italian, japanese, korean, vietnamese, german, french ). Image search works pretty good, but some finetuning required to work better in text search.
 
-    * [Today Headlines](https://todayheadlines.live/) news aggregation website using an experimental graph clustering in 5 different regions (US, Singapore, Taiwan, Malaysia).
+    * [Today Headlines](https://todayheadlines.live/) news aggregation website using an experimental graph clustering in 5 different regions (US, Singapore, Taiwan, Malaysia).The aim is to optimize for speed, no statistic-based nor neural network models required.
 
-3. I am not an AI researcher or profficient in ML. Just have some basic understanding in optimization, linear algebra and coding skills.
+3. Active maintainers of these pypi packages:
+
+    * [fastlangid](https://pypi.org/project/fastlangid/) : The only language detection library that supports simplified chinese, traditional chinese and cantonese 
+
+    * [h5record](https://pypi.org/project/h5record/) : Easy to use large scale dataset format for pytorch
 
 4. Multilinguist : I speak in 4 different languages (English, Chinese, Cantonese, Malay) and many other different programming language as well.
 
-4. Donate me through [Buy me a coffee](https://www.buymeacoffee.com/theblackcat102) if you find my blogs useful.
+5. Published work:
+
+    * [Character-Preserving Coherent Story Visualization](https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123620018.pdf) : generate clear and coherent characters between images of the same story. Accepted by ECCV 2020
 
 
 ### Contact me for any interesting research or idea exploration work
