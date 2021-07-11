@@ -22,7 +22,7 @@ permalink: /about/
 
     * [h5record](https://pypi.org/project/h5record/) : Easy to use large scale dataset format for pytorch
 
-4. Multilinguist : I speak in 4 different languages (English, Chinese, Cantonese, Malay) and many other different programming language as well.
+4. Multilinguist : I speak in 4 different languages (English, Chinese, Cantonese, Malay)
 
 5. Published work:
 
