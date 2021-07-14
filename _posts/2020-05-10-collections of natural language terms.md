@@ -41,6 +41,10 @@ stemming : 詞幹提取，顧名思義就是提取詞彙的主幹字段。例如
 
 valency : 在語言學中早期會針對形容詞的特性依照他們在句子中依賴的總對象做分類，例如 give 的 valency 為 3 ( I give you this apple, give 依賴 I, you, apple )。相同的價位(valency)的字理應上就會有出現在句子中相同的位置，與化學的價電子很相似。
 
+tokenization : 對句子進行切割，但相比 segmentation 一般上是用在切割 數字、單位的問題例如 : 57bn = 5_7_bn
+
+segmentation : 在文本中找出出詞或字的分割點，一般用在沒有空白語言如中文、日文
+
 part of speech : 詞類，一般常見的名詞、動詞、形容詞就是屬於詞類
 
 entity : 實體，指句子中能對應到現實世界中實體人事物的字，例如人名、地名

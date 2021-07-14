@@ -29,6 +29,15 @@ permalink: /about/
     * [Character-Preserving Coherent Story Visualization](https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123620018.pdf) : generate clear and coherent characters between images of the same story. Accepted by ECCV 2020
 
 
+### Archived but interesting projects
+
+1. 2019 [Youtube trending visualization](https://github.com/theblackcat102/youtube-viz-demo)
+
+2. 2019 [ML metrics collection service : weights and biases like service ](git@github.com:theblackcat102/dl_analytics.git)
+
+3. 2018 [Paper citation prediction](https://github.com/theblackcat102/paper-citation-prediction)
+
+
 ### Contact me for any interesting research or idea exploration work
 
 [zhirui09400@icloud.com](mailto:zhirui09400@icloud.com)
