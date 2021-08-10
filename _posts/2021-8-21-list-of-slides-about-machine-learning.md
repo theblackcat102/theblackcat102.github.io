@@ -28,7 +28,7 @@ I choosen this topic merely to introduce AlphaZero 2.0 to my peers because the i
 
 topics : self-supervised-learning
 
-Thanks to Yann Lecun cake image, self-supervised learning is a hot topic at that time. So I have choosen this not so intuitive learning method to present. A slight background, self-supervied learning before is mostly revolve around siamese network design and such method actually have some stability issues when trained on only raw inputs. Before SimCLR paper, such approach is actually a good trick for small datasets since it's a good and effective regularization method to prevent overfitting. I have actual experience on this with mostly positive results.
+Thanks to Yann Lecun cake image, self-supervised learning is a hot topic at that time. So I have choosen this not so intuitive learning method to present. A slight background, self-supervied learning before is mostly revolve around siamese network design. Such method has some stability issues when trained on only raw inputs ( so you need large batch size, crazy learning rate scheduling and some weird augmentations to make it work ). Before SimCLR paper, such approach is actually a good trick for small datasets since it's a good and effective regularization method to prevent overfitting. This is one the very few tricks in my sleeves for using neural network on small datasets to gain better performance than sklearn baseline.
 
 [VQ-VAE](https://docs.google.com/presentation/d/1k_5YBC9hfWL_zBSkKn4kT6bm1KF6EkadUDKWzQoTMSY/edit?usp=sharing)
 
