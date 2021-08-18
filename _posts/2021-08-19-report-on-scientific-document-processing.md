@@ -1,0 +1,52 @@
+---
+keywords:
+  - survey
+  - neural networks
+comments: true
+title: An survey report on scientific document processing
+---
+
+# Scholar Document Processing Survey
+
+In this report, we focus on the scientific document processing (SDP) tasks and discuss potential topics not yet explored by existing work. We also discuss some of the under-explored yet essential in this field to benefit academia worldwide.
+
+## Introduction
+
+Automated scientific document processing (SDP) deploys natural language processing (NLP) or natural language understanding (NLU) on scholarly documents. SDP aims to convert long-form scientific documents into structured data for downstream tasks such as topic discovery or paper review. 
+
+Over the years, there have been existing SDP frameworks that specialized in narrow tasks. For example, Grobid converts raw documents into structured data such as XML. CERMINE on the other hand, extracts metadata such as content, reference, affiliation from PDF files. Recently, SciWING provides a unified and user friendly framework for applying neural networks on SDP tasks. 
+
+As such, there are some open research directions to be studied, such as SDP tasks on non-English documents and domain adaptation. 
+
+
+## Applications of SDP
+
+In a typical research process can be categorized into three main stages: topic discovery, research, and review. Both the topic discovery and review stages require a researcher to go through long-form document. Arxiv-Vanity helps to convert PDF into a reader-friendly web pages. Arxiv-Sanity aims to reduce the time of skim through Arxiv latest submissions as well as recommend similar submissions of any given papers. The quality of these services can benefit greatly by the advancement of SDP. 
+
+Applying SDP tools such as SciWING and GORBID to scientific documents relies on using a programming language as a form of interface. By relying on programming language as interfaces would require the user to be familiar with programming to use the tools as mentioned earlier. Building extensions that can easily be installed and plugin into research management software such as Zotero, Mendeley, and EndNote would benefit the broader target audience.
+
+
+
+## Under explored fields in SDP
+
+In this section we will highlight underrepresented topics for SDP which hold the potential for future improvements.
+
+**SDP beyond English**
+As pointed out by Sebastian Ruder, existing NLP research has mainly focused on English tasks, which also applies to the SDP domain. An article published by [Research Trends in 2012](https://www.researchtrends.com/issue-31-november-2012/the-language-of-future-scientific-communication/) shows that although the use of English in publication continues to increase globally, there are still many non-English publications in non-English countries such as China, Germany, Spain, and France. Especially in soft science, such as social sciences, with only 10.7% are published in English. Existing SDP methods only focus in English documents due to the abundance of quality labels. For example, reference string parsing packages such as ParsCit may not work on Chinese reference strings as the CRF model was trained on English n-grams features. However, recent progress in multilingual NLP provides a massive potential for applying these methods for multilingual SDP tasks.
+
+At the writing of this report, there is no study in effectively adopting the previously mentioned advancement on SDP field. Incorporate domain adaptation to existing toolkit would greatly impact real-world applications such as summarization tasks.
+
+**Domain Adaptation**
+Most of the existing state-of-the-art SDP tasks are only conducted in a limited scientific field. This is primarily limited by the availability of datasets mainly in hard science, especially Computation and Biology. For example, SciBERT pretrained mainly in Computer science, and Biomedical performs similar to BERT in [Paper Field](https://paperswithcode.com/sota/sentence-classification-on-paper-field), which includes domains from Astronomy and Electrical Engineering. Curating datasets for every domain is impractical, especially when most publications are hidden behind paywall publishers. One of the possible prospects would be leveraging external knowledge graphs for domain adaptation. For example, researchers can extend existing knowledge graphs to new domains and employ continual learning to adapt to new domains. 
+
+Recent progress in few-shot learning also provides an alternative solution to this problem. Recently [Bansal et al., 2020](https://www.aclweb.org/anthology/2020.emnlp-main.38/) shows significant improvements in few-shot scientific question answering tasks. GPT-3 ([Brown et al., 2020](https://papers.nips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf)) even demonstrate by leveraging large language model and providing a task specific prompt could greatly benefits under zero-shot settings. 
+
+There have been few works on domain adaptation on tackling scientific document processing. [Cohan and Goharian, 2018](https://link.springer.com/article/10.1007%2Fs00799-017-0216-8) leverage domain-specific concepts to tackle scientific summarization, specifically using SNOMED ontology to tackle the biomedical domain in TAC dataset. 
+
+
+
+
+## Conclusion
+
+Scientific document processing (SDP) is a group of NLP tasks performed on scientific documents. Although advancement in SDP can significantly speed up academic research, we believe having a user-friendly interface would be beneficial towards the use of SDP in scientific research. While exploring multilingual and domain adaptation in SDP tasks would benefit non-English researchers and closed research communities, respectively.
+
