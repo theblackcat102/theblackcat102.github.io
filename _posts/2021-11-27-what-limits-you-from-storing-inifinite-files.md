@@ -2,7 +2,7 @@
 keywords:
   - OS
 comments: true
-title: Limits of files you can store in a directiry
+title: Limits of files you can store in a directory
 ---
 
 Its normal for a typical research projects to store each data as an individual file under a directory. Although this is not idea, no one seems to question what are the limits of such method.
