@@ -6,9 +6,9 @@ permalink: /about/
 
 ### Fun facts
 
-1. Currently master student at National Chiao Tung University 
+1. Leaving academic to apply my knowledge in real world applications
 
-    * Focus in NLP, data mining and GANs (generative adversarial networks)
+    * Focus in NLP, data mining and graphs
 
 2. Current side-projects
 
@@ -25,6 +25,8 @@ permalink: /about/
 4. Multilinguist : I speak in 4 different languages (English, Chinese, Cantonese, Malay)
 
 5. Published work:
+
+    * [Gradient Normalization for Generative Adversarial Networks](https://arxiv.org/abs/2109.02235) : Accepted by ICCV 2021
 
     * [Character-Preserving Coherent Story Visualization](https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123620018.pdf) : generate clear and coherent characters between images of the same story. Accepted by ECCV 2020
 
