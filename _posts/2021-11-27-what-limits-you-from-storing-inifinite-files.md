@@ -6,7 +6,7 @@ title: Limits of files you can store in a directory
 ---
 
 ```
-04/03/2022 Update: Instead of using ext4, high file counts should simply consider other file format such as xfs, zfs, btrfs
+04/03/2022 Update: Instead of using ext4, you should simply consider other file format such as xfs, zfs, btrfs for high file counts storage
 ```
 
 Its normal for a typical research projects to store each data as an individual file under a directory. Although this is not idea, no one seems to question what are the limits of such method.
