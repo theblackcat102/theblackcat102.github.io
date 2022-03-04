@@ -5,6 +5,10 @@ comments: true
 title: Limits of files you can store in a directory
 ---
 
+```
+04/03/2022 Update: Instead of using ext4, high file counts should simply consider other file format such as xfs, zfs, btrfs
+```
+
 Its normal for a typical research projects to store each data as an individual file under a directory. Although this is not idea, no one seems to question what are the limits of such method.
 
 ### Ext4
@@ -57,6 +61,14 @@ As mentioned in [manpage about ext4](https://man7.org/linux/man-pages/man5/ext4.
 > 64,998 subdirectories in a directory
 
 So no, it doesn't
+
+### Issues with ext4 high inode setup
+
+Although setting to the upper limits of ext4 inode count seems to solve most of other stackoverflow problems, this doesn't solve mine.
+
+Out of space errors still occur after reaching 15 millions of unique files in the filesystem. Using ``df -i`` shows inode counts using only 4% of total inodes. Hence I believe something is still missing which I failed to considered. 
+
+I decided to use [XFS](https://en.wikipedia.org/wiki/XFS) instead for solving the problem once and for all, since it has built in dynamic inodes structure by sacrificing more storage space ( empty xfs filesystem uses about 15G space in a 8T hard disk ). So far I was able to store all 30M files without hurdles at all.
 
 ## Reading materials
 
