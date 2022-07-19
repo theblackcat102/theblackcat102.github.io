@@ -24,95 +24,95 @@ Cluster : For each document you predicts the language of each sentences. We can 
 
 1. Consistency filtering
 
-For each documents, the authors predict document level and sentence level language code. Any sentence which wasn't aligned with document level predictions are discarded.
+    For each documents, the authors predict document level and sentence level language code. Any sentence which wasn't aligned with document level predictions are discarded.
 
 
 2. Percent-threshold wordlist filtering
 
-For each document if there's less than the 20% most frequent 800 words of the target language ( language decided in consistency filtering ), then this document will be discarded. My guess was this sentence may not be a proper sentence if it doesn't had any of the most frequent words of the given language (zip-law).
+    For each document if there's less than the 20% most frequent 800 words of the target language ( language decided in consistency filtering ), then this document will be discarded. My guess was this sentence may not be a proper sentence if it doesn't had any of the most frequent words of the given language (zip-law).
 
-For example this is a proper sentence with common verbs and subject
+    For example this is a proper sentence with common verbs and subject
 
-```
-This is a proper sentence with commonly used verbs 
-```
+    ```
+    This is a proper sentence with commonly used verbs 
+    ```
 
-Not a very readable sentence
+    Not a very readable sentence
 
-```
-James Holden delightfully hate space 
-```
+    ```
+    James Holden delightfully hate space 
+    ```
 
 3. Semi-Supervised LangID (SSLID) filtering
 
-As pointed by [Caswell et al., 2020](https://arxiv.org/pdf/2010.14571.pdf), language identification in large scale (> 1000 languages) are yet a solved problem. One the proposed method was training a semi supervised langid (language identification) transformer (SSLID) from noisy data obtain from ngram langid.
+    As pointed by [Caswell et al., 2020](https://arxiv.org/pdf/2010.14571.pdf), language identification in large scale (> 1000 languages) are yet a solved problem. One the proposed method was training a semi supervised langid (language identification) transformer (SSLID) from noisy data obtain from ngram langid.
 
-The author uses SSLID to inference each document. If the predicted language wasn't inside the document language cluster this document would be discarded. For example : SSLID => spanish, but you only had german, english inside the document.
+    The author uses SSLID to inference each document. If the predicted language wasn't inside the document language cluster this document would be discarded. For example : SSLID => spanish, but you only had german, english inside the document.
 
-At this point the text is still noisy as pointed out in the paper : "The worst case was Tok Pisin (tpi), whose dataset consisted of 1.3B sentences, of which over 99.7% were in Standard English (mostly containing the word “long”, which is also a common function word in Tok Pisin)"
+    At this point the text is still noisy as pointed out in the paper : "The worst case was Tok Pisin (tpi), whose dataset consisted of 1.3B sentences, of which over 99.7% were in Standard English (mostly containing the word “long”, which is also a common function word in Tok Pisin)"
 
 4. Outlier detection using [TF-IIF](https://github.com/google-research-datasets/TF-IDF-IIF-top100-wordlists)
 
-Following the data filtering method by [Caswell et al., 2020](https://arxiv.org/pdf/2010.14571.pdf), this paper employ the same TF-IIF trick to remove any residual noise.
+    Following the data filtering method by [Caswell et al., 2020](https://arxiv.org/pdf/2010.14571.pdf), this paper employ the same TF-IIF trick to remove any residual noise.
 
 5. Outlier detection using Token-Frequency Anomalousness score
 
-This method was unique to this paper and the approach seems pretty good and should be useful in other domain use.
+    This method was unique to this paper and the approach seems pretty good and should be useful in other domain use.
 
-However, TF-IIF cannot filter out template content ( those repeated content you see in the Youtube video description ). Technically it's the right language but not very useful for training according to the author. This paper also faces the issue of “unlucky n-gram” (Caswell et al., 2020) effect. Examples of the
-type of content they found were:
+    However, TF-IIF cannot filter out template content ( those repeated content you see in the Youtube video description ). Technically it's the right language but not very useful for training according to the author. This paper also faces the issue of “unlucky n-gram” (Caswell et al., 2020) effect. Examples of the
+    type of content they found were:
 
-i. Scottish Gaelic (gd) found 570M in-language sentences even after TF-IIF filtering. It turned
-out that this was mostly from one site, and the most common token was “Luchdaich a-nois”
-(“download”)
+    i. Scottish Gaelic (gd) found 570M in-language sentences even after TF-IIF filtering. It turned
+    out that this was mostly from one site, and the most common token was “Luchdaich a-nois”
+    (“download”)
 
-ii. Darija (ar-MA) came up with a dataset of over a billion sentences, but 94.9% contained
-some reference to “casinos”, “gambling”, etc.
+    ii. Darija (ar-MA) came up with a dataset of over a billion sentences, but 94.9% contained
+    some reference to “casinos”, “gambling”, etc.
 
-iii. Cree (cr-Latn) was almost 100% “Lorem ipsum” sentences (lol)
+    iii. Cree (cr-Latn) was almost 100% “Lorem ipsum” sentences (lol)
 
-(more in the paper section 2.1.8, I will only show the most related ones )
+    (more in the paper section 2.1.8, I will only show the most related ones )
 
-```
-we hypothesized that the token distribution would be severely
-skewed. Therefore, we compared the distribution of the tokens in the LangID train data (the reference
-distribution) to the token distribution in the crawled data (the empirical distribution). To compare
-these distributions we looked at several scores for the top N=40 tokens in the empirical distribution:
-• 2n-overlap: This is simply the percentage of the top N tokens that appear in the top 2N
-tokens of the reference distribution; this metric is very simple and highly interpretable.
-• Euclidean: This is the Euclidean distance between the frequencies of the top N tokens and
-their corresponding frequencies from the reference distribution
-```
+    ```
+    we hypothesized that the token distribution would be severely
+    skewed. Therefore, we compared the distribution of the tokens in the LangID train data (the reference
+    distribution) to the token distribution in the crawled data (the empirical distribution). To compare
+    these distributions we looked at several scores for the top N=40 tokens in the empirical distribution:
+    • 2n-overlap: This is simply the percentage of the top N tokens that appear in the top 2N
+    tokens of the reference distribution; this metric is very simple and highly interpretable.
+    • Euclidean: This is the Euclidean distance between the frequencies of the top N tokens and
+    their corresponding frequencies from the reference distribution
+    ```
 
-The author then combine the mentioned two scores together with the harmonic mean, yielding the Harmonic Token Anomalousness Score
+    The author then combine the mentioned two scores together with the harmonic mean, yielding the Harmonic Token Anomalousness Score
 
-A low score of < 0.7 signal a low quality dataset while > 0.97 means the document was found in the training data
+    A low score of < 0.7 signal a low quality dataset while > 0.97 means the document was found in the training data
 
-However, in this process there's still human in the loop intervention for example 
+    However, in this process there's still human in the loop intervention for example 
 
-```
-It was relatively straightforward to make filters for 62
-of these, for instance excluding sentences containing “casino” in Arabic dialects. For some of the
-others, we made notes that they were the wrong language. For many others, there was no clear or
-obvious solution, so we left them as-is. 
-```
+    ```
+    It was relatively straightforward to make filters for 62
+    of these, for instance excluding sentences containing “casino” in Arabic dialects. For some of the
+    others, we made notes that they were the wrong language. For many others, there was no clear or
+    obvious solution, so we left them as-is. 
+    ```
 
-Which is one of the lesson I learned during my time working in the industry : Always look at the data with your eye (trademark).
+    Which is one of the lesson I learned during my time working in the industry : Always look at the data with your eye (trademark).
 
 6. Sentence deduplication
 
-The last step of was sentence deduplication which my guess was they are using some hash function to speed up the process. The final results was almost 2x reduction from the orignal data size (surprisingly not alot).
+    The last step of was sentence deduplication which my guess was they are using some hash function to speed up the process. The final results was almost 2x reduction from the orignal data size (surprisingly not alot).
 
 7. Reduce FNR using aglomerative clustering 
 
-Recall rates for related language can be high so they pass them through Hierarchical Agglomera-
-tive Clustering, using distance_threshold=None and affinity="precomputed", and
-linkage=average. Each cluster should not have more than 20 languages*. This trick doesn't improve on overall recall but has big improvements in Hindustani and Arabic varieties, and a variety of cases like Oromo (om) and Eastern Oromo (hae).
+    Recall rates for related language can be high so they pass them through Hierarchical Agglomera-
+    tive Clustering, using distance_threshold=None and affinity="precomputed", and
+    linkage=average. Each cluster should not have more than 20 languages*. This trick doesn't improve on overall recall but has big improvements in Hindustani and Arabic varieties, and a variety of cases like Oromo (om) and Eastern Oromo (hae).
 
 
-\* I still doesn't understand why the threshold was choosen to be 20 languages, does it mean they discard these cluster? What language id does this cluster belongs to?
+    \* I still doesn't understand why the threshold was choosen to be 20 languages, does it mean they discard these cluster? What language id does this cluster belongs to?
 
-    "A sentence was discarded if it had < 20% in-language words for any of the languages in the cluster
+        "A sentence was discarded if it had < 20% in-language words for any of the languages in the cluster
 
 
 ## Model training
@@ -128,24 +128,26 @@ Tricks used during training:
 
 3. self training in the second stage
 
-I need to dive deeper into what does this actually mean
+    I need to dive deeper into what does this actually mean
 
 4. larger is better: use all the sweet A100 VRAM with 6B parameters encoder-decoder transformer
 
 5. distillation into "smaller" model from a 6B model
 
-One interesting note was the distilled model they used was a hybrid model ( Transformer encoder and LSTM decoder ). The paper doesn't mention whether the decoder uses pointer network or not, but I assume it would help in this instance.
+    One interesting note was the distilled model they used was a hybrid model ( Transformer encoder and LSTM decoder ). The paper doesn't mention whether the decoder uses pointer network or not, but I assume it would help in this instance.
 
-Based on the results, student model yielded a similar performance to the teacher model, showing a powerful encoder (850M parameters) is enough for a good translation model.
+    Based on the results, student model yielded a similar performance to the teacher model, showing a powerful encoder (850M parameters) is enough for a good translation model.
 
-![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/mt_1k_teach_student_perf.png#center)
+    ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/mt_1k_teach_student_perf.png#center)
 
 
 6. Period Trick
 
+    From the authors observation, they found certain language will fail if period was not added. Simply put without the period symbol, the model will output other language instead of the target ones.
+
+    I observe a similar results when I am using byte level tokenizers which missing a punctuation will have drastically different outputs (sometimes the opposite ones ). Although this paper doesn't state the types of tokenizers they used, I suspect this can be circumvented with random punctuations insert during training?
+
 ## Conclusion
 
 What I love to read about Facebook research paper was the details they written in paper compared to other org (something with Open and artifical on the name). This was a good engineering problem solved with good data filtering method using statistic analysis and deep learning model as well as model training tricks.
-
-
 
