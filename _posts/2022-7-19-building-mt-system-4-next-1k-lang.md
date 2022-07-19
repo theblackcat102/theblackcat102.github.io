@@ -126,9 +126,13 @@ Tricks used during training:
 
 2. back-translation in the second stage
 
-3. larger is better: use a model with 6B parameters
+3. self training in the second stage
 
-4. distillation into "smaller" model from a 6B model
+I need to dive deeper into what does this actually mean
+
+4. larger is better: use all the sweet A100 VRAM with 6B parameters encoder-decoder transformer
+
+5. distillation into "smaller" model from a 6B model
 
 One interesting note was the distilled model they used was a hybrid model ( Transformer encoder and LSTM decoder ). The paper doesn't mention whether the decoder uses pointer network or not, but I assume it would help in this instance.
 
@@ -137,7 +141,7 @@ Based on the results, student model yielded a similar performance to the teacher
 ![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/mt_1k_teach_student_perf.png#center)
 
 
-5. Period Trick
+6. Period Trick
 
 ## Conclusion
 
