@@ -12,7 +12,7 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 > I dont really like talking about myself either. And most of these things here I don't really talk about myself.
 > I do give anecdotes of my life but they're more to illustrate a point. Because anything about myself is useless to you. 
-> Do be like me, that's dumb. I try to give you information so you can think - George Hotz
+> Don't be like me, that's dumb. I try to give you information so you can think - George Hotz
 
 關於我的背景：大學來台灣唸書6年（交大電機碩士），成績不怎麼樣，但是寫寫程式還行的普通人。目前在小公司擔任機器學習工程師
 
@@ -29,13 +29,13 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 ## 台灣軟體業
 
-1. 台灣軟體業心酸
+### 1. 台灣軟體業心酸
 
 **蛤，軟體不是科技業啊**
 
 畢業的時候剛好遇到竹科大徵才時代的最後一波，因此同屆的朋友隨便面試都可以到年薪 > 120萬的級距（這是排除我後的低標），對我形成不小的壓力。但好在工作半年後升遷拿到了約竹科2022年二線水平的待遇。
 
-2. 在薪資上，年資 > 實力??
+### 2. 在薪資上，年資 > 實力??
 
 **“我有5年經驗，所以我值得 N ”**
 
@@ -44,7 +44,7 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 那時候我其實在想，會不會以後我自己也會變成他那樣。尤其是在迭代速度如此快的 AI 領域，做一做就變成新鮮人眼中的老人了。
 
 
-2. 台灣沒有 AI
+### 2. 台灣沒有 AI
 
 其實這論述不能說錯，但也絕對不是沒有。至少從近年開始有外商公司將演算法部門設立在台灣來看就知道其實台灣是有 AI 人才，只是靠AI圈錢的公司還是太多。
 
@@ -56,13 +56,13 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 ## 收穫
 
-1. weights(溝通) == weights(實力)
+###  1. weights(溝通) == weights(實力)
 
 **尤其是面對同溫層以外的人，有良好的溝通能力其實和技術實力一樣重要**
 
 我在工作第一次跨部門的溝通時就被我上司狠狠打槍，指出我的投影片太難理解。並且要求我退回再製作新的投影片。原因是我太習慣與同領域的朋友溝通，所以很多我習以為然的事務其實對於他們來說很難理解 (例如 F1-score)。
 
-2. 不侷限自己
+### 2. 不侷限自己
 
 **career think out of the box**
 
@@ -72,7 +72,7 @@ cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.git
 
 或是如 [mosky](http://mosky.tw)是一個解決問題的工程師，從backend到[線型代數](https://speakerdeck.com/mosky/data-science-with-python)的generalist
 
-3. 軟體業是個海納百川的環境
+###  3. 軟體業是個海納百川的環境
 
 相較於竹科的公司分工明確，在小公司其實可以遇到很多不同領域/背景的同事。雖然過程中會有不少的摩擦，但是你會看到更多同溫層以外的人，像是我的 team 就有來自森林、應數、統計、金融、管科、新創大神等背景的人。
 
