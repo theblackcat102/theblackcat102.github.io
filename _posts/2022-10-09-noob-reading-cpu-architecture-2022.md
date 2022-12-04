@@ -77,11 +77,11 @@ In modern CPU, the microcode is what drives the decoder section inside the CPU.
 On the left, the microcode is what drives the decoder section inside the CPU ([source](https://hackaday.com/2017/12/28/34c3-hacking-into-a-cpus-microcode/)). While on the right is a [i7-6700K die shot](https://www.quora.com/Why-does-a-core-i7-have-1-5-B-transistors-and-486-just-1-5m), the microcode decoder is highlighted in red rectangle. Each core has their own microcode decoder.
 
 
-I then decided to skip multiplexor, scheduler, accumulator, register, how does an instruction work..., just google yourself. You are here for the "modern" part.
+I decided to skip multiplexor, scheduler, accumulator, register, how does an instruction work..., just google yourself. You are here for the "modern" part.
 
 ## Modern tricks that make your CPU fast
 
-As you might have notice, a more modern CPU doesn't look like this ([source](http://www.righto.com/2016/12/die-photos-and-analysis-of_24.html)) 8008 CPU by Intel in 1983.
+As you might have noticed, a more modern CPU doesn't look like this ([source](http://www.righto.com/2016/12/die-photos-and-analysis-of_24.html)) 8008 CPU by Intel in 1983.
 
 ![8008 die shot](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/8008-die-block-diagram.png)
 
@@ -89,9 +89,9 @@ But this ([source](https://www.reddit.com/r/intel/comments/qhbbow/10nm_esf_intel
 
 ![Alder lake die shot](https://preview.redd.it/lyhmdzo6c3w71.jpg?width=960&crop=smart&auto=webp&s=89fa3a1cf9d1925bb5f4922333e9c902e7c75148)
 
-Much have changed since the 21st century and I will elaborate some of the major changes that shape our modern CPUs.
+Much have changed since and I will elaborate some of the major changes that shape our modern CPUs.
 
-Do note what I am showing here is only the tip of an iceberg and are only those which I think is pretty important. If you wish to go down the rabbit hole here's some keyword that can kept you busy : NUMA topology, big LITTLE, Re-order buffer.
+Do note what I am showing here is only the tip of an iceberg and are only those which are interesting. If you wish to go down the rabbit hole here's some keyword that can kept you busy : NUMA topology, big LITTLE, Re-order buffer.
 
 ### Multi thread
 
@@ -103,11 +103,13 @@ SMT, or simultaneous multithreading, is a variant of multithreading that allows 
 
 Both multithreading and SMT are important techniques for improving the performance of modern computer systems, and they are used in a wide range of applications. These techniques allow CPUs to execute more instructions in parallel, which can improve the overall speed and efficiency of the system.
 
+IBM Power CPU has 4 SMT (or 8) as compare to the typical 2 SMT (1 core running 2 threads at the same time). As discuss in this [reddit thread](https://www.reddit.com/r/askscience/comments/7mmxi0/comment/drv5nd9/?utm_source=share&utm_medium=web2x&context=3).
+
 ### Branch predictor
 
 Branch instructions are a type of instruction that can cause the CPU to branch to a different part of the program and execute a different sequence of instructions depending on the result of a conditional test. For example, a branch instruction might be used to check if a number is greater than zero, and if it is, the CPU will branch to a different part of the program to execute a different set of instructions. Branch predictors are used to improve the performance of the CPU by predicting the outcome of branch instructions and speculatively executing the appropriate instructions before the result of the branch is known for sure. 
 
-TLDR; you predict the outcome of the branch (where do your instruction jump to next, for example : if-else logic ) in order to execute the branched instruction section. If your predictions are incorrect, you need to fallback and execute the correct instruction. 
+*TLDR;* Predict the outcome of the branch (where do your instruction jump to next, for example : if-else logic ) in order to execute the branched instruction section while you wait for the predict branch to finish. If your predictions are incorrect, you need to fallback and execute the correct instruction. 
 
 This allows the CPU to avoid stalling and continue executing useful work while it waits for the result of the branch instruction.
 
@@ -121,11 +123,11 @@ Following the jazz of branch predictor, we can also predict what instruction you
 
 If you ever heard of [Meltdown/Spectre](https://meltdownattack.com/), this is the part where designers fucked up which lets hackers to access unauthorized section of memory address. Intel releases a microcode patch which claims to have fix this issue with a 6-10% worse performance ([source](https://www.zdnet.com/article/how-much-slower-will-your-pc-feel-after-patching-for-spectre-and-meltdown/)). We can safely assumes that speculative execution contributes at least the same margin of speedup.
 
-### Tiered cache
+### Tiered cache (L0-L3,4 cache)
 
 One unsung hero of double digit improvements over generations in CPU/GPU since 2019 must be the cache size increase. 
 
-Once CPU/GPU started became very efficient at number crunching, they will soon bottleneck by how fast the memory can kept them fully ultized. This is where tiered cache such as L0, L1, L2, L3 cache came into play. By storing some frequently accessed data and instructions near the ALUs, the idle time can be reduced significantly. 
+Once CPU/GPU started became very efficient at number crunching, they will soon bottleneck by how fast the data can be fetched to keep them fully ultized. This is where tiered cache such as L0, L1, L2, L3 cache come into play. By storing some frequently accessed data and instructions near the ALUs, the idle time can be reduced significantly. However you also risk spending precious time searching each different cache level while you can fetch it from the memory.
 
 |   | Previous generation  | New generation  |  Improvements* |
 |---|---|---|---|
@@ -134,7 +136,7 @@ Once CPU/GPU started became very efficient at number crunching, they will soon b
 | AMD ryzen 8  | 32MB (5800X) | 96MB (5800X3D) | 15%  |
 | Apple M1 series  | 16MB (M1) | 48MB (M1 Max) | 0-1%  |
 
-Improvements varies by benchmark and cannot be compared across different compute from different designs; single core benchmarks are taken for CPU.
+Note : Improvements varies by benchmark and cannot be compared across different compute from different designs; single core benchmarks are taken for CPU.
 
 For a very long time, cache was seen as a good to have but not important element (Intel cache size was stagnant for quite a while). I think there's two major element at play here : low core count and cache space. 
 
