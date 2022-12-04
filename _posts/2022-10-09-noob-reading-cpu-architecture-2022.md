@@ -25,10 +25,11 @@ Suppose you have some input store somewhere with the address of that data and yo
 So this is where instruction come to play.
 
 ![Sample of instruction of ARM](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/Introduction_to_ARM_Assembly3.png)
+
 [source](https://www.allaboutcircuits.com/technical-articles/how-to-write-assembly-basic-assembly-instructions-ARM-instruction-set/)
 
 
-As of the 2022 modern world, we had x86 (CISC), ARM (RISC) making up the majority of CPU we use.
+As of the 2022 modern world, we had x86 (CISC), ARM (RISC) making up the majority of CPU we use. Although the differences are becoming more blurred 
 
 ## Arithmetic logic unit (ALU)
 
@@ -165,6 +166,10 @@ Here are a dozen of sources I usually read to keep up with the latest advancemen
 6. [ Moore's Law Is Dead - Youtube channel](https://www.youtube.com/@MooresLawIsDead)
 
     Good for rumours, consistently accurate enough to plan out my future builds.
+
+7. [Anandtech](https://www.anandtech.com/)
+
+    They have pretty detail benchmarks for new product release.
 
 ## Footnote:
 
