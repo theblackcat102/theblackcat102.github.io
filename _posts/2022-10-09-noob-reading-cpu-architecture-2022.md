@@ -74,7 +74,7 @@ In modern CPU, the microcode is what drives the decoder section inside the CPU.
   <img src="https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/main-qimg-cce3ba853e67deb340000ccf7816510c-pjlq.jpg" width="25%" /> 
 </p>
 
-On the left, the microcode is what drives the decoder section inside the CPU ([source](https://hackaday.com/2017/12/28/34c3-hacking-into-a-cpus-microcode/)). While on the right is a [i7-6700K die shot](https://www.quora.com/Why-does-a-core-i7-have-1-5-B-transistors-and-486-just-1-5m), the microcode engine is highlighted in red rectangle.
+On the left, the microcode is what drives the decoder section inside the CPU ([source](https://hackaday.com/2017/12/28/34c3-hacking-into-a-cpus-microcode/)). While on the right is a [i7-6700K die shot](https://www.quora.com/Why-does-a-core-i7-have-1-5-B-transistors-and-486-just-1-5m), the microcode decoder is highlighted in red rectangle. Each core has their own microcode decoder.
 
 
 I then decided to skip multiplexor, scheduler, accumulator, register, how does an instruction work..., just google yourself. You are here for the "modern" part.
