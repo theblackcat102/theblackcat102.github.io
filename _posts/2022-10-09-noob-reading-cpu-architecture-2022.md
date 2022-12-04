@@ -3,16 +3,20 @@ keywords:
   - experience
 comments: true
 title: Understanding how 2022 CPU works as noob
-cover_image: 
+cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cpu_meme.png
 ---
 
 CPU design is complex as shit in today world and looks nothing like what I learned in computing architecture back when I was in school. In the past few months I read some good articles and wanted to write some of my understanding down.
 
-### A basic understanding of simple CPU
+Also note that I am not a CPU architect designer, nor do I work in related industry. I am just a random dude who happens to assemble a dozen of workstations, servers and spent a lot of time watching Youtube CPU reviews.
 
-So what a CPU does is do calculation : addition and moving data around. So in order to tell the CPU what to do, you need a set of rules and format to follow so everyone can follow.
+## A basic understanding of simple CPU
 
-> I try to be simple and skip something here because I need to spent the time on modern CPU design
+So what a CPU does is do calculation : addition and moving data around. So in order to tell the CPU what to do, you need a set of rules and format to follow so everyone can follow. The rest are just abstraction or syntax sugar for the gen Z.
+
+> I try to be simple and skip something here because I need to spent the space on discussing "modern" CPU design
+
+![](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cpu_meme.png)
 
 ## Instruction
 
@@ -40,13 +44,13 @@ So you have a instruction you wish to run, what steps are you going to do?
 
 The steps of a CPU instruction can be broken down into the following phases:
 
-    Fetch: The CPU retrieves the next instruction to be executed from memory.
+1. Fetch: The CPU retrieves the next instruction to be executed from memory.
 
-    Decode: The CPU decodes the instruction to determine what operation it specifies.
+2. Decode: The CPU decodes the instruction to determine what operation it specifies.
 
-    Execute: The CPU carries out the operation specified by the instruction.
+3. Execute: The CPU carries out the operation specified by the instruction.
 
-    Store: The CPU stores the result of the operation in memory or in a register.
+4. Store: The CPU stores the result of the operation in memory or in a register.
 
 These steps are typically performed in a repeating cycle known as the fetch-decode-execute cycle, which allows the CPU to continuously execute instructions and perform operations on data. The speed at which the CPU can perform this cycle is known as the clock speed, and is measured in hertz (Hz). The faster the clock speed, the more instructions the CPU can execute per second.
 
@@ -71,6 +75,8 @@ In modern CPU, the microcode is what drives the decoder section inside the CPU.
 
 On the left, the microcode is what drives the decoder section inside the CPU ([source](https://hackaday.com/2017/12/28/34c3-hacking-into-a-cpus-microcode/)). While on the right is a [i7-6700K die shot](https://www.quora.com/Why-does-a-core-i7-have-1-5-B-transistors-and-486-just-1-5m), the microcode engine is highlighted in red rectangle.
 
+
+I then decided to skip multiplexor, scheduler, accumulator, register, how does an instruction work..., just google yourself. You are here for the "modern" part.
 
 ## Modern tricks that make your CPU fast
 
@@ -104,18 +110,21 @@ TLDR; you predict the outcome of the branch (where do your instruction jump to n
 
 This allows the CPU to avoid stalling and continue executing useful work while it waits for the result of the branch instruction.
 
+The longer your branch pattern and branch count are, the worse branch predictor performs. You can see it quite clear in this [i5-6600k](https://ark.intel.com/content/www/us/en/ark/products/88191/intel-core-i56600k-processor-6m-cache-up-to-3-90-ghz.html) branch predictor visualization by [clamchowder](https://chipsandcheese.com/2022/10/14/skylake-intels-longest-serving-architecture/)
+
+![A visualization of branch prediction](https://i2.wp.com/chipsandcheese.com/wp-content/uploads/2022/09/i5_6600k_pattern.png?ssl=1)
+
 #### Speculative execution
 
 Following the jazz of branch predictor, we can also predict what instruction you will need to execute next and run it first. If the prediction turns out to be correct, the results of the speculative execution can be used immediately, which can improve the overall performance of the CPU. If the prediction is incorrect, the results of the speculative execution are discarded and the correct instructions are executed instead. Speculative execution is a complex and highly optimized process that is essential to the performance of modern CPUs.
 
-
+If you ever heard of [Meltdown/Spectre](https://meltdownattack.com/), this is the part where designers fucked up which lets hackers to access unauthorized section of memory address. Intel releases a microcode patch which claims to have fix this issue with a 6-10% worse performance ([source](https://www.zdnet.com/article/how-much-slower-will-your-pc-feel-after-patching-for-spectre-and-meltdown/)). We can safely assumes that speculative execution contributes at least the same margin of speedup.
 
 ### Tiered cache
 
 One unsung hero of double digit improvements over generations in CPU/GPU since 2019 must be the cache size increase. 
 
 Once CPU/GPU started became very efficient at number crunching, they will soon bottleneck by how fast the memory can kept them fully ultized. This is where tiered cache such as L0, L1, L2, L3 cache came into play. By storing some frequently accessed data and instructions near the ALUs, the idle time can be reduced significantly. 
-
 
 |   | Previous generation  | New generation  |  Improvements* |
 |---|---|---|---|
@@ -126,8 +135,37 @@ Once CPU/GPU started became very efficient at number crunching, they will soon b
 
 Improvements varies by benchmark and cannot be compared across different compute from different designs; single core benchmarks are taken for CPU.
 
+For a very long time, cache was seen as a good to have but not important element (Intel cache size was stagnant for quite a while). I think there's two major element at play here : low core count and cache space. 
 
+Since AMD releases their Zen CPU, cache size has been increasing generation over generation due to more core needing to cache more data. However cache also took up precious space on the CPU die which the cost increases exponentialy by area (the larger your die is the higher the cost). IBM was able to work around this by offering their own internal SRAM design (yes all the L0-L3 cache are assembled from many SRAM cells) which for a long time are the [smallest cell in the industry](https://phys.org/news/2004-12-ibm-unveils-world-smallest-sram.html). Which I think is at the expense of more complex manufacturing process. 
 
-#### Footnote:
+IBM show casing 256MB of L3 cache on HotChips 33
+![](https://www.servethehome.com/wp-content/uploads/2021/08/HC33-IBM-Z-Telum-Processor-Bigger-and-Faster-Caches.jpg)
+
+It was until recently TSMC was able to offer their SRAM design which is dense enough for IC designers to had the luxury of large cache size. As well as the new 3D Fabric which allows SRAM to be stacked on top of the CPU die.
+
+![](https://www.coolaler.com.tw/image/news/22/2/AMD_3D_V-Cache_2.jpg)
+
+## More materials
+
+Writing about the interiors of modern CPUs has been on my TODO list for a while. While I tried my best to elaborate on these concepts, ultimately executing the final results on the final product (CPU/GPU) are done by thousands of engineers and collaboration across different fields ( signal integrity, semiconductor fab ... )
+
+Here are a dozen of sources I usually read to keep up with the latest advancement in modern computing:
+
+1. [Chip and Cheese](https://chipsandcheese.com/)
+
+2. [Locuza's Substack](https://locuza.substack.com/)
+
+3. [TechTech Potato - Youtube channel](https://www.youtube.com/@TechTechPotato)
+
+4. [ServeTheHome](https://www.servethehome.com/)
+
+5. [Level1Tech - Youtube channel](https://www.youtube.com/@Level1Techs/videos)
+
+6. [ Moore's Law Is Dead - Youtube channel](https://www.youtube.com/@MooresLawIsDead)
+
+    Good for rumours, consistently accurate enough to plan out my future builds.
+
+## Footnote:
 
 This article is cowritten by ChatGPT in small sections to speed up my narrative writings. ChatGPT does not guide any of my writing direction and opinions.
