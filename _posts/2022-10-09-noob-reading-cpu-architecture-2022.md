@@ -140,12 +140,12 @@ Note : Improvements varies by benchmark and cannot be compared across different 
 
 For a very long time, cache was seen as a good to have but not important element (Intel cache size was stagnant for quite a while). I think there's two major element at play here : low core count and cache space. 
 
-Since AMD releases their Zen CPU, cache size has been increasing generation over generation due to more core needing to cache more data. However cache also took up precious space on the CPU die which the cost increases exponentialy by area (the larger your die is the higher the cost). IBM was able to work around this by offering their own internal SRAM design (yes all the L0-L3 cache are assembled from many SRAM cells) which for a long time are the [smallest cell in the industry](https://phys.org/news/2004-12-ibm-unveils-world-smallest-sram.html). Which I think is at the expense of more complex manufacturing process. 
+Since AMD releases their Zen CPU, cache size has been increasing generation over generation due to more core needing to cache more data. However cache also populate precious space on the CPU die which the cost increases exponentialy by area (the larger your die is the higher the cost). IBM was able to work around this by offering their own internal SRAM design (yes all the L0-L3 cache are assembled from many SRAM cells), for a long time are the [smallest cell in the industry](https://phys.org/news/2004-12-ibm-unveils-world-smallest-sram.html). I think is at the expense of more complex manufacturing process hence higher cost.
 
 IBM show casing 256MB of L3 cache on HotChips 33
 ![](https://www.servethehome.com/wp-content/uploads/2021/08/HC33-IBM-Z-Telum-Processor-Bigger-and-Faster-Caches.jpg)
 
-It was until recently TSMC was able to offer their SRAM design which is dense enough for IC designers to had the luxury of large cache size. As well as the new 3D Fabric which allows SRAM to be stacked on top of the CPU die.
+It was until recently TSMC was able to offer their SRAM design which is dense enough for IC designers to own the luxury of large cache size. As well as the new 3D Fabric which allows SRAM to be stacked on top of the CPU die.
 
 ![](https://www.coolaler.com.tw/image/news/22/2/AMD_3D_V-Cache_2.jpg)
 
