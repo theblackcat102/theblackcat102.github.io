@@ -6,7 +6,7 @@ title: Understanding how 2022 CPU works as noob
 cover_image: https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/cpu_meme.png
 ---
 
-CPU design is complex as shit in today world and looks nothing like what I learned in computing architecture back when I was in school. In the past few months I read some good articles and wanted to write some of my understanding down.
+CPU design is pretty complex in modern world (M1, Intel big little, AMD chiplet) and looks nothing like what I learned in computing architecture back when I was young. In the past few months I read some good articles and wanted to write some of my understanding down.
 
 Also note that I am not a CPU architect designer, nor do I work in related industry. I am just a random dude who happens to assemble a dozen of workstations, servers and spent a lot of time watching Youtube CPU reviews.
 
