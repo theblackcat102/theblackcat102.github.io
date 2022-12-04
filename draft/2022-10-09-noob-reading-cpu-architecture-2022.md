@@ -74,13 +74,39 @@ On the left, the microcode is what drives the decoder section inside the CPU ([s
 
 ## Modern tricks that make your CPU fast
 
+As you might have notice, a more modern CPU doesn't look like this ([source](http://www.righto.com/2016/12/die-photos-and-analysis-of_24.html)) 8008 CPU by Intel in 1983.
+
+![8008 die shot](https://raw.githubusercontent.com/theblackcat102/theblackcat102.github.io/master/images/8008-die-block-diagram.png)
+
+But this ([source](https://www.reddit.com/r/intel/comments/qhbbow/10nm_esf_intel_7_alder_lake_die_shot/))
+
+![Alder lake die shot](https://preview.redd.it/lyhmdzo6c3w71.jpg?width=960&crop=smart&auto=webp&s=89fa3a1cf9d1925bb5f4922333e9c902e7c75148)
+
+Much have changed since the 21st century and I will elaborate some of the major changes that shape our modern CPUs.
+
+Do note what I am showing here is only the tip of an iceberg and are only those which I think is pretty important. If you wish to go down the rabbit hole here's some keyword that can kept you busy : NUMA topology, big LITTLE, Re-order buffer.
+
 ### Multi thread
 
+Multithreading is a technique used by computer systems to improve the performance of certain types of applications. It involves allowing a single CPU, or central processing unit, to execute multiple threads of execution concurrently. Each thread represents a separate sequence of instructions that can be executed independently of the other threads. By executing multiple threads concurrently, the CPU can improve its overall performance and make more efficient use of its resources. This is because it can switch between threads whenever one thread is waiting for input or output, allowing it to continue executing useful work even when some threads are idle.
+
+### SMT
+
+SMT, or simultaneous multithreading, is a variant of multithreading that allows each physical CPU core to execute multiple threads simultaneously, rather than just one thread per core as in traditional multithreading. This allows the CPU to make more efficient use of its resources and improve its overall performance by allowing more work to be done in parallel. SMT is often used in applications that need to perform multiple tasks concurrently, such as web servers and media players.
+
+Both multithreading and SMT are important techniques for improving the performance of modern computer systems, and they are used in a wide range of applications. These techniques allow CPUs to execute more instructions in parallel, which can improve the overall speed and efficiency of the system.
 
 ### Branch predictor
 
+Branch instructions are a type of instruction that can cause the CPU to branch to a different part of the program and execute a different sequence of instructions depending on the result of a conditional test. For example, a branch instruction might be used to check if a number is greater than zero, and if it is, the CPU will branch to a different part of the program to execute a different set of instructions. Branch predictors are used to improve the performance of the CPU by predicting the outcome of branch instructions and speculatively executing the appropriate instructions before the result of the branch is known for sure. 
+
+TLDR; you predict the outcome of the branch (where do your instruction jump to next, for example : if-else logic ) in order to execute the branched instruction section. If your predictions are incorrect, you need to fallback and execute the correct instruction. 
+
+This allows the CPU to avoid stalling and continue executing useful work while it waits for the result of the branch instruction.
 
 #### Speculative execution
+
+Following the jazz of branch predictor, we can also predict what instruction you will need to execute next and run it first. If the prediction turns out to be correct, the results of the speculative execution can be used immediately, which can improve the overall performance of the CPU. If the prediction is incorrect, the results of the speculative execution are discarded and the correct instructions are executed instead. Speculative execution is a complex and highly optimized process that is essential to the performance of modern CPUs.
 
 
 
@@ -99,8 +125,6 @@ Once CPU/GPU started became very efficient at number crunching, they will soon b
 | Apple M1 series  | 16MB (M1) | 48MB (M1 Max) | 0-1%  |
 
 Improvements varies by benchmark and cannot be compared across different compute from different designs; single core benchmarks are taken for CPU.
-
-
 
 
 
