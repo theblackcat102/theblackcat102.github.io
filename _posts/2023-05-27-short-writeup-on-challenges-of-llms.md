@@ -18,7 +18,7 @@ You could read it and judge whether its useful or not
 
 Recently I have been spending more time reading than training LLMs (Large Language Models) as research publication in these domain started to surface due to hype started since release of ChatGPT around Nov 2022. 
 
-However based on my real life experiences with asking GPT-4 to do **real work** solutions it came up often dissapoints me. Of course don't take me on face value that GPT-4 is bad, its still useful for other stuff but certainly not the job cutting excuse C-level came up to fire normies ~~ and not that company is burning out of cash~~.
+However, from myself and my peers personal encounters with employing AutoGPT to handle  **real work** solutions it came up often dissapoints me. Of course don't take me on face value that GPT-4 is bad, its still useful for other stuff but certainly not the job cutting excuse C-level came up to fire normies ~~ and not that company is burning out of cash~~.
 
 <p align="center">
 <img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/1685149395989.png?raw=true" height=400 stylesheet="center">
