@@ -45,7 +45,7 @@ In the open source domain, there are datasets or ideas in teaching models to use
 
 When AutoGPT first came up on twitter, most SV or WSJ investors got pumped up as it promised the future where companies could fire all their expensive eng and remove the perks such as massage, business class flight expenditure from their quarterly reports.
 
-But the experience for me and my peers are complaining about GPT-4 kept getting stucked in a loop where the "agent" kept repeating itself on the same sub task. Disclaimer, most of us tested on real programming challenge we faced IRL and not the generic planing a trip to somewhere or write a MVP app/plugin. 
+But the experience for me and my peers are complaining about GPT-4 kept getting [stucked in a loop](https://github.com/Significant-Gravitas/Auto-GPT/discussions/1292) where the "agent" kept repeating itself on the same sub task. Disclaimer, most of us tested on real programming challenge we faced IRL and not the generic planing a trip to somewhere or write a MVP app/plugin. 
 
 Recent paper by [Valmeekam, Karthik et al. “Large Language Models Still Can't Plan (A Benchmark for LLMs on Planning and Reasoning about Change).”](https://arxiv.org/pdf/2206.10498.pdf) found that neither of the LLMs are able to came up with a plan to solve a simple toy problem. This is the evidence study which AutoGPT is too early for its prime time and represent a overhype signal for this.
 
