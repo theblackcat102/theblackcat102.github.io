@@ -13,7 +13,7 @@ Recently I have been spending more time reading than training LLMs (Large Langua
 However based on my real life experiences with asking GPT-4 to do **real work** solutions it came up often dissapoints me. Of course don't take me on face value that GPT-4 is bad, its still useful for other stuff but certainly not the job cutting excuse C-level came up to fire normies ~~ and not that company is burning out of cash~~.
 
 <p align="center">
-<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/1685149395989.png?raw=true" height=200 stylesheet="center">
+<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/1685149395989.png?raw=true" height=400 stylesheet="center">
 </p>
 
 ### Reference to retrieved materials
@@ -48,7 +48,7 @@ For OpenAI they could pay their sub contractors to generate more plaining questi
 The 3 issues I mentioned above aren't unsolvable problem, heck the open source community could waited for the next GPT update and [simply clone them](https://arxiv.org/abs/2305.15717). But I think it would showcase the speed in where open research could cowork together and solve the solution through clever tricks and prompting which solving the problem within a small budget as compare to the closed AI research teams.
 
 <p align="center">
-<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/apes-together-strong-0p1sf.gif?raw=true" height=200 stylesheet="center">
+<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/apes-together-strong-0p1sf.gif?raw=true" height=300 stylesheet="center">
 </p>
 
 
