@@ -47,7 +47,7 @@ When AutoGPT first came up on twitter, most SV or WSJ investors got pumped up as
 
 But the experience for me and my peers are complaining about GPT-4 kept getting [stucked in a loop](https://github.com/Significant-Gravitas/Auto-GPT/discussions/1292) where the "agent" kept repeating itself on the same sub task. Disclaimer, most of us tested on real programming challenge we faced IRL and not the generic planing a trip to somewhere or write a MVP app/plugin. 
 
-Recent paper by [Valmeekam, Karthik et al. “Large Language Models Still Can't Plan (A Benchmark for LLMs on Planning and Reasoning about Change).”](https://arxiv.org/pdf/2206.10498.pdf) found that neither of the LLMs are able to came up with a plan to solve a simple toy problem. This is the evidence study which AutoGPT is too early for its prime time and represent a overhype signal for this.
+Recent paper by [Valmeekam, Karthik et al. “Large Language Models Still Can't Plan (A Benchmark for LLMs on Planning and Reasoning about Change).”](https://arxiv.org/pdf/2206.10498.pdf) discovered that neither of the LLMs (Large Language Models) can generate a plan to solve a basic toy problem. This study provides evidence that AutoGPT is not yet ready for its prime time and indicates an overhyped perception of its capabilities.
 
 For OpenAI they could pay their sub contractors to generate more plaining questions and ~~overfits~~ teach the model to do plaining. But for open source community, its hard to came up with such expensive labeling solution so we might need a more clever way to generate such dataset.
 
