@@ -8,6 +8,14 @@ comments: true
 title: Short writeup of recent challenges found in LLMs models (May 2023)
 ---
 
+TLDR bullet points by GPT-4, so you don't need to wait for the plugins to generate it for you.
+
+1. Large Language Models (LLMs) like GPT-4 still face issues in search results relevance, tool usage, and planning, limiting their effectiveness for real work situations.
+2. OpenAI could use more targeted training and data generation to improve LLM performance in these areas, while the open-source community needs clever solutions to keep up with limited budgets.
+3. Although current limitations persist, collaborative efforts within the open research community could potentially address these issues and help accelerate AI development.
+
+You could read it and judge whether its useful or not
+
 Recently I have been spending more time reading than training LLMs (Large Language Models) as research publication in these domain started to surface due to hype started since release of ChatGPT around Nov 2022. 
 
 However based on my real life experiences with asking GPT-4 to do **real work** solutions it came up often dissapoints me. Of course don't take me on face value that GPT-4 is bad, its still useful for other stuff but certainly not the job cutting excuse C-level came up to fire normies ~~ and not that company is burning out of cash~~.
