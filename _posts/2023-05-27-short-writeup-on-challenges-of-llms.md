@@ -5,7 +5,7 @@ keywords:
     - open source
     - thoughts
 comments: true
-title: Short writeup of recent challenges found in open source LLMs models (May 2023)
+title: Short writeup of recent challenges found in LLMs models (May 2023)
 ---
 
 Recently I have been spending more time reading than training LLMs (Large Language Models) as research publication in these domain started to surface due to hype started since release of ChatGPT around Nov 2022. 
