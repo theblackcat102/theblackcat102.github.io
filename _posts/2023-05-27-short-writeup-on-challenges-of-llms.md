@@ -2,6 +2,8 @@
 keywords:
     - large language model
     - llama
+    - open source
+    - thoughts
 comments: true
 title: Short writeup of recent challenges found in open source LLMs models (May 2023)
 ---
@@ -19,6 +21,8 @@ However based on my real life experiences with asking GPT-4 to do **real work** 
 [Luo, Hongyin et al. “SAIL: Search-Augmented Instruction Learning.”](https://arxiv.org/abs/2305.15225) recently shows search results based response have problem with selecting the relevant reference out from the search result. This study shows that event ChatGPT with search sometimes failed to reference the relevant answer and started to hallucinate. Even in Bard with retrieval, the result also contain some imaginary facts [tweet](https://twitter.com/adrianhon/status/1638214826957611014). 
 
 ### Tool use is still a problem
+
+Since the release of [Schick, Timo et al. “Toolformer: Language Models Can Teach Themselves to Use Tools.”](https://arxiv.org/abs/2302.04761), there are many research and commercial attempt in "teaching" LLMs to use as many online tools as possible. For example, knowing when to use search engine is pretty useful to solve the [knowledge cutoff problem](https://news.ycombinator.com/item?id=35216648).
 
 Recent release of chatgpt plugin found that LLM more often than not fails to execute the plugin correctly [reddit post](https://www.reddit.com/r/ChatGPT/comments/13jgd8t/new_web_browsing_failures/). I once saw a tweet about the success rate for plugins but failed to find it again, so you have to take me at face value for this single reddit post. Ideally, we should have a consensus of how plugin are tested and better a review function like play store and app store have been doing for years. But the underlying problem might be these LLMs are not trained to handle complex naming scheme or outlier inputs which took the attention way from the models and started to output gibberish results.
 
