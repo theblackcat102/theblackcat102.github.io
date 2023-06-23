@@ -35,7 +35,7 @@ These are also some of the questions I have been asking myself since the start o
 
 Basically there's 3 parts the term valuable can be defined or viewed from:
 
-* We are all equal
+### We are all equal
 
 Similar to the early phase of iPhone apps store where the most popular apps are still farts app or flashlight. Productivity apps would not emerge until a few years later. As of June 2023, we are still in the farts app in LLM applications (fart phase). 
 
@@ -43,7 +43,7 @@ So for startups we are actually on the same starting point as the giants on the 
 
 I find the on-device idea pretty interesting because for one I was training a few [3B chat models](https://huggingface.co/ikala/bloom-zh-3b-chat) few months back and 3B is actually in the range where you can [run it on your iPhone](https://twitter.com/togethercompute/status/1660767722073128960). But for such as "small" model, its bit hard to make use since one of the core of LLM trending cause is that its very versatile, meaning you can use it to do any kinds of things without prior design. But for 3B model, it really can't handle unseen task in my testing, this novel use is only and could only be improved via scaling the weights (3B -> 7B -> 13B). So in order to find any use of turning your iPhone into a hand warmer, there must a killer application for it to exist. For example, your on device LLMs would help you reply chat message or aggregate which apps you should open or use next?
 
-* Data
+### Data
 
 There's a unique take on what defines data moat here which I find the most interesting and I quote (in slight translation of mine):
 
@@ -53,17 +53,17 @@ My personal interpretation of this means any "proprietary" you have collected to
 
 So what's valuable then? Its the data which do not belongs to you. For on-premise deployment example, the solution and the data which was generated via this on-prem is valuable cause it bonds you (the service provider) and the enterprise (customer) together. For example a human feedback pipeline which is closely integrated with the customer stack and the customized module trained on this pipeline (ie LoRA).
 
-* Focus in building relationship with users 
+### Focus in building relationship with users 
 
-Subsequently after the popularization of LLM, you could now use in context learning prompts to solve any problem. So what's most valuable left is in creating a relationship with your users instead of creating a custom model/service stack to solve the problem. 
+Subsequently after the popularization of LLM, you could now use in context learning prompts to solve any problem. So what's most valuable left is in creating a relationship with your users instead of creating a custom model/service stack to solve the problem. Thats a echo for the data moat problem, which I agrees 100%
 
 ## 2. Some predictions by the speaker : context and embedding
 
 Prior to word2vec understanding or query of text relies on building hard mapping of synonyms and antonyms of words. And word2vec would map word into a latent space where thinsg with similar meaning (the mapping) could be learned without supervised (unsupervised). But one problem with word2vec is that it would think Apple (the company) and the fruit are the same since it's learned on a word basis without considering the context. 
 
-After word2vec we have the next big change which is Elmo, which is quite sad cause after 1 year there's BERT which does exactly the same problem but way faster due to the parallelism nature of transformer compared to recursive models (Bi-LSTM).
+After word2vec, we have the next big change which is Elmo, solving the "Apple" problem of word2vec. Its not really popular compared to Elmo because after a year there's BERT which tackles exactly the same problem but way faster due to the parallelism nature of transformer compared to recursive models (Bi-LSTM)
 
-And the next big innovation the speaker thinks would be context size, ie the numbers of tokens your model can handle and still do well. Current method relies on embedding method for long context via retrieve and append to the prompt strategy. But in and my experience, embedding method rarely exceed traditional search method in 90% scenario. Another issue with embedding is the number of information stored vs traditional reverse index method. One trick I saw again and again used to encode long article is a overlapping window method where you only encode few sentences as a embedding and move the sentence window forward until you reach the end of article. This method obviously would generate a large amount of embeddings representation the article, but its currently the most effective method. 
+And the next big innovation the speaker thinks would be context size, ie the numbers of tokens your model can handle and still do well. Current method relies on embedding method for long context via retrieve and append to the prompt strategy. But in and my experience, embedding method rarely exceed traditional search method in 90% scenario. Another issue with embedding is the number of information stored vs traditional reverse index method. One trick I saw again and again used to encode long article is a overlapping window method where you only encode few sentences as a embedding and move the sentence window forward until you reach the end of article. This method obviously would generate a large amount of embeddings representation the article, but its currently the most effective method.
 
 ## 3. Product managers who really knows ~~AI~~ ML
 
@@ -71,10 +71,11 @@ Building a machine learning product or "AI" central product is very different th
 
 Midjourney for example, would generate 4 images for your prompt and the one you choose would be the human preference image which Midjourney could use it to train a better model [(tweet)](https://twitter.com/sergeykarayev/status/1643284067117580288)
 
+But one concerning issue raised by Peak, is with the complexity of LLMs stacking up, the distance between users understanding and technical alignment gap are also going to get wider and wider.
 
 # Closing thoughts
 
-I would like to quote Peak's word : 
+I would like to quote Peak's ending here, cause its really what I think of his previous product [Magi search](https://magi.com): 
 
 > 你覺得你解決了最顯眼的問題作為你的護城河，但其實有些人在用一個包抄你的方法在解決你的問題。對於任何一個技術創業者，絕對不要把最顯眼的 limitation 當成自己唯一的護城河，需要找到除此之外的點。不然會重蹈我的覆轍
 
@@ -84,7 +85,9 @@ Translate by GPT-4
 
 (Canceling my grammarly subscription and hello ChatGPT Plus)
 
-Just a little bit of context, Peak last founding company was Moji, basically they could generate a knowledge graph from a pool of corpus and achieve a near realtime update of the knowledge graph of a world. Solving this requires a lot of NLU technique such as intent understanding, open information extraction, relation extraction etc. But as in June 2023, I could do all the same thing with a single prompt using GPT-4 and simply parsed the knowledge graph from the model response. [how to do it](https://neo4j.com/developer-blog/chatgpt-4-knowledge-graph-from-video-transcripts/)
+Just a little bit of context, Peak last founding company was Moji, basically they could generate a knowledge graph from a pool of corpus and achieve a near realtime update of the knowledge graph of a world. Solving this requires a lot of NLU technique such as intent understanding, open information extraction, relation extraction etc. But as in June 2023, I could do all the same thing with a single prompt using GPT-4 and simply parsed the knowledge graph from the model response. 
+
+[Here's one way to do it](https://neo4j.com/developer-blog/chatgpt-4-knowledge-graph-from-video-transcripts/)
 
 This episode really sums up some of my consideration during this period of explosive technical application in LLMs. Embedding based query is cool and I have been using it since 2021 since [CLIP](https://github.com/openai/CLIP), but pure embedding really add alot of hidden technical debt you can't really tackle immediately, hence lengthen your release cycle. Chat based LLMs interface aren't really useful other than programming domain, good luck buying and scrolling a ecommercial website via chat interface. What I really think LLMs are really good is aggregate and summarize, and by summarization I don't refer to the traditional point like summarization. But task based summarization for example you could train a LLM to look at bunch of images and tell me what does the overall image represent or give a transcription of podcast and convert it into a readable article. These kind of new data normalization flow is really where LLMs will shine. [Not being sentient](https://news.ycombinator.com/item?id=35300012) or [solving MIT EECS problem](https://flower-nutria-41d.notion.site/No-GPT4-can-t-ace-MIT-b27e6796ab5a48368127a98216c76864)
 
