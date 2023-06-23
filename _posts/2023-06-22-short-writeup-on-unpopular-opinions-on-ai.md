@@ -41,11 +41,15 @@ Similar to the early phase of iPhone apps store where the most popular apps are 
 
 So for startups we are actually on the same starting point as the giants on the application side. Such as a rewind.ai like service running on your smartphone offline. Meaning your phone runs a "small" LLM which aggregates and answer all the questions you had in your phone. Or on-perm service using special accelerators such as MLU370 and M100 (not Mi100). Since there's a need in China to replace certain percentage of your stack to china manufactured hardware, I think this example is only unique in China only.
 
-I find the on-device idea pretty interesting because for one I was training a few [3B chat models](https://huggingface.co/ikala/bloom-zh-3b-chat) few months back and 3B is actually in the range where you can [run it on your iPhone](https://twitter.com/togethercompute/status/1660767722073128960). But for such as "small" model, its bit hard to make use since one of the core of LLM trending cause is that its very versatile, meaning you can use it to do any kinds of things without prior design. But for 3B model, it really can't handle unseen task in my testing, this novel use is only and could only be improved via scaling the weights (3B -> 7B -> 13B). So in order to find any use of turning your iPhone into a hand warmer, there must a killer application for it to exist.
+I find the on-device idea pretty interesting because for one I was training a few [3B chat models](https://huggingface.co/ikala/bloom-zh-3b-chat) few months back and 3B is actually in the range where you can [run it on your iPhone](https://twitter.com/togethercompute/status/1660767722073128960). But for such as "small" model, its bit hard to make use since one of the core of LLM trending cause is that its very versatile, meaning you can use it to do any kinds of things without prior design. But for 3B model, it really can't handle unseen task in my testing, this novel use is only and could only be improved via scaling the weights (3B -> 7B -> 13B). So in order to find any use of turning your iPhone into a hand warmer, there must a killer application for it to exist. For example, your on device LLMs would help you reply chat message or aggregate which apps you should open or use next?
 
 * Data
 
-I think from the start of the chatGPT phase, a lot of voices are showing data platform are going to close up their access (Reddit, StackOverflow) to show case their own "unique" data value. But right now even proprietary which you have collected would not be valuable anymore. My personal interpretation of this means any "proprietary" you have collected to train a model would have no value. For example, the labeling and conversation data collected by OpenAI used to train the SFT or reward model phase. In the original article, the speaker refers to data collected in your vertical stack. 
+There's a unique take on what defines data moat here which I find the most interesting and I quote (in slight translation of mine):
+
+> I think from the start of the chatGPT phase, a lot of voices are showing data platform are going to close up their access (Reddit, StackOverflow) to show case their own "unique" data value. But right now even proprietary data which you have collected would not be valuable anymore. 
+
+My personal interpretation of this means any "proprietary" you have collected to train a model would have no value. For example, the labeling and conversation data collected by OpenAI used to train the SFT or reward model phase. In the original article, the speaker refers to data collected in your vertical stack. 
 
 So what's valuable then? Its the data which do not belongs to you. For on-premise deployment example, the solution and the data which was generated via this on-prem is valuable cause it bonds you (the service provider) and the enterprise (customer) together. For example a human feedback pipeline which is closely integrated with the customer stack and the customized module trained on this pipeline (ie LoRA).
 
@@ -72,11 +76,11 @@ Midjourney for example, would generate 4 images for your prompt and the one you 
 
 I would like to quote Peak's word : 
 
-    你覺得你解決了最顯眼的問題作為你的護城河，但其實有些人在用一個包抄你的方法在解決你的問題。對於任何一個技術創業者，絕對不要把最顯眼的 limitation 當成自己唯一的護城河，需要找到除此之外的點。不然會重蹈我的覆轍
+> 你覺得你解決了最顯眼的問題作為你的護城河，但其實有些人在用一個包抄你的方法在解決你的問題。對於任何一個技術創業者，絕對不要把最顯眼的 limitation 當成自己唯一的護城河，需要找到除此之外的點。不然會重蹈我的覆轍
 
 Translate by GPT-4
 
-    "You believe that by solving the most conspicuous problems, you have created your moat, but in reality, some people are addressing your issues in a way that outflanks you. For any tech entrepreneur, never treat the most conspicuous limitation as your only moat; you need to find points beyond this. Otherwise, you will repeat my mistakes."
+> "You believe that by solving the most conspicuous problems, you have created your moat, but in reality, some people are addressing your issues in a way that outflanks you. For any tech entrepreneur, never treat the most conspicuous limitation as your only moat; you need to find points beyond this. Otherwise, you will repeat my mistakes."
 
 (Canceling my grammarly subscription and hello ChatGPT Plus)
 
