@@ -25,9 +25,9 @@ The entire posts is quite long even in chinese, but they basically discussed the
 
 1. What's the valuable part in this LLM trend?
 
-2. Seeing the LLM from the founder and investor perspective
+2. Some predictions by the speaker : context and embedding
 
-3. Some predictions by the speaker
+3. Gap widens between user needs and technical alignment
 
 These are also some of the questions I have been asking myself since the start of chatGPT phase
 
