@@ -11,7 +11,7 @@ title: Short writeup of "Unpopular opinions on AI"
 "Unpopular opinions on AI" is a podcast episode by ZhenFund team thoughts on LLM at a sharing in China in simplfied chinese with [Peak Ji](https://www.forbes.com/sites/russellflannery/2013/03/19/forbes-china-30-under-30-list-ji-yichaos-mammoth-ambitions/?sh=75076c5c3483)
 
 <p align="center">
-<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/df80a7555e4242ce8e7b5b0457bb9fb5.png?raw=true" height=200 stylesheet="center">
+<img src="https://github.com/theblackcat102/theblackcat102.github.io/blob/master/images/df80a7555e4242ce8e7b5b0457bb9fb5.png?raw=true" height=300 stylesheet="center">
 </p>
 
 
