@@ -85,7 +85,7 @@ Translate by GPT-4
 
 (Canceling my grammarly subscription and hello ChatGPT Plus)
 
-Just a little bit of context, Peak last founding company was Moji, basically they could generate a knowledge graph from a pool of corpus and achieve a near realtime update of the knowledge graph of a world. Solving this requires a lot of NLU technique such as intent understanding, open information extraction, relation extraction etc. But as in June 2023, I could do all the same thing with a single prompt using GPT-4 and simply parsed the knowledge graph from the model response. 
+Just a little bit of context, Peak last founding company was Moji, basically they could generate a knowledge graph from a pool of corpus and achieve a near realtime update of the knowledge graph. Solving this requires a lot of NLU technique such as intent understanding, open information extraction, relation extraction etc back when solving NLP or NLU requires a dedicated model design. But as in June 2023, I could do all the same thing with a single prompt using GPT-4 and simply parsed the knowledge graph from the model response. Any prompt engineer could overtake any NLU based service as long as money is not an object.
 
 [Here's one way to do it](https://neo4j.com/developer-blog/chatgpt-4-knowledge-graph-from-video-transcripts/)
 
