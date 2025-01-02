@@ -22,7 +22,7 @@ This paper propose to learn probability estimation as a joint probability functi
 
 ####  Towards Hierarchical Importance Attribution: Explaining Compositional Semantics for Neural Sequence Models
 
-Explaination via weighted value is not enough and introduce a hierarchical explaination model in NLP. The explaination is done via sampling  
+explanation via weighted value is not enough and introduce a hierarchical explanation model in NLP. The explanation is done via sampling  
 
 
 [github code](https://github.com/INK-USC/hierarchical-explanation)
