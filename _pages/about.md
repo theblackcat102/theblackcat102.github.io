@@ -12,7 +12,7 @@ Research Scientist @ Appier AI Research.
 
 I explore Large Language Models (LLMs) with a unique perspective shaped by my multilingual background (native in Chinese, proficient in English, Cantonese, and Malay). My research focuses on understanding and advancing LLMs across multiple dimensions:
 
-- LLM Foundations & Behavior – I investigate the fundamental aspects of LLMs, including their behavioral patterns ([Let me speak freely](https://arxiv.org/abs/2408.02442), [I need help](https://arxiv.org/abs/2407.14767)), post-training optimization, and emergent capabilities as language agents. My work spans both academic research and industrial applications, contributing to our understanding of how these models develop and deploy their linguistic capabilities.
+- LLM Foundations & Behavior – I investigate the fundamental aspects of LLMs, including their behavioral patterns ([Let me speak freely](https://arxiv.org/abs/2408.02442), [I need help](https://arxiv.org/abs/2407.14767)), post-training optimization ([STM](https://arxiv.org/abs/2501.14315)), and emergent capabilities as language agents. My work spans both academic research and industrial applications, contributing to our understanding of how these models develop and deploy their linguistic capabilities.
 
 - Multilingual Understanding – Drawing from my multilingual background, I explore how LLMs acquire and process cross-linguistic knowledge ([TMMLU+](https://openreview.net/forum?id=95TayIeqJ4#discussion), [OpenAssistant](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)). This research not only advances our technical understanding of language models but also provides insights into human language acquisition and processing.
 
