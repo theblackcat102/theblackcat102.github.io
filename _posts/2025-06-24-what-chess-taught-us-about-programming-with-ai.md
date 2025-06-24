@@ -9,8 +9,6 @@ keywords:
   - human-computer collaboration
 title: What Chess Taught Us About Programming with AI
 ---
-# From Chess to Code: AI-Augmented Software Engineering
-
 The rapid evolution of AI coding assistants has sparked intense debate about the future of software engineering. Will AI replace programmers? Are we witnessing the end of coding as we know it? Recent research ([Lee et al., 2025](https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/lee_2025_ai_critical_thinking_survey.pdf); [Kosmyna et al., 2025](https://arxiv.org/abs/2506.08872)) suggests AI tools can reduce critical thinking and create cognitive dependencies. But I think the chess story from decades ago offers a more nuanced perspective. Rather than replacement, we might be witnessing transformation.
 
 ## The Day Chess "Died" and Was Reborn
@@ -27,7 +25,7 @@ Even more remarkable: the strongest centaur teams weren't led by grandmasters. A
 
 What people thought would be the end of human chess actually evolved into something more sophisticated. Humans and AI became partners, creating a form of chess that reached heights neither could achieve alone.
 
-## Why This Matters for Software Engineering
+## From Chess to Code: AI-Augmented Software Engineering
 
 Today, as AI coding tools flood the software engineering landscape, we're hearing eerily familiar narratives: "Software engineers will be obsolete." "AI will replace programmers." "The end of coding as we know it."
 
