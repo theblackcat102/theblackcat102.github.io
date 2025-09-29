@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-Research Scientist @ Appier AI Research. 
+PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), concurrently Research Scientist @ Appier AI Research
 
 
 I explore Large Language Models (LLMs) with a unique perspective shaped by my multilingual background (native in Chinese, proficient in English, Cantonese, and Malay). My research focuses on understanding and advancing LLMs across multiple dimensions:
