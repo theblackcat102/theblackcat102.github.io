@@ -7,12 +7,14 @@ redirect_from:
   - /about.html
 ---
 
-PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), concurrently Research Scientist @ Appier AI Research
+PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), concurrently Sr Research Scientist @ Appier AI Research
 
 
 I explore Large Language Models (LLMs) with a unique perspective shaped by my multilingual background (native in Chinese, proficient in English, Cantonese, and Malay). My research focuses on understanding and advancing LLMs across multiple dimensions:
 
-- LLM Foundations & Behavior – I investigate the fundamental aspects of LLMs, including their behavioral patterns ([Let me speak freely](https://arxiv.org/abs/2408.02442), [I need help](https://arxiv.org/abs/2407.14767)), post-training optimization ([STM](https://arxiv.org/abs/2501.14315)), and emergent capabilities as language agents. My work spans both academic research and industrial applications, contributing to our understanding of how these models develop and deploy their linguistic capabilities.
+- LLM Foundations & Behavior – I investigate the fundamental aspects of LLMs, including their behavioral patterns ([Let me speak freely](https://arxiv.org/abs/2408.02442), [I need help](https://arxiv.org/abs/2407.14767)), safety evaluation ([Expected Harm](https://arxiv.org/abs/2602.01600)), post-training optimization ([STM](https://arxiv.org/abs/2501.14315)), and emergent capabilities as language agents. My work spans both academic research and industrial applications, contributing to our understanding of how these models develop and deploy their linguistic capabilities.
+
+- Audio Language Models – I explore the unique challenges and biases in audio-based LLMs, examining how paralinguistic cues affect model behavior in clinical decision-making ([MedVoiceBias](https://arxiv.org/abs/2511.06592)) and investigating architectural limitations in multi-turn dialogue systems ([Context Trap](https://aclanthology.org/2026.iwsds-1.7/)). This research addresses critical gaps in understanding how audio modality introduces new considerations for model deployment in real-world applications.
 
 - Multilingual Understanding – Drawing from my multilingual background, I explore how LLMs acquire and process cross-linguistic knowledge ([TMMLU+](https://openreview.net/forum?id=95TayIeqJ4#discussion), [OpenAssistant](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)). This research not only advances our technical understanding of language models but also provides insights into human language acquisition and processing.
 
@@ -34,6 +36,8 @@ We are the first group to create a full RLHF pipeline to train multilingual inst
 TMMLU+, a new benchmark designed for Traditional Chinese language understanding. TMMLU+ is a multi-choice question-answering dataset with 66 subjects from elementary to professional level. Accepted by COLM 2024
 
 
+I'm also involved in [GlobalPIQA](https://arxiv.org/abs/2510.24081) project contributing Malay dataset
+
 Large Language Models
 ======
 [Let me speak freely? a study on the impact of format restrictions on performance of large language models](https://arxiv.org/abs/2408.02442)
@@ -49,7 +53,25 @@ We introduce StreamBench, a pioneering benchmark designed to evaluate the contin
 
 We explore whether LLM can proactively ask for user help, namely decide whether the current context is not enough to fullil user requirements (such as missing values). We propose metrics to evaluate the trade-off between performance improvements and user burden, and investigate whether LLMs can determine when to request help under varying information availability. Our experiments show that without external feedback, many LLMs struggle to recognize their need for user support. Accepted by EMNLP 2024
 
-Generative Adversarial Network
+
+[Expected Harm: Rethinking Safety Evaluation of (Mis)Aligned LLMs](https://arxiv.org/abs/2602.01600)
+
+We challenge conventional LLM safety evaluation that relies solely on threat severity. We introduce Expected Harm, a metric combining severity assessment with execution likelihood—the conditional probability of a threat being realized. Through empirical analysis, we identify Inverse Risk Calibration, revealing that models exhibit disproportionately strong refusal behaviors for difficult-to-execute threats while remaining vulnerable to easily-executable ones. By exploiting this miscalibration, we increased existing jailbreak attack success rates by up to 2×. Using linear probing, we discovered that models encode threat severity in their internal representations but lack any distinguishable encoding of execution cost.
+
+Audio
+======
+
+[The Context Trap: Why End-to-End Audio Language Models Fail Multi-turn Dialogues](https://aclanthology.org/2026.iwsds-1.7/)
+
+We compare end-to-end audio language models with traditional modular systems (ASR, LLM, TTS) in multi-turn dialogue tasks. We evaluate open-source models on conversational naturalness and dialogue consistency metrics, revealing that E2E configurations consistently underperform their modular counterparts. Our analysis shows that models exhibit severe degradation in dialogue quality as conversations progress, with the root cause lying in context maintenance and topic tracking deficiencies rather than component quality. This research highlights a critical gap between the theoretical low-latency benefits of E2E audio language models and their practical ability to maintain coherence in complex multi-turn interactions. Accepted by IWSDS 2026
+
+
+[MedVoiceBias: A Controlled Study of Audio LLM Behavior in Clinical Decision-Making](https://arxiv.org/abs/2511.06592)
+
+We investigate whether audio-based large language models introduce new biases through paralinguistic cues when making clinical decisions. We evaluated audio LLMs using 170 clinical cases across 36 distinct voice profiles that varied by age, gender, and emotional characteristics. Our findings reveal significant modality bias: surgical recommendations for audio inputs varied by as much as 35% compared to identical text-based inputs. Age-related differences reached up to 12% between young and elderly voices, persisting despite chain-of-thought prompting. The research demonstrates that audio LLMs can make clinical decisions based on voice characteristics rather than medical evidence, raising serious concerns about perpetuating healthcare disparities. Accepted by ICASSP 2026
+
+
+Generative Adversarial Network (2019-2020)
 ======
 
 [Gradient Normalization for Generative Adversarial Networks](https://openaccess.thecvf.com/content/ICCV2021/papers/Wu_Gradient_Normalization_for_Generative_Adversarial_Networks_ICCV_2021_paper.pdf)
