@@ -2,7 +2,7 @@
 permalink: /
 title: "Zhi Rui Tam"
 author_profile: true
-redirect_from: 
+redirect_from:
   - /about/
   - /about.html
 ---
@@ -10,75 +10,90 @@ redirect_from:
 PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), concurrently Sr Research Scientist @ Appier AI Research
 
 
-I explore Large Language Models (LLMs) with a unique perspective shaped by my multilingual background (native in Chinese, proficient in English, Cantonese, and Malay). My research focuses on understanding and advancing LLMs across multiple dimensions:
+## About Me
 
-- LLM Foundations & Behavior – I investigate the fundamental aspects of LLMs, including their behavioral patterns ([Let me speak freely](https://arxiv.org/abs/2408.02442), [I need help](https://arxiv.org/abs/2407.14767)), safety evaluation ([Expected Harm](https://arxiv.org/abs/2602.01600)), post-training optimization ([STM](https://arxiv.org/abs/2501.14315)), and emergent capabilities as language agents. My work spans both academic research and industrial applications, contributing to our understanding of how these models develop and deploy their linguistic capabilities.
+I'm a PhD candidate at National Taiwan University exploring Large Language Models with a unique perspective shaped by my multilingual background (native in Chinese, proficient in English, Cantonese, and Malay). I work on understanding and advancing LLMs across multiple dimensions at both academic and industrial settings.
 
-- Audio Language Models – I explore the unique challenges and biases in audio-based LLMs, examining how paralinguistic cues affect model behavior in clinical decision-making ([MedVoiceBias](https://arxiv.org/abs/2511.06592)) and investigating architectural limitations in multi-turn dialogue systems ([Context Trap](https://aclanthology.org/2026.iwsds-1.7/)). This research addresses critical gaps in understanding how audio modality introduces new considerations for model deployment in real-world applications.
+Research-wise, I'm interested in the broad area of LLMs and speech AI, with the goal of understanding model behaviors and safety while bridging the gap between theoretical understanding and practical applications. Recently, my research focuses on three aspects:
 
-- Multilingual Understanding – Drawing from my multilingual background, I explore how LLMs acquire and process cross-linguistic knowledge ([TMMLU+](https://openreview.net/forum?id=95TayIeqJ4#discussion), [OpenAssistant](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)). This research not only advances our technical understanding of language models but also provides insights into human language acquisition and processing.
+- **Audio Language Models**: Understanding unique challenges and biases in audio-based LLMs, examining how paralinguistic cues affect model behavior and investigating architectural limitations in multi-turn dialogue systems.
 
-- Applied AI Experience – Prior to my focus on LLMs, I've worked across diverse areas of AI, including keyword generation, search optimization, AutoML, and Generative Adversarial Networks (GANs), bringing a broad perspective to my current research.
+- **LLM Safety & Behavior**: Investigating fundamental aspects including behavioral patterns, safety evaluation frameworks, post-training optimization, and emergent capabilities as language agents.
 
-I advocate for viewing LLMs as sophisticated learning systems that transcend simple n-gram pattern recognition, capable of genuine generalization beyond their training data. My research aims to bridge the gap between theoretical understanding and practical applications in multilingual AI systems.
+- **Multilingual Understanding**: Exploring how LLMs acquire and process cross-linguistic knowledge, advancing both technical understanding and insights into human language processing.
 
+<!-- Previously I have worked on keyword generation, search optimization, AutoML, and Generative Adversarial Networks. I advocate for viewing LLMs as sophisticated learning systems that transcend simple n-gram pattern recognition, capable of genuine generalization beyond their training data. -->
 
-Multilingual
-======
+## News
 
-[Openassistant conversations-democratizing large language model alignment](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)
-
-We are the first group to create a full RLHF pipeline to train multilingual instruct following LLMs which contain fully permissive license for supervised finetune dataset, human preference labeling. This dataset consist of 161,443 messages in 35 different languages, annotated with 461,292 quality ratings, resulting in over 10,000 complete and fully annotated conversation trees. The corpus is a product of a worldwide crowd-sourcing effort involving over 13,500 volunteers. Accepted by Neurips D&B 2023 (Oral)
-
-
-[TMMLU+: An Improved Traditional Chinese Evaluation Suite for Foundation Models](https://openreview.net/pdf?id=95TayIeqJ4)
-
-TMMLU+, a new benchmark designed for Traditional Chinese language understanding. TMMLU+ is a multi-choice question-answering dataset with 66 subjects from elementary to professional level. Accepted by COLM 2024
-
-
-I'm also involved in [GlobalPIQA](https://arxiv.org/abs/2510.24081) project contributing Malay dataset
-
-Large Language Models
-======
-[Let me speak freely? a study on the impact of format restrictions on performance of large language models](https://arxiv.org/abs/2408.02442)
-
-We found that stricter format constraints generally lead to greater performance degradation in reasoning tasks accross different language models trained by different institute. Specifically, we evaluate LLMs’ performance when restricted to adhere to structured formats versus generating free-form responses across various common tasks (classification, reasoning). Accepted by EMNLP 2024 Industry Track
+- **[Mar. 2026]** One paper accepted by IWSDS 2026.
+- **[Feb. 2026]** One paper accepted by ICASSP 2026.
+- **[Sep. 2025]** One paper accepted by NeurIPS 2025.
+- **[Jun. 2025]** One finding paper accepted by ACL 2025.
+- **[Nov. 2024]** Two papers accepted by EMNLP 2024.
+- **[Sep. 2024]** One paper accepted by NeurIPS D&B 2024.
+- **[Jun. 2024]** One paper accepted by COLM 2024.
+- **[Oct. 2023]** One paper accepted by NeurIPS D&B 2023 (Oral).
 
 
-[StreamBench: Towards Benchmarking Continuous Improvement of Language Agents](https://arxiv.org/abs/2406.08747)
+## Selected Research
 
-We introduce StreamBench, a pioneering benchmark designed to evaluate the continuous improvement of LLM agents over an input-feedback sequence. StreamBench simulates an online learning environment where LLMs receive a continuous flow of feedback stream and iteratively enhance their performance. Accepted by Neurips D&B 2024
+**[Expected Harm: Rethinking Safety Evaluation of (Mis)Aligned LLMs](https://arxiv.org/abs/2602.01600)**
+YS Chen, **ZR Tam**, CK Wu, YN Chen
+*arXiv preprint, Feb 2026*
+#Safety #Evaluation #Alignment
 
-[I Need Help! Evaluating LLM's Ability to Ask for Users' Support: A Case Study on Text-to-SQL Generation](https://arxiv.org/abs/2407.14767)
+We introduce Expected Harm metric combining severity with execution likelihood, revealing Inverse Risk Calibration where models refuse difficult-to-execute threats while remaining vulnerable to easily-executable ones. By exploiting this miscalibration, we increased jailbreak success rates by up to 2×.
 
-We explore whether LLM can proactively ask for user help, namely decide whether the current context is not enough to fullil user requirements (such as missing values). We propose metrics to evaluate the trade-off between performance improvements and user burden, and investigate whether LLMs can determine when to request help under varying information availability. Our experiments show that without external feedback, many LLMs struggle to recognize their need for user support. Accepted by EMNLP 2024
+**[The Context Trap: Why End-to-End Audio Language Models Fail Multi-turn Dialogues](https://aclanthology.org/2026.iwsds-1.7/)**
+**ZR Tam**, WY Chang, YN Chen
+*IWSDS 2026*
+#Audio #Dialogue #Architecture
+
+We systematically compare E2E audio LMs with modular systems, revealing that E2E configurations consistently underperform due to context maintenance and topic tracking deficiencies, challenging assumptions about their superiority over modular approaches.
+
+**[MedVoiceBias: A Controlled Study of Audio LLM Behavior in Clinical Decision-Making](https://arxiv.org/abs/2511.06592)**
+**ZR Tam**, YN Chen
+*ICASSP 2026*
+#Audio #Bias #Healthcare
+
+Testing 170 clinical cases across 36 voice profiles, we found surgical recommendations varied by up to 35% between audio and text inputs, with age-related disparities reaching 12%, raising serious concerns about perpetuating healthcare disparities.
+
+**[Let me speak freely? A study on the impact of format restrictions on performance of large language models](https://arxiv.org/abs/2408.02442)**
+CK Wu, **ZR Tam**, HC Huang, YN Chen
+*EMNLP 2024 Industry Track*
+#Behavior #Constraints
+
+We found stricter format constraints generally lead to greater performance degradation in reasoning tasks across different language models, evaluating performance when restricted to structured formats versus free-form responses.
+
+**[I Need Help! Evaluating LLM's Ability to Ask for Users' Support](https://arxiv.org/abs/2407.14767)**
+**ZR Tam**, CK Wu, YS Chen, TH Yeh, HY Lee, YN Chen
+*EMNLP 2024*
+#Behavior #HCI
+
+We explore whether LLMs can proactively ask for user help and propose metrics to evaluate the trade-off between performance improvements and user burden. Our experiments show that without external feedback, many LLMs struggle to recognize their need for support.
+
+**[TMMLU+: An Improved Traditional Chinese Evaluation Suite for Foundation Models](https://openreview.net/pdf?id=95TayIeqJ4)**
+**ZR Tam**, YS Chen, CK Wu, TH Yeh, WC Cheng, BY Lin, CH Li, MC Yeh, YN Chen
+*COLM 2024*
+#Multilingual #Benchmark
+
+A new benchmark designed for Traditional Chinese language understanding with 66 subjects from elementary to professional level, improving evaluation of foundation models on Traditional Chinese.
+
+**[OpenAssistant Conversations - Democratizing Large Language Model Alignment](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)**
+Andreas Köpf, ..., **ZR Tam**, ... et al.
+*NeurIPS D&B 2023 (Oral)*
+#Multilingual #RLHF #Dataset
+
+First full RLHF pipeline to train multilingual instruct-following LLMs with 161,443 messages in 35 languages, annotated with 461,292 quality ratings from 13,500 volunteers worldwide.
 
 
-[Expected Harm: Rethinking Safety Evaluation of (Mis)Aligned LLMs](https://arxiv.org/abs/2602.01600)
+## Research Interests
 
-We challenge conventional LLM safety evaluation that relies solely on threat severity. We introduce Expected Harm, a metric combining severity assessment with execution likelihood—the conditional probability of a threat being realized. Through empirical analysis, we identify Inverse Risk Calibration, revealing that models exhibit disproportionately strong refusal behaviors for difficult-to-execute threats while remaining vulnerable to easily-executable ones. By exploiting this miscalibration, we increased existing jailbreak attack success rates by up to 2×. Using linear probing, we discovered that models encode threat severity in their internal representations but lack any distinguishable encoding of execution cost.
-
-Audio
-======
-
-[The Context Trap: Why End-to-End Audio Language Models Fail Multi-turn Dialogues](https://aclanthology.org/2026.iwsds-1.7/)
-
-We compare end-to-end audio language models with traditional modular systems (ASR, LLM, TTS) in multi-turn dialogue tasks. We evaluate open-source models on conversational naturalness and dialogue consistency metrics, revealing that E2E configurations consistently underperform their modular counterparts. Our analysis shows that models exhibit severe degradation in dialogue quality as conversations progress, with the root cause lying in context maintenance and topic tracking deficiencies rather than component quality. This research highlights a critical gap between the theoretical low-latency benefits of E2E audio language models and their practical ability to maintain coherence in complex multi-turn interactions. Accepted by IWSDS 2026
+Audio Language Models · LLM Safety · Behavioral Analysis · Multilingual NLP · Model Evaluation · Human-AI Interaction · Bias & Fairness
 
 
-[MedVoiceBias: A Controlled Study of Audio LLM Behavior in Clinical Decision-Making](https://arxiv.org/abs/2511.06592)
+## Misc
 
-We investigate whether audio-based large language models introduce new biases through paralinguistic cues when making clinical decisions. We evaluated audio LLMs using 170 clinical cases across 36 distinct voice profiles that varied by age, gender, and emotional characteristics. Our findings reveal significant modality bias: surgical recommendations for audio inputs varied by as much as 35% compared to identical text-based inputs. Age-related differences reached up to 12% between young and elderly voices, persisting despite chain-of-thought prompting. The research demonstrates that audio LLMs can make clinical decisions based on voice characteristics rather than medical evidence, raising serious concerns about perpetuating healthcare disparities. Accepted by ICASSP 2026
-
-
-Generative Adversarial Network (2019-2020)
-======
-
-[Gradient Normalization for Generative Adversarial Networks](https://openaccess.thecvf.com/content/ICCV2021/papers/Wu_Gradient_Normalization_for_Generative_Adversarial_Networks_ICCV_2021_paper.pdf)
-
-Gradient normalization is a normalization term used to stabilize the instability training of GANs by imposing a hard 1-Lipschitz constraint on the discriminator function, which increases the capacity of the discriminator. Accepted by ICCV 2021
-
-[Character-preserving coherent story visualization](https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123620018.pdf)
-
-We propose a new framework named Character-Preserving Coherent Story Visualization (CP-CSV) to generate frames of story image which preserve the global consistency of the characters and scenes. CP-CSV effectively learns to visualize the story by three critical modules: story and context encoder (story and sentence representation learning), figure-ground segmentation (auxiliary task to provide information for preserving character and story consistency), and figure-ground aware generation (image sequence generation by incorporating figure-ground information). Moreover, we propose a metric named Fr´echet Story Distance (FSD) to evaluate the performance of story visualization. Accepted by ECCV 2020
+I'm also involved in [GlobalPIQA](https://arxiv.org/abs/2510.24081) project contributing Malay dataset.
 
