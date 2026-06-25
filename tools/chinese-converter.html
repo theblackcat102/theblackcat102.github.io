@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>简繁转换 | Simplified ↔ Traditional Chinese</title>
+  <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                   "Microsoft YaHei", sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: #e8e8e8;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    header .subtitle {
+      font-size: 0.85rem;
+      color: #9a9ab0;
+    }
+
+    .mode-toggle {
+      margin-left: auto;
+      display: flex;
+      background: #0f0f1e;
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .mode-toggle button {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      background: transparent;
+      color: #9a9ab0;
+    }
+
+    .mode-toggle button.active {
+      background: #4f46e5;
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 32px;
+      gap: 16px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .toolbar button:active { transform: scale(0.97); }
+
+    .btn-clear {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .btn-clear:hover { background: #d1d5db; }
+
+    .btn-copy {
+      background: #4f46e5;
+      color: #fff;
+    }
+    .btn-copy:hover { background: #4338ca; }
+
+    .btn-swap {
+      background: #10b981;
+      color: #fff;
+    }
+    .btn-swap:hover { background: #059669; }
+
+    .char-count {
+      margin-left: auto;
+      font-size: 0.82rem;
+      color: #6b7280;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      flex: 1;
+      min-height: 480px;
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .panel-header {
+      padding: 14px 20px 12px;
+      border-bottom: 1px solid #f0f0f5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .lang-badge {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .badge-simplified {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .badge-traditional {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    textarea {
+      flex: 1;
+      resize: none;
+      border: none;
+      outline: none;
+      padding: 20px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #1f2937;
+      font-family: inherit;
+      background: transparent;
+    }
+
+    textarea[readonly] {
+      background: #fafafa;
+      color: #374151;
+      cursor: default;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      flex-shrink: 0;
+    }
+
+    .divider-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(79,70,229,0.35);
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .divider-btn:hover { background: #4338ca; transform: scale(1.1); }
+    .divider-btn:active { transform: scale(0.95); }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1f2937;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    /* ── History drawer ── */
+    .history-drawer {
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .history-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 32px;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+      transition: background 0.15s;
+    }
+    .history-header:hover { background: #f9fafb; }
+
+    .history-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .history-count {
+      font-size: 0.75rem;
+      background: #4f46e5;
+      color: #fff;
+      padding: 1px 7px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .history-chevron {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      transition: transform 0.2s;
+    }
+    .history-drawer.open .history-chevron { transform: rotate(180deg); }
+    .history-drawer.open .history-header  { border-bottom-color: #e5e7eb; }
+
+    .btn-clear-history {
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: #fff;
+      color: #6b7280;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-clear-history:hover { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+
+    .history-body {
+      display: none;
+      flex-direction: column;
+      max-height: 340px;
+      overflow-y: auto;
+    }
+    .history-drawer.open .history-body { display: flex; }
+
+    .history-empty {
+      padding: 32px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.88rem;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 32px;
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .history-item:hover { background: #f9fafb; }
+    .history-item:last-child { border-bottom: none; }
+
+    .history-item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .history-item-time {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    .history-item-mode {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 500;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+    .mode-s2t { background: #ede9fe; color: #6d28d9; }
+    .mode-t2s { background: #d1fae5; color: #065f46; }
+
+    .history-item-text {
+      font-size: 0.88rem;
+      color: #374151;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 560px;
+    }
+
+    .history-item-arrow {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-top: 18px;
+      flex-shrink: 0;
+    }
+
+    .history-item-output {
+      font-size: 0.88rem;
+      color: #6b7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 560px;
+    }
+
+    .history-item-del {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #d1d5db;
+      font-size: 1rem;
+      padding: 4px 6px;
+      border-radius: 4px;
+      line-height: 1;
+      margin-top: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .history-item-del:hover { color: #ef4444; background: #fee2e2; }
+
+    .btn-history {
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+    }
+    .btn-history:hover { background: #e5e7eb; }
+
+    @media (max-width: 720px) {
+      main { padding: 16px; }
+      .panels {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto 1fr;
+        min-height: 600px;
+      }
+      .divider { width: 100%; height: 40px; }
+      .divider-btn { transform: rotate(90deg); }
+      .divider-btn:hover { transform: rotate(90deg) scale(1.1); }
+      .history-header { padding: 12px 16px; }
+      .history-item   { padding: 12px 16px; }
+      .history-item-text, .history-item-output { max-width: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>简繁转换</h1>
+    <div class="subtitle">Simplified ↔ Traditional Chinese Converter</div>
+  </div>
+  <div class="mode-toggle">
+    <button id="btn-s2t" class="active" onclick="setMode('s2t')">简 → 繁</button>
+    <button id="btn-t2s" onclick="setMode('t2s')">繁 → 简</button>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <button class="btn-clear" onclick="clearAll()">清空 Clear</button>
+    <button class="btn-copy" onclick="copyOutput()">复制结果 Copy</button>
+    <button class="btn-swap" onclick="swapContent()">⇄ 互换 Swap</button>
+    <span class="char-count" id="char-count">0 字符</span>
+  </div>
+
+  <div class="panels">
+    <!-- Left Panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label" id="left-label">简体中文</span>
+        <span class="lang-badge badge-simplified" id="left-badge">Simplified</span>
+      </div>
+      <textarea
+        id="input"
+        placeholder="在此输入简体中文…&#10;Type or paste Simplified Chinese here…"
+        spellcheck="false"
+        autofocus
+      ></textarea>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <button class="divider-btn" onclick="swapContent()" title="Swap">⇄</button>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label" id="right-label">繁體中文</span>
+        <span class="lang-badge badge-traditional" id="right-badge">Traditional</span>
+      </div>
+      <textarea
+        id="output"
+        readonly
+        placeholder="转换结果将在此显示…&#10;Converted text will appear here…"
+        spellcheck="false"
+      ></textarea>
+    </div>
+  </div>
+</main>
+
+<!-- History Drawer -->
+<div class="history-drawer" id="history-drawer">
+  <div class="history-header" onclick="toggleHistory()">
+    <span class="history-title">历史记录 History</span>
+    <span class="history-count" id="history-count">0</span>
+    <button class="btn-clear-history" onclick="clearHistory(event)">清除全部 Clear All</button>
+    <span class="history-chevron">▼</span>
+  </div>
+  <div class="history-body" id="history-body">
+    <div class="history-empty" id="history-empty">暂无记录 No history yet</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>Powered by <a href="https://github.com/nk2028/opencc-js" target="_blank" style="color:#6b7280">OpenCC-JS</a></footer>
+
+<script>
+  let converterS2T = null;
+  let converterT2S = null;
+  let currentMode  = 's2t';
+  let saveTimer    = null;
+
+  // ── History (localStorage) ────────────────────────────────────────────────
+  const HISTORY_KEY = 'zh-converter-history';
+  const MAX_HISTORY = 60;
+
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function saveHistoryStore(items) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(items));
+  }
+
+  function addHistoryEntry(input, output, mode) {
+    if (!input.trim() || !output.trim()) return;
+    const items = loadHistory();
+    // Avoid saving duplicate of the most recent entry
+    if (items.length && items[0].input === input && items[0].mode === mode) return;
+    items.unshift({
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      mode,
+      input,
+      output
+    });
+    if (items.length > MAX_HISTORY) items.length = MAX_HISTORY;
+    saveHistoryStore(items);
+    renderHistory();
+  }
+
+  function deleteHistoryEntry(id, e) {
+    e.stopPropagation();
+    const items = loadHistory().filter(x => x.id !== id);
+    saveHistoryStore(items);
+    renderHistory();
+  }
+
+  function clearHistory(e) {
+    e.stopPropagation();
+    if (!loadHistory().length) return;
+    saveHistoryStore([]);
+    renderHistory();
+    showToast('历史已清除 History cleared');
+  }
+
+  function restoreHistoryEntry(item) {
+    inputEl.value  = item.input;
+    outputEl.value = item.output;
+    setMode(item.mode);
+    updateCharCount();
+    showToast('已恢复 Restored');
+  }
+
+  function formatTime(iso) {
+    const d   = new Date(iso);
+    const now = new Date();
+    const diffMs = now - d;
+    const diffM  = Math.floor(diffMs / 60000);
+    const diffH  = Math.floor(diffM  / 60);
+    const diffD  = Math.floor(diffH  / 24);
+    if (diffM < 1)  return '刚刚 Just now';
+    if (diffM < 60) return diffM + ' 分钟前 min ago';
+    if (diffH < 24) return diffH + ' 小时前 hr ago';
+    if (diffD < 7)  return diffD + ' 天前 day(s) ago';
+    return d.toLocaleDateString();
+  }
+
+  function renderHistory() {
+    const items  = loadHistory();
+    const body   = document.getElementById('history-body');
+    const empty  = document.getElementById('history-empty');
+    const badge  = document.getElementById('history-count');
+
+    badge.textContent = items.length;
+
+    // Remove old item rows (keep the empty placeholder)
+    body.querySelectorAll('.history-item').forEach(el => el.remove());
+
+    if (!items.length) {
+      empty.style.display = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'history-item';
+      row.title = '点击恢复 Click to restore';
+      row.onclick = () => restoreHistoryEntry(item);
+
+      const modeLabel = item.mode === 's2t' ? '简→繁' : '繁→简';
+      const modeClass = item.mode === 's2t' ? 'mode-s2t' : 'mode-t2s';
+
+      row.innerHTML = `
+        <div class="history-item-meta">
+          <span class="history-item-mode ${modeClass}">${modeLabel}</span>
+          <span class="history-item-text">${escHtml(item.input)}</span>
+          <span class="history-item-output">${escHtml(item.output)}</span>
+        </div>
+        <span class="history-item-time">${formatTime(item.timestamp)}</span>
+        <button class="history-item-del" title="删除 Delete">✕</button>
+      `;
+
+      // Wire delete button separately to pass id cleanly
+      row.querySelector('.history-item-del')
+         .addEventListener('click', e => deleteHistoryEntry(item.id, e));
+
+      body.appendChild(row);
+    });
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function toggleHistory() {
+    document.getElementById('history-drawer').classList.toggle('open');
+  }
+
+  const inputEl  = document.getElementById('input');
+  const outputEl = document.getElementById('output');
+
+  // ── Converters ────────────────────────────────────────────────────────────
+  // opencc-js@1.0.x returns the converter function synchronously (no Promise)
+  converterS2T = OpenCC.Converter({ from: 'cn', to: 'twp' });
+  converterT2S = OpenCC.Converter({ from: 'tw', to: 'cn' });
+  convert();
+
+  inputEl.addEventListener('input', () => {
+    updateCharCount();
+    convert();
+    // Auto-save to history after 1.5 s of inactivity
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      addHistoryEntry(inputEl.value, outputEl.value, currentMode);
+    }, 1500);
+  });
+
+  function convert() {
+    const text = inputEl.value;
+    if (!text.trim()) { outputEl.value = ''; return; }
+    const fn = currentMode === 's2t' ? converterS2T : converterT2S;
+    if (!fn) { outputEl.value = '（转换器加载中…）'; return; }
+    outputEl.value = fn(text);
+  }
+
+  function updateCharCount() {
+    document.getElementById('char-count').textContent = inputEl.value.length + ' 字符';
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    const isS2T = mode === 's2t';
+
+    document.getElementById('btn-s2t').classList.toggle('active',  isS2T);
+    document.getElementById('btn-t2s').classList.toggle('active', !isS2T);
+
+    document.getElementById('left-label').textContent  = isS2T ? '简体中文' : '繁體中文';
+    document.getElementById('left-badge').textContent  = isS2T ? 'Simplified' : 'Traditional';
+    document.getElementById('left-badge').className    = 'lang-badge ' + (isS2T ? 'badge-simplified' : 'badge-traditional');
+    document.getElementById('right-label').textContent = isS2T ? '繁體中文' : '简体中文';
+    document.getElementById('right-badge').textContent = isS2T ? 'Traditional' : 'Simplified';
+    document.getElementById('right-badge').className   = 'lang-badge ' + (isS2T ? 'badge-traditional' : 'badge-simplified');
+
+    inputEl.placeholder = isS2T
+      ? '在此输入简体中文…\nType or paste Simplified Chinese here…'
+      : '在此輸入繁體中文…\nType or paste Traditional Chinese here…';
+
+    convert();
+  }
+
+  function clearAll() {
+    inputEl.value  = '';
+    outputEl.value = '';
+    updateCharCount();
+    inputEl.focus();
+  }
+
+  function copyOutput() {
+    const text = outputEl.value;
+    if (!text) { showToast('没有内容可复制 Nothing to copy'); return; }
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('已复制到剪贴板 Copied!'))
+      .catch(() => {
+        outputEl.select();
+        document.execCommand('copy');
+        showToast('已复制到剪贴板 Copied!');
+      });
+  }
+
+  function swapContent() {
+    inputEl.value = outputEl.value;
+    setMode(currentMode === 's2t' ? 't2s' : 's2t');
+    updateCharCount();
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  renderHistory();
+  // Open history drawer by default if there are saved items
+  if (loadHistory().length) {
+    document.getElementById('history-drawer').classList.add('open');
+  }
+</script>
+</body>
+</html>

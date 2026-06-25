@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Viewer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0d1117;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 0 20px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+
+    .header-sub {
+      font-size: 0.75rem;
+      color: #7d8590;
+    }
+
+    .header-sep {
+      width: 1px;
+      height: 24px;
+      background: #30363d;
+    }
+
+    .header-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .hbtn {
+      padding: 5px 13px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 500;
+      transition: all 0.12s;
+      white-space: nowrap;
+    }
+    .hbtn:active { transform: scale(0.96); }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: #30363d;
+      color: #8b949e;
+    }
+    .btn-ghost:hover { background: #21262d; color: #c9d1d9; border-color: #8b949e; }
+
+    .btn-primary {
+      background: #238636;
+      border-color: #2ea043;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #2ea043; }
+
+    .btn-accent {
+      background: #1f3040;
+      border-color: #2f81f7;
+      color: #79c0ff;
+    }
+    .btn-accent:hover { background: #2f81f726; }
+
+    .btn-danger {
+      background: transparent;
+      border-color: #30363d;
+      color: #8b949e;
+    }
+    .btn-danger:hover { background: #3d1b1b; border-color: #f85149; color: #f85149; }
+
+    /* ── Main ───────────────────────────────────────────────────────── */
+    main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* ── Panel ──────────────────────────────────────────────────────── */
+    .panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .panel-bar {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 0 16px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .panel-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 1px 7px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .badge-valid   { background: #1a3d2e; color: #3fb950; border: 1px solid #2ea043; }
+    .badge-invalid { background: #3d1b1b; color: #f85149; border: 1px solid #da3633; }
+    .badge-empty   { background: #21262d; color: #7d8590; border: 1px solid #30363d; }
+
+    .panel-meta {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: #484f58;
+    }
+
+    /* ── Left panel (input) ─────────────────────────────────────────── */
+    .panel-left {
+      border-right: 1px solid #30363d;
+    }
+
+    .input-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+    }
+
+    #json-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      resize: none;
+      color: #c9d1d9;
+      background: #0d1117;
+      tab-size: 2;
+      caret-color: #79c0ff;
+    }
+    #json-input::placeholder { color: #3d444d; }
+    #json-input:focus { background: #0d1117; }
+
+    .error-bar {
+      background: #1e0b0b;
+      border-top: 1px solid #da3633;
+      padding: 7px 16px;
+      font-size: 0.76rem;
+      color: #f85149;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      flex-shrink: 0;
+      display: none;
+      line-height: 1.5;
+    }
+
+    /* ── Resize divider ─────────────────────────────────────────────── */
+    .divider {
+      width: 5px;
+      background: #30363d;
+      cursor: col-resize;
+      flex-shrink: 0;
+      position: relative;
+      transition: background 0.15s;
+    }
+    .divider:hover { background: #4f46e5; }
+    .divider::after {
+      content: '';
+      position: absolute;
+      inset: 0 -3px;
+    }
+
+    /* ── Right panel (viewer) ───────────────────────────────────────── */
+    .viewer-wrap {
+      flex: 1;
+      overflow: auto;
+      padding: 12px 16px;
+      background: #0d1117;
+    }
+
+    .viewer-placeholder {
+      color: #3d444d;
+      font-family: 'JetBrains Mono', 'Consolas', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      padding: 4px;
+      font-style: italic;
+    }
+
+    /* ── JSON Tree ──────────────────────────────────────────────────── */
+    #viewer {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: #c9d1d9;
+    }
+
+    .jn-head, .jn-leaf, .jn-tail {
+      display: flex;
+      align-items: baseline;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+    .jn-head:hover, .jn-leaf:hover { background: #161b22; }
+
+    .jn-body {
+      padding-left: 20px;
+      border-left: 1px solid #21262d;
+      margin-left: 7px;
+    }
+
+    /* Toggle button */
+    .jn-tog {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      min-width: 14px;
+      height: 1.75em;
+      cursor: pointer;
+      color: #484f58;
+      user-select: none;
+      font-size: 0.58rem;
+      flex-shrink: 0;
+      border-radius: 2px;
+      transition: color 0.1s;
+      margin-right: 2px;
+    }
+    .jn-tog.clickable:hover { color: #c9d1d9; background: #30363d; }
+
+    /* Syntax colours */
+    .jk    { color: #79c0ff; }              /* object key          */
+    .jp    { color: #6e7681; }              /* punctuation  : ,    */
+    .jb    { color: #8b949e; }              /* bracket  { } [ ]   */
+    .jb.click { cursor: pointer; }
+    .jb.click:hover { color: #e6edf3; }
+    .jstr  { color: #a5d6a7; }              /* string value        */
+    .jnum  { color: #f2cc60; }              /* number              */
+    .jbool { color: #ff9070; }              /* boolean             */
+    .jnull { color: #7d8590; font-style: italic; }  /* null       */
+
+    /* Expandable long strings */
+    .jstr-trunc { cursor: pointer; }
+    .jstr-trunc:hover { text-decoration: underline; text-decoration-color: #a5d6a7; text-decoration-style: dotted; }
+    .jstr-hint {
+      color: #484f58;
+      font-style: italic;
+      font-size: 0.76em;
+      margin-left: 5px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .jstr-hint:hover { color: #8b949e; }
+
+    /* Collapsed summary  */
+    .jn-sum {
+      color: #484f58;
+      font-style: italic;
+      user-select: none;
+    }
+
+    /* ── Toast ──────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 1000;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      main { flex-direction: column; }
+      .panel-left { border-right: none; border-bottom: 1px solid #30363d; }
+      .divider { width: 100%; height: 5px; cursor: row-resize; }
+      .header-sub { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="header-icon">{ }</div>
+    <div>
+      <div class="header-title">JSON Viewer</div>
+      <div class="header-sub">Paste · Prettify · Explore</div>
+    </div>
+  </div>
+
+  <div class="header-sep"></div>
+
+  <div class="header-actions">
+    <button class="hbtn btn-ghost"   onclick="expandAll()">Expand All</button>
+    <button class="hbtn btn-ghost"   onclick="collapseAll()">Collapse All</button>
+    <button class="hbtn btn-accent"  onclick="formatInput()">Format <kbd style="opacity:.6;font-size:.72em">Ctrl+↵</kbd></button>
+    <button class="hbtn btn-primary" onclick="copyFormatted()">Copy JSON</button>
+    <button class="hbtn btn-danger"  onclick="clearAll()">Clear</button>
+  </div>
+</header>
+
+<main>
+  <!-- Left: Input ──────────────────────────────────────── -->
+  <div class="panel panel-left" id="panel-left">
+    <div class="panel-bar">
+      <span class="panel-name">Input</span>
+      <span class="badge badge-empty" id="status-badge">Empty</span>
+      <span class="panel-meta" id="input-meta"></span>
+    </div>
+    <div class="input-wrap">
+      <textarea
+        id="json-input"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        placeholder='Paste or type JSON here…&#10;&#10;{&#10;  "name": "Alice",&#10;  "age": 30,&#10;  "hobbies": ["reading", "coding"],&#10;  "address": {&#10;    "city": "New York",&#10;    "zip": "10001"&#10;  }&#10;}'
+      ></textarea>
+      <div class="error-bar" id="error-bar"></div>
+    </div>
+  </div>
+
+  <!-- Divider ──────────────────────────────────────────── -->
+  <div class="divider" id="divider"></div>
+
+  <!-- Right: Viewer ────────────────────────────────────── -->
+  <div class="panel" id="panel-right">
+    <div class="panel-bar">
+      <span class="panel-name">Viewer</span>
+      <span class="panel-meta" id="viewer-meta"></span>
+    </div>
+    <div class="viewer-wrap">
+      <div id="viewer">
+        <div class="viewer-placeholder">← Paste JSON in the input panel to explore it here</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function mk(tag, cls) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  return e;
+}
+
+function tx(cls, text) {
+  const e = document.createElement('span');
+  e.className = cls;
+  e.textContent = text;
+  return e;
+}
+
+function typeOf(v) {
+  if (v === null)       return 'null';
+  if (Array.isArray(v)) return 'array';
+  return typeof v;      // string | number | boolean | object
+}
+
+function escStr(s) {
+  return s
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g,  '\\"')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r')
+    .replace(/\t/g, '\\t');
+}
+
+function displayStr(s) {
+  return '"' + escStr(s) + '"';
+}
+
+// ─── Expanded-string preference store (persists across re-renders) ────────────
+// Key: JSON path string (e.g. "address.city", "items[0].desc")
+const expandedStringPaths = new Set();
+
+// ─── Tree builder ─────────────────────────────────────────────────────────────
+function buildNode(val, key, isLast, path = '') {
+  const type    = typeOf(val);
+  const wrapper = mk('div', 'jn');
+
+  if (type === 'object' || type === 'array') {
+    const isObj   = type === 'object';
+    const entries = isObj
+      ? Object.entries(val)
+      : val.map((v, i) => [i, v]);
+    const count   = entries.length;
+    const openBr  = isObj ? '{' : '[';
+    const closeBr = isObj ? '}' : ']';
+
+    wrapper.dataset.collapsed = '0';
+    wrapper.dataset.count     = String(count);
+
+    // ── Header line ────────────────────────────────────
+    const head = mk('div', 'jn-head');
+
+    const tog = mk('span', count > 0 ? 'jn-tog clickable' : 'jn-tog');
+    tog.textContent = count > 0 ? '▼' : ' ';
+    head.appendChild(tog);
+
+    if (key !== null) {
+      head.appendChild(tx('jk', `"${key}"`));
+      head.appendChild(tx('jp', ': '));
+    }
+
+    const openEl = mk('span', count > 0 ? 'jb click' : 'jb');
+    openEl.textContent = openBr;
+    head.appendChild(openEl);
+
+    // Inline summary — visible when collapsed
+    const sumEl = mk('span', 'jn-sum');
+    if (count === 0) {
+      sumEl.textContent = (isObj ? ' }' : ' ]') + (isLast ? '' : ',');
+    } else {
+      const noun = isObj
+        ? (count === 1 ? 'key' : 'keys')
+        : (count === 1 ? 'item' : 'items');
+      sumEl.textContent = ` ${count} ${noun} ${closeBr}${isLast ? '' : ','}`;
+      sumEl.style.display = 'none'; // hidden while expanded
+    }
+    head.appendChild(sumEl);
+    wrapper.appendChild(head);
+
+    if (count > 0) {
+      // ── Body ───────────────────────────────────────────
+      const body = mk('div', 'jn-body');
+      entries.forEach(([k, v], i) => {
+        const childPath = isObj
+          ? (path ? path + '.' + k : String(k))
+          : (path ? path + '[' + k + ']' : '[' + k + ']');
+        body.appendChild(buildNode(v, isObj ? String(k) : null, i === count - 1, childPath));
+      });
+      wrapper.appendChild(body);
+
+      // ── Tail line ──────────────────────────────────────
+      const tail = mk('div', 'jn-tail');
+      tail.appendChild(tx('jb', closeBr));
+      if (!isLast) tail.appendChild(tx('jp', ','));
+      wrapper.appendChild(tail);
+
+      // Toggle
+      const doToggle = (e) => {
+        e.stopPropagation();
+        const collapsed = wrapper.dataset.collapsed === '1';
+        if (collapsed) {
+          wrapper.dataset.collapsed = '0';
+          tog.textContent  = '▼';
+          body.style.display = '';
+          tail.style.display = '';
+          sumEl.style.display = 'none';
+        } else {
+          wrapper.dataset.collapsed = '1';
+          tog.textContent  = '▶';
+          body.style.display = 'none';
+          tail.style.display = 'none';
+          sumEl.style.display = '';
+        }
+      };
+
+      tog.addEventListener('click', doToggle);
+      openEl.addEventListener('click', doToggle);
+    }
+
+  } else {
+    // ── Leaf (primitive) ───────────────────────────────
+    const row = mk('div', 'jn-leaf');
+
+    // Spacer to align with container nodes
+    const sp = mk('span', 'jn-tog');
+    sp.textContent = ' ';
+    row.appendChild(sp);
+
+    if (key !== null) {
+      row.appendChild(tx('jk', `"${key}"`));
+      row.appendChild(tx('jp', ': '));
+    }
+
+    const cls = { string: 'jstr', number: 'jnum', boolean: 'jbool', null: 'jnull' }[type];
+
+    if (type === 'string' && escStr(val).length > 200) {
+      const escaped    = escStr(val);
+      const extra      = escaped.length - 200;
+      const shortTxt   = '"' + escaped.slice(0, 200) + '…"';
+      const fullTxt    = '"' + escaped + '"';
+      const isExpanded = expandedStringPaths.has(path);
+
+      const strEl = mk('span', 'jstr jstr-trunc');
+      strEl.textContent      = isExpanded ? fullTxt : shortTxt;
+      strEl.title            = isExpanded ? 'Click to collapse' : 'Click to expand';
+      strEl.dataset.expanded = isExpanded ? '1' : '0';
+
+      const hintEl = mk('span', 'jstr-hint');
+      hintEl.textContent = isExpanded ? '[collapse]' : `[+${extra} chars]`;
+
+      const toggle = () => {
+        const exp = strEl.dataset.expanded === '1';
+        if (exp) {
+          expandedStringPaths.delete(path);
+          strEl.textContent      = shortTxt;
+          strEl.title            = 'Click to expand';
+          strEl.dataset.expanded = '0';
+          hintEl.textContent     = `[+${extra} chars]`;
+        } else {
+          expandedStringPaths.add(path);
+          strEl.textContent      = fullTxt;
+          strEl.title            = 'Click to collapse';
+          strEl.dataset.expanded = '1';
+          hintEl.textContent     = '[collapse]';
+        }
+      };
+      strEl.addEventListener('click', toggle);
+      hintEl.addEventListener('click', toggle);
+
+      row.appendChild(strEl);
+      row.appendChild(hintEl);
+    } else {
+      row.appendChild(tx(cls, type === 'string' ? displayStr(val) : String(val)));
+    }
+
+    if (!isLast) row.appendChild(tx('jp', ','));
+    wrapper.appendChild(row);
+  }
+
+  return wrapper;
+}
+
+// ─── Expand / Collapse All ────────────────────────────────────────────────────
+function setAll(collapsed) {
+  document.querySelectorAll('#viewer .jn').forEach(node => {
+    const count = parseInt(node.dataset.count || '0');
+    if (!count) return;
+
+    const head = node.querySelector(':scope > .jn-head');
+    const body = node.querySelector(':scope > .jn-body');
+    const tail = node.querySelector(':scope > .jn-tail');
+    if (!head || !body || !tail) return;
+
+    const tog   = head.querySelector('.jn-tog');
+    const sumEl = head.querySelector('.jn-sum');
+
+    node.dataset.collapsed = collapsed ? '1' : '0';
+    if (tog)   tog.textContent     = collapsed ? '▶' : '▼';
+    body.style.display             = collapsed ? 'none' : '';
+    tail.style.display             = collapsed ? 'none' : '';
+    if (sumEl) sumEl.style.display = collapsed ? '' : 'none';
+  });
+}
+
+function collapseAll() { setAll(true);  showToast('All collapsed'); }
+function expandAll()   { setAll(false); showToast('All expanded');  }
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+let currentData = null;
+
+function renderJSON(data) {
+  currentData = data;
+  const viewer = document.getElementById('viewer');
+  viewer.innerHTML = '';
+  viewer.appendChild(buildNode(data, null, true));
+
+  // Auto-expand root if small enough
+  const root = viewer.firstChild;
+  if (root && root.dataset.count) {
+    const cnt = parseInt(root.dataset.count);
+    if (cnt > 0 && cnt <= 200) {
+      const body   = root.querySelector(':scope > .jn-body');
+      const tail   = root.querySelector(':scope > .jn-tail');
+      const head   = root.querySelector(':scope > .jn-head');
+      if (body && tail && head) {
+        root.dataset.collapsed = '0';
+        head.querySelector('.jn-tog').textContent = '▼';
+        body.style.display = '';
+        tail.style.display = '';
+        const sumEl = head.querySelector('.jn-sum');
+        if (sumEl) sumEl.style.display = 'none';
+      }
+    }
+  }
+
+  // Update viewer meta
+  const type = typeOf(data);
+  let meta = '';
+  if (type === 'object') {
+    const n = Object.keys(data).length;
+    meta = `Object · ${n} top-level ${n === 1 ? 'key' : 'keys'}`;
+  } else if (type === 'array') {
+    meta = `Array · ${data.length} ${data.length === 1 ? 'item' : 'items'}`;
+  } else {
+    meta = type.charAt(0).toUpperCase() + type.slice(1);
+  }
+  document.getElementById('viewer-meta').textContent = meta;
+}
+
+// ─── Input handling ───────────────────────────────────────────────────────────
+const inputEl    = document.getElementById('json-input');
+const errorBar   = document.getElementById('error-bar');
+const statusBadge = document.getElementById('status-badge');
+
+function processInput(text) {
+  const trimmed = text.trim();
+
+  if (!trimmed) {
+    document.getElementById('viewer').innerHTML =
+      '<div class="viewer-placeholder">← Paste JSON in the input panel to explore it here</div>';
+    statusBadge.textContent = 'Empty';
+    statusBadge.className   = 'badge badge-empty';
+    errorBar.style.display  = 'none';
+    document.getElementById('viewer-meta').textContent = '';
+    document.getElementById('input-meta').textContent  = '';
+    currentData = null;
+    return;
+  }
+
+  try {
+    const data = JSON.parse(trimmed);
+    renderJSON(data);
+
+    statusBadge.textContent = '✓ Valid';
+    statusBadge.className   = 'badge badge-valid';
+    errorBar.style.display  = 'none';
+
+    const bytes   = new TextEncoder().encode(trimmed).length;
+    const lines   = trimmed.split('\n').length;
+    const sizeStr = bytes < 1024
+      ? `${bytes} B`
+      : bytes < 1048576
+        ? `${(bytes / 1024).toFixed(1)} KB`
+        : `${(bytes / 1048576).toFixed(2)} MB`;
+    document.getElementById('input-meta').textContent = `${lines} lines · ${sizeStr}`;
+
+  } catch (err) {
+    statusBadge.textContent = '✗ Invalid';
+    statusBadge.className   = 'badge badge-invalid';
+    errorBar.textContent    = err.message;
+    errorBar.style.display  = 'block';
+    document.getElementById('viewer').innerHTML =
+      '<div class="viewer-placeholder" style="color:#f85149">Invalid JSON — check the error bar above the input</div>';
+    document.getElementById('viewer-meta').textContent = '';
+    currentData = null;
+  }
+}
+
+inputEl.addEventListener('input', () => processInput(inputEl.value));
+
+// Auto-format on paste if content is valid JSON
+inputEl.addEventListener('paste', () => {
+  // Run after the paste event updates the value
+  setTimeout(() => {
+    const trimmed = inputEl.value.trim();
+    if (!trimmed) return;
+    try {
+      const data = JSON.parse(trimmed);
+      // Only auto-format if input wasn't already pretty
+      if (!trimmed.includes('\n')) {
+        inputEl.value = JSON.stringify(data, null, 2);
+      }
+      processInput(inputEl.value);
+    } catch {
+      processInput(inputEl.value);
+    }
+  }, 0);
+});
+
+// ─── Toolbar actions ──────────────────────────────────────────────────────────
+function formatInput() {
+  const text = inputEl.value.trim();
+  if (!text) return;
+  try {
+    const data    = JSON.parse(text);
+    inputEl.value = JSON.stringify(data, null, 2);
+    processInput(inputEl.value);
+    showToast('Formatted!');
+  } catch {
+    showToast('Cannot format — invalid JSON');
+  }
+}
+
+function copyFormatted() {
+  if (!currentData) { showToast('Nothing to copy'); return; }
+  const text = JSON.stringify(currentData, null, 2);
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('Copied to clipboard!'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      Object.assign(ta.style, { position: 'fixed', opacity: '0' });
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Copied!');
+    });
+}
+
+function clearAll() {
+  inputEl.value = '';
+  processInput('');
+  inputEl.focus();
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ─── Keyboard shortcuts ───────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    formatInput();
+  }
+});
+
+// ─── Resizable divider ────────────────────────────────────────────────────────
+(function () {
+  const divider   = document.getElementById('divider');
+  const panelLeft = document.getElementById('panel-left');
+  const main      = document.querySelector('main');
+  let dragging = false, startX = 0, startW = 0;
+
+  divider.addEventListener('mousedown', e => {
+    dragging = true;
+    startX   = e.clientX;
+    startW   = panelLeft.getBoundingClientRect().width;
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const totalW = main.getBoundingClientRect().width - divider.offsetWidth;
+    const newW   = Math.max(180, Math.min(totalW - 180, startW + e.clientX - startX));
+    panelLeft.style.flex = `0 0 ${newW}px`;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  });
+})();
+</script>
+</body>
+</html>
