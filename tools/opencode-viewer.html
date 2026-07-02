@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenCode Session Visualizer</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+  <link id="hljs-dark"  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" disabled>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+/* ─── THEME ─────────────────────────────────────────────────────── */
+:root {
+  --bg:        #0d1117; --bg2:   #161b22; --bg3:   #21262d;
+  --border:    #30363d; --text:  #e6edf3; --text2: #8b949e; --text3: #6e7681;
+  --blue:   #58a6ff; --green:  #3fb950; --orange: #d29922;
+  --red:    #f85149; --purple: #bc8cff; --pink:   #f778ba;
+  --cyan:   #39c5cf; --yellow: #e3b341;
+  --shadow: 0 1px 3px rgba(0,0,0,.5); --radius: 6px; --radius-sm: 4px;
+}
+[data-theme="light"] {
+  --bg:#fff; --bg2:#f6f8fa; --bg3:#eaeef2; --border:#d0d7de;
+  --text:#1f2328; --text2:#57606a; --text3:#8c959f;
+  --blue:#0969da; --green:#1a7f37; --orange:#9a6700;
+  --red:#cf222e; --purple:#8250df; --pink:#bf3989;
+  --cyan:#0598be; --yellow:#9a6700;
+  --shadow:0 1px 3px rgba(0,0,0,.12);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);overflow:hidden;
+}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:12px}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+
+/* ─── LAYOUT ─────────────────────────────────────────────────────── */
+#app{height:100vh;display:flex;flex-direction:column}
+
+/* NAVBAR */
+#navbar{
+  display:flex;align-items:center;gap:12px;padding:0 16px;height:48px;
+  background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;z-index:100;
+}
+.logo{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.logo svg rect{fill:var(--blue);opacity:.2}
+.logo span{color:var(--blue)}
+.nav-sep{flex:1}
+.nav-session-title{
+  font-size:13px;color:var(--text2);max-width:400px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:5px 12px;
+  border-radius:var(--radius);border:1px solid var(--border);background:var(--bg3);
+  color:var(--text);cursor:pointer;font-size:13px;font-family:inherit;
+  transition:background .1s,border-color .1s;white-space:nowrap;
+}
+.btn:hover{background:var(--border)}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-icon{padding:5px 9px}
+.btn-sm{padding:3px 8px;font-size:12px}
+
+/* ─── UPLOAD SCREEN ──────────────────────────────────────────────── */
+#upload-screen{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:32px;padding:40px;
+}
+.upload-hero{text-align:center}
+.upload-hero h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.upload-hero p{color:var(--text2);font-size:16px}
+.drop-zone{
+  width:100%;max-width:560px;border:2px dashed var(--border);border-radius:12px;
+  padding:48px 32px;text-align:center;cursor:pointer;
+  transition:border-color .2s,background .2s;
+}
+.drop-zone:hover,.drop-zone.over{border-color:var(--blue);background:rgba(88,166,255,.05)}
+.drop-zone-icon{font-size:52px;margin-bottom:16px}
+.drop-zone h2{font-size:19px;font-weight:600;margin-bottom:8px}
+.drop-zone p{color:var(--text2);margin-bottom:20px;font-size:14px}
+#file-input{display:none}
+
+/* ─── SESSION PANEL (collapsible) ───────────────────────────────── */
+#session-panel{
+  width:220px;flex-shrink:0;background:var(--bg2);
+  border-right:1px solid var(--border);display:flex;flex-direction:column;
+  overflow:hidden;transition:width .22s ease;
+}
+#session-panel.collapsed{width:0}
+.sp-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.sp-hdr-title{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--text3);white-space:nowrap;
+}
+.sp-search{
+  margin:8px;padding:5px 10px;border-radius:var(--radius-sm);
+  border:1px solid var(--border);background:var(--bg3);color:var(--text);
+  font-size:12px;width:calc(100% - 16px);font-family:inherit;
+}
+.sp-search:focus{outline:none;border-color:var(--blue)}
+.sp-list{flex:1;overflow-y:auto}
+.sp-item{
+  padding:10px 12px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .1s;
+}
+.sp-item:hover{background:var(--bg3)}
+.sp-item.active{
+  background:rgba(88,166,255,.08);
+  border-left:3px solid var(--blue);padding-left:9px;
+}
+.sp-item-title{
+  font-size:12px;font-weight:600;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;
+}
+.sp-item-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sp-item-date{font-size:10px;color:var(--text3);margin-top:3px}
+
+/* ─── VIEWER SCREEN ──────────────────────────────────────────────── */
+#viewer-screen{flex:1;display:flex;overflow:hidden}
+
+/* SIDEBAR */
+#sidebar{
+  width:272px;flex-shrink:0;background:var(--bg2);
+  border-right:1px solid var(--border);overflow-y:auto;
+}
+.sb-section{border-bottom:1px solid var(--border);padding:14px 16px}
+.sb-title{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text3);margin-bottom:12px;
+}
+.meta-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:7px}
+.meta-label{color:var(--text2);font-size:12px;flex-shrink:0}
+.meta-val{font-size:12px;text-align:right;word-break:break-all}
+.stat-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:5px 0;border-bottom:1px solid var(--border);
+}
+.stat-row:last-child{border-bottom:none}
+.stat-label{color:var(--text2);font-size:12px}
+.stat-val{font-weight:600;font-size:13px}
+.tool-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+
+/* MAIN */
+#main-content{flex:1;display:flex;flex-direction:row;overflow:hidden}
+#msg-area{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* ROUND NAV (right scrubber) */
+#round-nav{
+  width:48px;flex-shrink:0;background:var(--bg2);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;
+  padding:8px 6px;gap:5px;overflow-y:auto;overflow-x:hidden;
+}
+#round-nav::-webkit-scrollbar{display:none}
+.rn{
+  width:30px;height:8px;border-radius:4px;flex-shrink:0;
+  cursor:pointer;transition:width .12s,background .12s,opacity .12s;
+  opacity:.45;
+}
+.rn:hover{width:38px;opacity:1}
+.rn.u{background:var(--blue)}
+.rn.a{background:var(--green)}
+.rn.active{opacity:1;width:38px;outline:2px solid var(--blue);outline-offset:1px}
+
+/* AGENT CHAIN BAR */
+#chain-bar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:10px 20px;display:flex;align-items:center;gap:12px;
+  overflow-x:auto;flex-shrink:0;
+}
+.chain-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text3);flex-shrink:0;
+}
+.chain-nodes{display:flex;align-items:center;gap:0;flex:1;overflow-x:auto}
+.chain-node{display:inline-flex;align-items:center}
+.chain-pill{
+  padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1.5px solid;white-space:nowrap;
+}
+.chain-pill.sub{border-style:dashed;opacity:.85}
+.chain-arrow{color:var(--text3);padding:0 4px;font-size:14px}
+
+/* FILTER BAR */
+#filter-bar{
+  padding:8px 20px;border-bottom:1px solid var(--border);display:flex;
+  align-items:center;gap:8px;background:var(--bg2);flex-shrink:0;flex-wrap:wrap;
+}
+.f-label{font-size:11px;color:var(--text2)}
+.chip{
+  padding:3px 10px;border-radius:20px;font-size:12px;border:1px solid var(--border);
+  background:var(--bg3);cursor:pointer;transition:all .1s;
+}
+.chip:hover{border-color:var(--blue)}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+#msg-count{margin-left:auto;font-size:11px;color:var(--text3)}
+
+/* ─── MESSAGE CARDS ──────────────────────────────────────────────── */
+#msgs{flex:1;padding:20px;display:flex;flex-direction:column;gap:14px;max-width:980px;width:100%;margin:0 auto}
+
+.msg-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+}
+.msg-card.r-system  {border-left:3px solid var(--purple)}
+.msg-card.r-user    {border-left:3px solid var(--blue)}
+.msg-card.r-assistant{border-left:3px solid var(--green)}
+.msg-card.r-error   {border-left:3px solid var(--red)}
+
+.msg-header{
+  display:flex;align-items:center;gap:8px;padding:8px 14px;
+  background:var(--bg3);border-bottom:1px solid var(--border);
+  cursor:pointer;user-select:none;
+}
+.msg-header:hover{background:var(--border)}
+
+.role-pill{
+  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;
+  border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+}
+.role-pill.system   {background:rgba(188,140,255,.15);color:var(--purple)}
+.role-pill.user     {background:rgba(88,166,255,.15);color:var(--blue)}
+.role-pill.assistant{background:rgba(63,185,80,.15);color:var(--green)}
+
+.agent-pill{
+  font-size:10px;padding:2px 8px;border:1px solid;border-radius:20px;font-family:monospace;
+}
+.tok-info{font-size:11px;color:var(--text3);display:flex;gap:8px;align-items:center}
+.tok-info .cost{color:var(--orange);font-weight:700}
+.msg-time{font-size:10px;color:var(--text3);margin-left:auto;white-space:nowrap}
+.msg-caret{color:var(--text3);font-size:11px;margin-left:4px;transition:transform .2s}
+.msg-card.collapsed .msg-caret{transform:rotate(-90deg)}
+
+.msg-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+.msg-card.collapsed .msg-body{display:none}
+
+/* ─── PARTS ──────────────────────────────────────────────────────── */
+
+/* STEP MARKERS */
+.step-start-div{
+  display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);margin:4px 0;
+}
+.step-start-div::before,.step-start-div::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+.step-end-bar{
+  display:flex;align-items:center;gap:10px;padding:5px 10px;
+  background:var(--bg3);border-radius:var(--radius-sm);font-size:11px;
+  color:var(--text2);border:1px solid var(--border);
+}
+.reason-pill{padding:2px 6px;border-radius:4px;font-weight:700;font-size:10px}
+.reason-pill.stop       {background:rgba(63,185,80,.15);color:var(--green)}
+.reason-pill.tool-calls {background:rgba(88,166,255,.15);color:var(--blue)}
+.reason-pill.max-tokens {background:rgba(248,81,73,.15);color:var(--red)}
+.reason-pill.error      {background:rgba(248,81,73,.15);color:var(--red)}
+.step-cost{margin-left:auto;color:var(--orange);font-weight:600}
+
+/* TEXT */
+.md-text{line-height:1.75}
+.md-text.sys-text{
+  font-size:12px;font-family:monospace;color:var(--text2);max-height:180px;
+  overflow-y:auto;padding:10px;background:var(--bg);border-radius:var(--radius-sm);
+  border:1px solid var(--border);white-space:pre-wrap;
+}
+.md-text h1{font-size:18px;margin:12px 0 6px}
+.md-text h2{font-size:16px;margin:10px 0 6px}
+.md-text h3{font-size:14px;margin:8px 0 4px}
+.md-text p{margin-bottom:8px}
+.md-text ul,.md-text ol{padding-left:20px;margin-bottom:8px}
+.md-text li{margin-bottom:3px}
+.md-text code{
+  background:var(--bg);border:1px solid var(--border);
+  padding:1px 4px;border-radius:3px;font-size:12px;
+}
+.md-text pre{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:12px;overflow-x:auto;margin:8px 0;position:relative;
+}
+.md-text pre code{background:none;border:none;padding:0}
+.md-text blockquote{border-left:3px solid var(--border);padding-left:12px;color:var(--text2);margin:8px 0}
+.md-text table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}
+.md-text th,.md-text td{padding:6px 12px;border:1px solid var(--border);text-align:left}
+.md-text th{background:var(--bg3);font-weight:600}
+.md-text hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+.md-text strong{font-weight:700}
+.md-text em{font-style:italic}
+.copy-btn{
+  position:absolute;top:6px;right:6px;padding:2px 8px;font-size:11px;border-radius:4px;
+  border:1px solid var(--border);background:var(--bg2);color:var(--text2);
+  cursor:pointer;opacity:0;transition:opacity .2s;
+}
+.md-text pre:hover .copy-btn{opacity:1}
+
+/* REASONING */
+.reasoning-block{border:1px solid rgba(227,179,65,.25);border-radius:var(--radius);overflow:hidden}
+.reasoning-hdr{
+  display:flex;align-items:center;gap:8px;padding:7px 12px;
+  background:rgba(227,179,65,.08);cursor:pointer;user-select:none;
+}
+.reasoning-hdr:hover{background:rgba(227,179,65,.14)}
+.reasoning-title{font-size:12px;font-weight:600;color:var(--yellow)}
+.reasoning-dur{font-size:11px;color:var(--text3);margin-left:auto}
+.reasoning-caret{color:var(--text3);font-size:11px;transition:transform .2s}
+.reasoning-block.collapsed .reasoning-caret{transform:rotate(-90deg)}
+.reasoning-body{
+  padding:12px;font-size:13px;color:var(--text2);line-height:1.75;
+  border-top:1px solid rgba(227,179,65,.15);
+}
+.reasoning-block.collapsed .reasoning-body{display:none}
+
+/* TOOL CALL */
+.tool-block{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.tool-hdr{
+  display:flex;align-items:center;gap:8px;padding:7px 12px;
+  background:var(--bg3);cursor:pointer;user-select:none;min-width:0;
+}
+.tool-hdr:hover{background:var(--border)}
+.tool-name{
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;
+  font-family:monospace;white-space:nowrap;
+}
+.tool-subtitle{
+  font-size:12px;color:var(--text2);flex:1;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0;
+}
+.status-pill{font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.status-pill.completed{background:rgba(63,185,80,.15);color:var(--green)}
+.status-pill.error    {background:rgba(248,81,73,.15);color:var(--red)}
+.status-pill.pending  {background:rgba(88,166,255,.15);color:var(--blue)}
+.tool-dur{font-size:11px;color:var(--text3);white-space:nowrap}
+.tool-caret{color:var(--text3);font-size:11px;transition:transform .2s;margin-left:2px}
+.tool-block.collapsed .tool-caret{transform:rotate(-90deg)}
+.tool-body{display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.tool-block.collapsed .tool-body{display:none}
+.tool-sec{padding:10px 12px;border-bottom:1px solid var(--border)}
+.tool-sec:last-child{border-bottom:none}
+.tool-sec-lbl{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text3);margin-bottom:6px;
+}
+
+/* Tool input helpers */
+.mono-display{
+  font-size:12px;font-family:monospace;white-space:pre-wrap;word-break:break-word;color:var(--text);
+}
+.k{color:var(--purple)}.s{color:var(--green)}.n{color:var(--orange)}.b{color:var(--cyan)}
+
+/* bash */
+.bash-box{
+  display:flex;align-items:flex-start;gap:8px;padding:8px 12px;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+}
+.bash-prompt{color:var(--green);font-family:monospace;font-size:13px;flex-shrink:0;margin-top:1px}
+.bash-cmd{font-family:monospace;font-size:13px;word-break:break-all}
+.bash-desc{font-size:11px;color:var(--text3);margin-top:5px}
+
+/* diff */
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.diff-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.diff-old{color:var(--red)}
+.diff-new{color:var(--green)}
+.diff-pre{
+  font-size:11px;overflow:auto;padding:8px;border-radius:var(--radius-sm);
+  max-height:140px;white-space:pre-wrap;word-break:break-word;
+}
+.diff-pre.old{background:rgba(248,81,73,.06);border:1px solid rgba(248,81,73,.2)}
+.diff-pre.new{background:rgba(63,185,80,.06);border:1px solid rgba(63,185,80,.2)}
+
+/* task */
+.task-box{display:flex;flex-direction:column;gap:8px}
+.task-del{display:flex;align-items:center;gap:8px;font-size:12px}
+.task-arrow{color:var(--pink);font-size:14px;font-weight:700}
+.task-prompt-preview{
+  font-size:12px;font-family:monospace;color:var(--text2);
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:8px;max-height:90px;overflow:hidden;white-space:pre-wrap;word-break:break-word;
+}
+
+/* todos */
+.todo-list{display:flex;flex-direction:column;gap:4px}
+.todo-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;padding:3px 0}
+.todo-icon{flex-shrink:0;margin-top:1px}
+.todo-text{flex:1}
+.todo-text.done{text-decoration:line-through;color:var(--text3)}
+.prio{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700;white-space:nowrap}
+.prio.high  {background:rgba(248,81,73,.15);color:var(--red)}
+.prio.medium{background:rgba(227,179,65,.15);color:var(--yellow)}
+.prio.low   {background:rgba(88,166,255,.15);color:var(--blue)}
+
+/* tool output */
+.out-text{
+  font-size:12px;font-family:monospace;color:var(--text2);white-space:pre-wrap;
+  word-break:break-word;max-height:360px;overflow-y:auto;
+}
+.out-text.truncated{max-height:140px;overflow:hidden}
+.show-more{
+  display:block;width:100%;padding:5px;background:var(--bg3);
+  border:none;border-top:1px solid var(--border);cursor:pointer;
+  font-size:11px;color:var(--blue);font-family:inherit;
+}
+.show-more:hover{background:var(--border)}
+
+/* patch */
+.patch-row{
+  display:flex;align-items:center;gap:8px;padding:7px 10px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);font-size:12px;
+}
+.patch-files{display:flex;flex-wrap:wrap;gap:4px}
+.patch-file{
+  font-family:monospace;background:var(--bg);padding:1px 7px;
+  border-radius:3px;border:1px solid var(--border);font-size:11px;color:var(--orange);
+}
+
+/* compaction */
+.compact-row{
+  display:flex;align-items:center;gap:8px;padding:5px 10px;
+  background:rgba(188,140,255,.07);border:1px solid rgba(188,140,255,.2);
+  border-radius:var(--radius);font-size:11px;color:var(--purple);
+}
+
+/* error */
+.err-block{
+  padding:10px 12px;background:rgba(248,81,73,.1);
+  border:1px solid rgba(248,81,73,.3);border-radius:var(--radius);
+  font-size:12px;color:var(--red);font-family:monospace;white-space:pre-wrap;
+}
+
+/* ─── BADGES / GENERIC ───────────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;gap:3px;padding:2px 8px;
+  border-radius:20px;font-size:11px;font-weight:600;
+}
+
+/* ─── SEARCH ─────────────────────────────────────────────────────── */
+.search-input{
+  padding:5px 12px;border-radius:6px;border:1px solid var(--border);
+  background:var(--bg3);color:var(--text);font-size:13px;width:220px;
+  font-family:inherit;
+}
+.search-input:focus{outline:none;border-color:var(--blue)}
+
+/* ─── NAV TOOLTIP ───────────────────────────────────────────────── */
+#nav-tip{
+  position:fixed;z-index:9999;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.45);
+  width:260px;padding:12px 14px;
+  pointer-events:none;
+  opacity:0;transform:translateX(6px);
+  transition:opacity .15s,transform .15s;
+}
+#nav-tip.show{opacity:1;transform:translateX(0)}
+.nt-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.nt-text{
+  font-size:12px;color:var(--text2);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+.nt-tools{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.nt-tool{
+  font-size:10px;font-family:monospace;padding:2px 7px;
+  border-radius:4px;font-weight:700;
+}
+.nt-stats{
+  display:flex;gap:12px;margin-top:8px;padding-top:8px;
+  border-top:1px solid var(--border);font-size:11px;color:var(--text3);
+}
+.nt-stat-val{font-weight:700;color:var(--text2)}
+
+/* ─── MISC ───────────────────────────────────────────────────────── */
+.hidden{display:none!important}
+details summary{cursor:pointer;font-size:11px;color:var(--text2);user-select:none;margin-bottom:4px}
+details summary:hover{color:var(--blue)}
+details[open] summary{margin-bottom:6px}
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── NAV ─────────────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect width="20" height="20" rx="4"/>
+        <path d="M5 10h10M10 5v10" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      OpenCode <span>Visualizer</span>
+    </div>
+    <span id="nav-title" class="nav-session-title hidden"></span>
+    <span class="nav-sep"></span>
+    <button class="btn btn-sm hidden" id="sessions-btn" onclick="toggleSessionPanel()">☰ Sessions</button>
+    <button class="btn btn-sm hidden" id="load-btn"  onclick="pickFiles()">+ Load Files</button>
+    <button class="btn-icon btn" id="theme-btn" title="Toggle theme" onclick="toggleTheme()">
+      <svg id="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- ── UPLOAD ──────────────────────────────────────────────────── -->
+  <div id="upload-screen">
+    <div class="upload-hero">
+      <h1>OpenCode Session Visualizer</h1>
+      <p>Drop <code>opencode_export</code> JSON files to explore agent conversations</p>
+    </div>
+    <div class="drop-zone" id="drop-zone" onclick="pickFiles()">
+      <div class="drop-zone-icon">📂</div>
+      <h2>Drop JSON files here</h2>
+      <p>Supports single or multiple session files</p>
+      <button class="btn btn-primary" onclick="event.stopPropagation();pickFiles()">Browse Files</button>
+    </div>
+    <input type="file" id="file-input" multiple accept=".json" onchange="onFilePick(event)">
+  </div>
+
+  <!-- ── VIEWER ──────────────────────────────────────────────────── -->
+  <div id="viewer-screen" class="hidden">
+
+    <!-- collapsible session list panel -->
+    <div id="session-panel" class="collapsed">
+      <div class="sp-hdr">
+        <span class="sp-hdr-title">Sessions (<span id="sp-count">0</span>)</span>
+      </div>
+      <input class="sp-search" id="sp-search" placeholder="Search…" oninput="filterSessionPanel()">
+      <div class="sp-list" id="sp-list"></div>
+    </div>
+
+    <!-- sidebar -->
+    <div id="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Session</div>
+        <div id="sb-meta"></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Statistics</div>
+        <div id="sb-stats"></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Tool Usage</div>
+        <div id="sb-tools"></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">System Prompt</div>
+        <details>
+          <summary>Show system prompt</summary>
+          <div id="sb-sysprompt" class="md-text sys-text" style="max-height:260px"></div>
+        </details>
+      </div>
+    </div>
+
+    <!-- main -->
+    <div id="main-content">
+      <div id="msg-area">
+        <!-- agent chain -->
+        <div id="chain-bar">
+          <span class="chain-label">Agent Chain</span>
+          <div class="chain-nodes" id="chain-nodes"></div>
+        </div>
+        <!-- filters -->
+        <div id="filter-bar">
+          <span class="f-label">Show:</span>
+          <button class="chip active" onclick="setFilter('all',this)">All</button>
+          <button class="chip" onclick="setFilter('user',this)">User</button>
+          <button class="chip" onclick="setFilter('assistant',this)">Assistant</button>
+          <button class="chip" onclick="setFilter('tools',this)">Tool Calls</button>
+          <button class="chip" onclick="setFilter('reasoning',this)">Reasoning</button>
+          <button class="chip" onclick="expandAll()">Expand All</button>
+          <button class="chip" onclick="collapseAll()">Collapse All</button>
+          <span id="msg-count"></span>
+        </div>
+        <!-- messages -->
+        <div id="msgs"></div>
+      </div>
+      <!-- round nav scrubber -->
+      <div id="round-nav"></div>
+    </div>
+  </div>
+
+<!-- nav hover tooltip -->
+<div id="nav-tip"></div>
+
+</div><!-- #app -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════════════════ */
+const TOOL_STYLES = {
+  bash:      {bg:'rgba(248,81,73,.15)',   color:'#f85149'},
+  read:      {bg:'rgba(88,166,255,.15)',  color:'#58a6ff'},
+  write:     {bg:'rgba(210,153,34,.15)',  color:'#d29922'},
+  edit:      {bg:'rgba(188,140,255,.15)', color:'#bc8cff'},
+  glob:      {bg:'rgba(57,211,83,.15)',   color:'#39d353'},
+  grep:      {bg:'rgba(57,211,83,.15)',   color:'#39d353'},
+  task:      {bg:'rgba(247,120,186,.15)', color:'#f778ba'},
+  skill:     {bg:'rgba(63,185,80,.15)',   color:'#3fb950'},
+  todowrite: {bg:'rgba(88,166,255,.15)',  color:'#58a6ff'},
+  webfetch:  {bg:'rgba(57,200,211,.15)',  color:'#39c5cf'},
+  question:  {bg:'rgba(227,179,65,.15)',  color:'#e3b341'},
+  default:   {bg:'rgba(139,148,158,.15)', color:'#8b949e'},
+};
+
+const AGENT_STYLES = {
+  build:      {bg:'rgba(63,185,80,.12)',   border:'#3fb950', color:'#3fb950'},
+  explore:    {bg:'rgba(88,166,255,.12)',  border:'#58a6ff', color:'#58a6ff'},
+  plan:       {bg:'rgba(227,179,65,.12)',  border:'#e3b341', color:'#e3b341'},
+  general:    {bg:'rgba(188,140,255,.12)', border:'#bc8cff', color:'#bc8cff'},
+  compaction: {bg:'rgba(139,148,158,.12)',border:'#8b949e', color:'#8b949e'},
+  title:      {bg:'rgba(57,211,83,.12)',   border:'#39d353', color:'#39d353'},
+  summary:    {bg:'rgba(57,211,83,.12)',   border:'#39d353', color:'#39d353'},
+  default:    {bg:'rgba(139,148,158,.12)',border:'#8b949e', color:'#8b949e'},
+};
+
+const TODO_ICONS = {completed:'✅', in_progress:'🔄', pending:'⏳', cancelled:'❌'};
+
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════ */
+let sessions = [];
+let currentFilter = 'all';
+// Map from unique key -> full text (for truncated outputs)
+const FULL_OUTPUTS = new Map();
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════ */
+function esc(s) {
+  return String(s??'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function md(text) {
+  if (!text) return '';
+  try {
+    const html = marked.parse(String(text));
+    // Add copy buttons to <pre> blocks
+    return html.replace(/<pre>/g,
+      '<pre><button class="copy-btn" onclick="copyCode(this)">Copy</button>');
+  } catch { return `<pre>${esc(text)}</pre>`; }
+}
+
+function fmtCost(c) {
+  if (!c) return '—';
+  return c < 0.001 ? `$${c.toFixed(6)}` : `$${c.toFixed(4)}`;
+}
+function fmtTok(n) {
+  if (!n) return '0';
+  if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+  if (n >= 1000) return (n/1000).toFixed(1)+'K';
+  return String(n);
+}
+function fmtMs(ms) {
+  if (!ms) return '';
+  return ms < 1000 ? ms+'ms' : (ms/1000).toFixed(1)+'s';
+}
+function fmtDate(s) {
+  if (!s) return '—';
+  return new Date(s).toLocaleString();
+}
+function fmtDateShort(s) {
+  if (!s) return '—';
+  const d = new Date(s);
+  return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+}
+function trunc(s, n=80) {
+  s = String(s??'');
+  return s.length>n ? s.slice(0,n)+'…' : s;
+}
+function toolStyle(t)  { return TOOL_STYLES[t]  || TOOL_STYLES.default; }
+function agentStyle(a) { return AGENT_STYLES[a] || AGENT_STYLES.default; }
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════════════════════════ */
+function computeStats(data) {
+  let cost=0, input=0, output=0, reasoning=0, cacheW=0, cacheR=0, total=0;
+  let toolCounts={}, userMsgs=0, asstMsgs=0, reasoningBlocks=0;
+  let subagents=[], agentSeq=[], lastAgent=null;
+
+  for (const msg of (data.messages||[])) {
+    if (msg.role==='user') userMsgs++;
+    if (msg.role==='assistant') asstMsgs++;
+    const ag = msg.agent||'build';
+    if (ag!==lastAgent) { agentSeq.push({agent:ag,role:msg.role}); lastAgent=ag; }
+
+    if (msg.cost) cost+=msg.cost;
+    if (msg.tokens) {
+      const t=msg.tokens;
+      input   += t.input||0;
+      output  += t.output||0;
+      reasoning+= t.reasoning||0;
+      cacheW  += (t.cache?.write||0);
+      cacheR  += (t.cache?.read||0);
+      total   += t.total||0;
+    }
+
+    for (const p of (msg.parts||[])) {
+      if (p.type==='tool') {
+        toolCounts[p.tool]=(toolCounts[p.tool]||0)+1;
+        if (p.tool==='task' && p.input?.subagent_type) {
+          subagents.push({from:ag, to:p.input.subagent_type, desc:p.input.description||''});
+        }
+      }
+      if (p.type==='reasoning') reasoningBlocks++;
+    }
+  }
+  return {cost,input,output,reasoning,cacheW,cacheR,total,
+          toolCounts,userMsgs,asstMsgs,reasoningBlocks,subagents,agentSeq};
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════════════ */
+function renderSidebar(data, stats) {
+  const as = agentStyle(data.agent);
+  document.getElementById('sb-meta').innerHTML = `
+    <div class="meta-row"><span class="meta-label">Title</span><span class="meta-val" style="font-weight:600">${esc(data.title||'—')}</span></div>
+    <div class="meta-row"><span class="meta-label">ID</span><span class="meta-val" style="font-family:monospace;font-size:10px">${esc(data.id)}</span></div>
+    <div class="meta-row"><span class="meta-label">Slug</span><span class="meta-val">${esc(data.slug||'—')}</span></div>
+    <div class="meta-row"><span class="meta-label">Directory</span><span class="meta-val" style="font-size:10px;word-break:break-all">${esc(data.directory||'—')}</span></div>
+    <div class="meta-row"><span class="meta-label">Agent</span><span class="meta-val"><span class="badge" style="background:${as.bg};color:${as.color}">${esc(data.agent||'—')}</span></span></div>
+    <div class="meta-row"><span class="meta-label">Model</span><span class="meta-val" style="font-size:11px">${esc((data.model||'—').split('@')[0])}</span></div>
+    <div class="meta-row"><span class="meta-label">Created</span><span class="meta-val" style="font-size:11px">${fmtDate(data.time_created)}</span></div>
+    <div class="meta-row"><span class="meta-label">Updated</span><span class="meta-val" style="font-size:11px">${fmtDate(data.time_updated)}</span></div>
+  `;
+
+  document.getElementById('sb-stats').innerHTML = [
+    ['Total Cost',     `<span style="color:var(--orange);font-weight:700">${fmtCost(stats.cost)}</span>`],
+    ['Total Tokens',   fmtTok(stats.total)],
+    ['Input',          fmtTok(stats.input)],
+    ['Output',         fmtTok(stats.output)],
+    ['Cache Write',    fmtTok(stats.cacheW)],
+    ['Cache Read',     `<span style="color:var(--cyan)">${fmtTok(stats.cacheR)}</span>`],
+    ['User Turns',     stats.userMsgs],
+    ['Agent Responses',stats.asstMsgs],
+    ['Reasoning Blocks',stats.reasoningBlocks],
+    ['Subagent Calls', stats.subagents.length],
+  ].map(([l,v])=>`<div class="stat-row"><span class="stat-label">${l}</span><span class="stat-val">${v}</span></div>`).join('');
+
+  const sorted = Object.entries(stats.toolCounts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('sb-tools').innerHTML = sorted.length===0
+    ? '<div style="font-size:12px;color:var(--text3)">No tool calls</div>'
+    : sorted.map(([t,n])=>{
+        const s=toolStyle(t);
+        return `<div class="tool-row">
+          <span class="tool-name" style="background:${s.bg};color:${s.color};padding:2px 8px;border-radius:4px;font-size:11px">${esc(t)}</span>
+          <span style="font-size:12px;color:var(--text2)">×${n}</span>
+        </div>`;
+      }).join('');
+
+  // System prompt
+  const sysPart = (data.messages||[]).find(m=>m.role==='system')?.parts?.find(p=>p.type==='text');
+  document.getElementById('sb-sysprompt').textContent = sysPart?.text || data.system_prompt || '(not available)';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AGENT CHAIN BAR
+═══════════════════════════════════════════════════════════════ */
+function renderChainBar(data, stats) {
+  const msgs = (data.messages||[]).filter(m=>m.role!=='system');
+
+  // Build ordered chain items: [user, agent/subagent, user, agent, ...]
+  const items = [];
+  for (const msg of msgs) {
+    const ag = msg.agent||'build';
+    if (msg.role==='user') {
+      if (!items.length || items[items.length-1].key!=='user') {
+        items.push({key:'user', type:'user'});
+      }
+    } else if (msg.role==='assistant') {
+      const lastKey = items[items.length-1]?.key;
+      if (lastKey!==ag) items.push({key:ag, type:'agent', agent:ag});
+      // Task tool → subagent nodes
+      for (const p of (msg.parts||[])) {
+        if (p.type==='tool' && p.tool==='task' && p.input?.subagent_type) {
+          const sub = p.input.subagent_type;
+          items.push({key:`sub:${sub}`, type:'sub', agent:sub});
+        }
+      }
+    }
+  }
+
+  // Deduplicate adjacent identical keys
+  const chain = items.filter((it,i) => i===0 || it.key !== items[i-1].key);
+
+  document.getElementById('chain-nodes').innerHTML = chain.map((it,i)=>{
+    let pill='';
+    if (it.type==='user') {
+      pill=`<span class="chain-pill" style="background:rgba(88,166,255,.12);border-color:#58a6ff;color:#58a6ff">👤 user</span>`;
+    } else if (it.type==='agent') {
+      const s=agentStyle(it.agent);
+      pill=`<span class="chain-pill" style="background:${s.bg};border-color:${s.border};color:${s.color}">${esc(it.agent)}</span>`;
+    } else {
+      const s=agentStyle(it.agent);
+      pill=`<span class="chain-pill sub" title="Sub-agent delegation" style="background:${s.bg};border-color:${s.border};color:${s.color}">⤷ ${esc(it.agent)}</span>`;
+    }
+    const arrow = i<chain.length-1 ? '<span class="chain-arrow">→</span>' : '';
+    return `<span class="chain-node">${pill}${arrow}</span>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TOOL INPUT RENDERER
+═══════════════════════════════════════════════════════════════ */
+function renderToolInput(p) {
+  const inp = p.input||{};
+  switch(p.tool) {
+    case 'bash':
+      return `<div class="bash-box">
+        <span class="bash-prompt">$</span>
+        <span class="bash-cmd">${esc(inp.command||'')}</span>
+      </div>
+      ${inp.description?`<div class="bash-desc">${esc(inp.description)}</div>`:''}
+      ${inp.timeout?`<div class="bash-desc">timeout: ${fmtMs(inp.timeout)}</div>`:''}`;
+
+    case 'read':
+      return `<div class="mono-display"><span class="k">filePath</span>: <span class="s">${esc(inp.filePath||'')}</span>${inp.offset!==undefined?`\n<span class="k">offset</span>: <span class="n">${inp.offset}</span>`:''}${inp.limit!==undefined?`\n<span class="k">limit</span>: <span class="n">${inp.limit}</span>`:''}</div>`;
+
+    case 'write':
+      return `<div class="mono-display"><span class="k">filePath</span>: <span class="s">${esc(inp.filePath||'')}</span></div>
+      <details style="margin-top:6px">
+        <summary>Content (${String(inp.content||'').length.toLocaleString()} chars)</summary>
+        <pre style="font-size:11px;margin-top:6px;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;overflow-x:auto;max-height:160px;white-space:pre-wrap">${esc(String(inp.content||'').slice(0,3000))}${(inp.content||'').length>3000?'\n…truncated':''}
+        </pre>
+      </details>`;
+
+    case 'edit':
+      return `<div class="mono-display"><span class="k">filePath</span>: <span class="s">${esc(inp.filePath||'')}</span></div>
+      <div class="diff-grid" style="margin-top:8px">
+        <div>
+          <div class="diff-label diff-old">− Remove</div>
+          <pre class="diff-pre old">${esc(String(inp.oldString||'').slice(0,600))}</pre>
+        </div>
+        <div>
+          <div class="diff-label diff-new">+ Add</div>
+          <pre class="diff-pre new">${esc(String(inp.newString||'').slice(0,600))}</pre>
+        </div>
+      </div>`;
+
+    case 'glob':
+      return `<div class="mono-display"><span class="k">pattern</span>: <span class="s">${esc(inp.pattern||'')}</span>${inp.path?`\n<span class="k">path</span>: <span class="s">${esc(inp.path)}</span>`:''}</div>`;
+
+    case 'grep':
+      return `<div class="mono-display"><span class="k">pattern</span>: <span class="s">${esc(inp.pattern||'')}</span>${inp.path?`\n<span class="k">path</span>: <span class="s">${esc(inp.path)}</span>`:''}${inp.include?`\n<span class="k">include</span>: <span class="s">${esc(inp.include)}</span>`:''}</div>`;
+
+    case 'task': {
+      const sub = inp.subagent_type||'?';
+      const as = agentStyle(sub);
+      return `<div class="task-box">
+        <div class="task-del">
+          <span style="color:var(--text2);font-size:12px">Delegates to</span>
+          <span class="task-arrow">→</span>
+          <span class="badge" style="background:${as.bg};color:${as.color}">${esc(sub)}</span>
+          <span style="color:var(--text3);font-size:11px">agent</span>
+        </div>
+        ${inp.description?`<div class="mono-display" style="font-size:12px"><span class="k">description</span>: <span class="s">${esc(inp.description)}</span></div>`:''}
+        ${inp.prompt?`<div style="margin-top:4px"><div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:700;text-transform:uppercase">Prompt</div><div class="task-prompt-preview">${esc(inp.prompt)}</div></div>`:''}
+      </div>`;
+    }
+
+    case 'skill':
+      return `<div class="mono-display"><span class="k">name</span>: <span class="s">${esc(inp.name||'')}</span></div>`;
+
+    case 'todowrite': {
+      const todos = inp.todos||[];
+      return `<div class="todo-list">${todos.map(t=>`
+        <div class="todo-item">
+          <span class="todo-icon">${TODO_ICONS[t.status]||'⏳'}</span>
+          <span class="todo-text ${t.status==='completed'?'done':''}">${esc(t.content||'')}</span>
+          ${t.priority?`<span class="prio ${t.priority}">${t.priority}</span>`:''}
+        </div>`).join('')}</div>`;
+    }
+
+    case 'webfetch':
+      return `<div class="mono-display"><span class="k">url</span>: <a href="${esc(inp.url||'')}" target="_blank" rel="noopener noreferrer">${esc(inp.url||'')}</a>${inp.format?`\n<span class="k">format</span>: <span class="s">${esc(inp.format)}</span>`:''}</div>`;
+
+    case 'question': {
+      const qs = inp.questions||[];
+      return `<div style="display:flex;flex-direction:column;gap:10px">${qs.map(q=>`
+        <div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden">
+          <div style="padding:7px 10px;background:var(--bg3);font-size:12px;font-weight:600">${esc(q.header||q.question||'')}</div>
+          <div style="padding:6px 10px;font-size:12px;color:var(--text2)">${esc(q.question||'')}</div>
+          <div style="padding:6px 10px;display:flex;flex-direction:column;gap:4px">
+            ${(q.options||[]).map(o=>`<div style="display:flex;gap:8px;font-size:12px;padding:4px 8px;background:var(--bg);border-radius:4px;border:1px solid var(--border)">
+              <span style="font-weight:600">${esc(o.label||'')}</span>
+              ${o.description?`<span style="color:var(--text3)">— ${esc(o.description)}</span>`:''}
+            </div>`).join('')}
+          </div>
+        </div>`).join('')}</div>`;
+    }
+
+    default:
+      return `<pre class="mono-display" style="white-space:pre-wrap">${esc(JSON.stringify(inp,null,2))}</pre>`;
+  }
+}
+
+function toolSummary(p) {
+  const inp = p.input||{};
+  switch(p.tool) {
+    case 'bash':     return trunc(inp.command||inp.description||'', 70);
+    case 'read':     return inp.filePath||'';
+    case 'write':    return inp.filePath||'';
+    case 'edit':     return inp.filePath||'';
+    case 'glob':     return inp.pattern||'';
+    case 'grep':     return inp.pattern||'';
+    case 'task':     return `→ ${inp.subagent_type||'?'}: ${trunc(inp.description||inp.prompt||'',50)}`;
+    case 'skill':    return inp.name||'';
+    case 'todowrite':return `${(inp.todos||[]).length} todos`;
+    case 'webfetch':  return trunc(inp.url||'',70);
+    case 'question':  return (inp.questions||[]).map(q=>q.header||q.question||'').join('; ').slice(0,70);
+    default:          return p.title||trunc(JSON.stringify(inp),60);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PART RENDERERS
+═══════════════════════════════════════════════════════════════ */
+let _pid = 0;
+function pid() { return 'p'+(++_pid); }
+
+function renderText(part, role) {
+  if (role==='system') {
+    return `<div class="md-text sys-text">${esc(part.text||'')}</div>`;
+  }
+  return `<div class="md-text">${md(part.text||'')}</div>`;
+}
+
+function renderReasoning(part) {
+  const id=pid();
+  return `<div class="reasoning-block" id="${id}">
+    <div class="reasoning-hdr" onclick="tog('${id}')">
+      <span>🧠</span>
+      <span class="reasoning-title">Thinking</span>
+      ${part.duration_ms?`<span class="reasoning-dur">${fmtMs(part.duration_ms)}</span>`:''}
+      <span class="reasoning-caret">▼</span>
+    </div>
+    <div class="reasoning-body md-text">${md(part.text||'')}</div>
+  </div>`;
+}
+
+function renderTool(part) {
+  const id=pid();
+  const s=toolStyle(part.tool);
+  const rawOutput = String(part.output||'');
+  const LIMIT=2000;
+  const truncated = rawOutput.length>LIMIT;
+  const outKey = id+'_out';
+  if (truncated) FULL_OUTPUTS.set(outKey, rawOutput);
+
+  return `<div class="tool-block" id="${id}">
+    <div class="tool-hdr" onclick="tog('${id}')">
+      <span class="tool-name" style="background:${s.bg};color:${s.color}">${esc(part.tool||'tool')}</span>
+      <span class="tool-subtitle">${esc(toolSummary(part))}</span>
+      <span class="status-pill ${part.status||'completed'}">${part.status||'ok'}</span>
+      ${part.duration_ms?`<span class="tool-dur">${fmtMs(part.duration_ms)}</span>`:''}
+      <span class="tool-caret">▼</span>
+    </div>
+    <div class="tool-body">
+      <div class="tool-sec">
+        <div class="tool-sec-lbl">Input</div>
+        ${renderToolInput(part)}
+      </div>
+      ${rawOutput?`<div class="tool-sec">
+        <div class="tool-sec-lbl">Output</div>
+        <div class="out-text ${truncated?'truncated':''}" id="${outKey}">${esc(rawOutput.slice(0,LIMIT))}</div>
+        ${truncated?`<button class="show-more" onclick="showMore('${outKey}')">▼ Show full output (${rawOutput.length.toLocaleString()} chars)</button>`:''}
+      </div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderStepFinish(part) {
+  const r=part.reason||'stop';
+  const t=part.tokens;
+  return `<div class="step-end-bar">
+    <span class="reason-pill ${r}">${r}</span>
+    ${t?`<span>↑ ${fmtTok(t.output)} out</span>
+         <span style="color:var(--text3)">·</span>
+         <span>${fmtTok(t.input)} in</span>
+         ${t.cache?.read?`<span style="color:var(--text3)">·</span><span style="color:var(--cyan)">⚡ ${fmtTok(t.cache.read)} cache hit</span>`:''}
+         ${t.cache?.write?`<span style="color:var(--text3)">·</span><span>${fmtTok(t.cache.write)} written</span>`:''}
+        `:''}
+    ${part.cost?`<span class="step-cost">${fmtCost(part.cost)}</span>`:''}
+  </div>`;
+}
+
+function renderPart(part, role, msgIdx, partIdx) {
+  switch(part.type) {
+    case 'text':       return renderText(part, role);
+    case 'reasoning':  return renderReasoning(part);
+    case 'tool':       return renderTool(part);
+    case 'step-start': return `<div class="step-start-div">step</div>`;
+    case 'step-finish':return renderStepFinish(part);
+    case 'patch': {
+      const files=(part.files||[]).map(f=>`<span class="patch-file">${esc(f)}</span>`).join('');
+      return `<div class="patch-row"><span style="color:var(--orange)">📦 Patch</span><div class="patch-files">${files||'—'}</div></div>`;
+    }
+    case 'compaction':
+      return `<div class="compact-row">↺ Context compaction event</div>`;
+    default:
+      return `<div style="font-size:11px;color:var(--text3)">[${esc(part.type)}]</div>`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MESSAGE RENDERER
+═══════════════════════════════════════════════════════════════ */
+function renderMessage(msg, idx) {
+  const role=msg.role||'user';
+  const hasError=!!msg.error;
+  const as=agentStyle(msg.agent||'build');
+
+  let tokHtml='';
+  if (msg.cost||msg.tokens) {
+    const t=msg.tokens||{};
+    tokHtml=`<div class="tok-info">
+      ${msg.cost?`<span class="cost">${fmtCost(msg.cost)}</span>`:''}
+      ${t.total?`<span>${fmtTok(t.total)} tok</span>`:''}
+      ${t.cache?.read?`<span style="color:var(--cyan)">⚡${fmtTok(t.cache.read)}</span>`:''}
+    </div>`;
+  }
+
+  const partsHtml = (msg.parts||[]).map((p,pi)=>renderPart(p,role,idx,pi)).join('');
+  const errHtml = hasError
+    ? `<div class="err-block">Error: ${esc(msg.error?.data?.message||JSON.stringify(msg.error))}</div>`
+    : '';
+
+  const collapsed = role==='system' ? ' collapsed' : '';
+
+  return `<div class="msg-card r-${role}${hasError?' r-error':''}${collapsed}" id="msg-${idx}" data-role="${role}">
+    <div class="msg-header" onclick="toggleMsg('msg-${idx}')">
+      <span class="role-pill ${role}">${role}</span>
+      ${msg.agent?`<span class="agent-pill" style="border-color:${as.border};color:${as.color}">${esc(msg.agent)}</span>`:''}
+      ${tokHtml}
+      <span class="msg-time">${fmtDate(msg.time_created)}</span>
+      <span class="msg-caret">▼</span>
+    </div>
+    <div class="msg-body">
+      ${partsHtml||'<div style="font-size:12px;color:var(--text3)">(empty)</div>'}
+      ${errHtml}
+    </div>
+  </div>`;
+}
+
+function renderMessages(data) {
+  const container=document.getElementById('msgs');
+  _pid=0;
+  const msgs=data.messages||[];
+  document.getElementById('msg-count').textContent=msgs.length+' messages';
+  container.innerHTML=msgs.map((m,i)=>renderMessage(m,i)).join('');
+  container.querySelectorAll('pre code').forEach(el=>{
+    try { hljs.highlightElement(el); } catch(e){}
+  });
+  buildRoundNav(msgs);
+  applyFilter(currentFilter);
+}
+
+let _navMsgs = [];
+
+function buildRoundNav(msgs) {
+  _navMsgs = msgs;
+  const nav = document.getElementById('round-nav');
+  nav.innerHTML = msgs.map((msg, i) => {
+    const role = msg.role||'user';
+    if (role === 'system') return '';
+    const cls = role==='user' ? 'u' : 'a';
+    return `<div class="rn ${cls}" onclick="scrollToMsg(${i})" id="rn-${i}" data-idx="${i}"></div>`;
+  }).join('');
+
+  setupNavObserver(msgs);
+  setupNavTooltip();
+}
+
+/* ─── NAV TOOLTIP ─────────────────────────────────────────────── */
+function setupNavTooltip() {
+  const nav = document.getElementById('round-nav');
+  const tip = document.getElementById('nav-tip');
+  let hideTimer;
+
+  nav.addEventListener('mouseover', e => {
+    const rn = e.target.closest('.rn');
+    if (!rn) return;
+    clearTimeout(hideTimer);
+    const idx = parseInt(rn.dataset.idx);
+    const msg = _navMsgs[idx];
+    if (!msg) return;
+
+    const role = msg.role||'user';
+    const as = agentStyle(msg.agent||'build');
+    const parts = msg.parts||[];
+    const firstText = parts.find(p=>p.type==='text')?.text||'';
+    const tools = parts.filter(p=>p.type==='tool');
+    const reasoning = parts.filter(p=>p.type==='reasoning');
+
+    // Header
+    let html = `<div class="nt-header">
+      <span class="role-pill ${role}">${role}</span>
+      ${msg.agent ? `<span class="agent-pill" style="border-color:${as.border};color:${as.color}">${esc(msg.agent)}</span>` : ''}
+      ${reasoning.length ? `<span style="font-size:11px;color:var(--yellow)">🧠 ×${reasoning.length}</span>` : ''}
+    </div>`;
+
+    // Text preview
+    if (firstText) {
+      html += `<div class="nt-text">${esc(firstText.slice(0,220))}</div>`;
+    }
+
+    // Tool badges
+    if (tools.length) {
+      // Deduplicate tool names with counts
+      const tc = {};
+      tools.forEach(t => tc[t.tool] = (tc[t.tool]||0)+1);
+      html += `<div class="nt-tools">${Object.entries(tc).map(([name, n])=>{
+        const s = toolStyle(name);
+        return `<span class="nt-tool" style="background:${s.bg};color:${s.color}">${esc(name)}${n>1?` ×${n}`:''}</span>`;
+      }).join('')}</div>`;
+    }
+
+    // Stats row for assistant
+    if (msg.cost || msg.tokens) {
+      const t = msg.tokens||{};
+      html += `<div class="nt-stats">
+        ${msg.cost ? `<span><span class="nt-stat-val" style="color:var(--orange)">${fmtCost(msg.cost)}</span></span>` : ''}
+        ${t.output ? `<span><span class="nt-stat-val">${fmtTok(t.output)}</span> out</span>` : ''}
+        ${t.cache?.read ? `<span><span class="nt-stat-val" style="color:var(--cyan)">⚡${fmtTok(t.cache.read)}</span> cache</span>` : ''}
+      </div>`;
+    }
+
+    tip.innerHTML = html;
+
+    // Position: to the left of the nav rail, vertically centred on the dash
+    const rnRect = rn.getBoundingClientRect();
+    const tipW = 260, tipH = tip.scrollHeight || 160;
+    const left = rnRect.left - tipW - 10;
+    let top = rnRect.top + rnRect.height/2 - tipH/2;
+    top = Math.max(8, Math.min(window.innerHeight - tipH - 8, top));
+    tip.style.left = Math.max(4, left) + 'px';
+    tip.style.top  = top + 'px';
+    tip.style.right = 'auto';
+    tip.classList.add('show');
+  });
+
+  nav.addEventListener('mouseleave', () => {
+    hideTimer = setTimeout(() => tip.classList.remove('show'), 80);
+  });
+}
+
+let _navObserver = null;
+function setupNavObserver(msgs) {
+  if (_navObserver) _navObserver.disconnect();
+  const area = document.getElementById('msg-area');
+  _navObserver = new IntersectionObserver(entries => {
+    // find the topmost visible message
+    let topIdx = -1, topY = Infinity;
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const y = e.boundingClientRect.top;
+        if (y >= 0 && y < topY) { topY = y; topIdx = parseInt(e.target.dataset.idx); }
+      }
+    });
+    if (topIdx >= 0) {
+      document.querySelectorAll('.rn').forEach(el => el.classList.remove('active'));
+      const active = document.getElementById('rn-'+topIdx);
+      if (active) {
+        active.classList.add('active');
+        // keep active dot visible inside the nav strip
+        active.scrollIntoView({block:'nearest'});
+      }
+    }
+  }, { root: area, threshold: 0.1 });
+
+  document.querySelectorAll('.msg-card').forEach(el => {
+    el.dataset.idx = el.id.replace('msg-','');
+    _navObserver.observe(el);
+  });
+}
+
+function scrollToMsg(idx) {
+  const el = document.getElementById('msg-'+idx);
+  const area = document.getElementById('msg-area');
+  if (!el || !area) return;
+  // expand if collapsed
+  el.classList.remove('collapsed');
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FILTERING & TOGGLING
+═══════════════════════════════════════════════════════════════ */
+function tog(id) {
+  const el=document.getElementById(id);
+  if(el) el.classList.toggle('collapsed');
+}
+function toggleMsg(id) { tog(id); }
+
+function setFilter(f, btn) {
+  currentFilter=f;
+  document.querySelectorAll('.chip').forEach(c=>{
+    if (['all','user','assistant','tools','reasoning'].some(x=>c.textContent.toLowerCase().includes(x))) {
+      c.classList.remove('active');
+    }
+  });
+  btn.classList.add('active');
+  applyFilter(f);
+}
+
+function applyFilter(f) {
+  document.querySelectorAll('.msg-card').forEach(card=>{
+    const role=card.dataset.role;
+    const hasTools=card.querySelectorAll('.tool-block').length>0;
+    const hasReasoning=card.querySelectorAll('.reasoning-block').length>0;
+    let show=true;
+    if (f==='user')      show=role==='user';
+    else if(f==='assistant') show=role==='assistant';
+    else if(f==='tools') show=hasTools;
+    else if(f==='reasoning') show=hasReasoning;
+    card.style.display=show?'':'none';
+  });
+}
+
+function expandAll() {
+  document.querySelectorAll('.msg-card,.tool-block,.reasoning-block').forEach(el=>{
+    el.classList.remove('collapsed');
+  });
+}
+
+function collapseAll() {
+  document.querySelectorAll('.msg-card,.tool-block,.reasoning-block').forEach(el=>{
+    el.classList.add('collapsed');
+  });
+}
+
+function showMore(key) {
+  const el=document.getElementById(key);
+  if (!el) return;
+  const full=FULL_OUTPUTS.get(key)||'';
+  el.textContent=full;
+  el.classList.remove('truncated');
+  const btn=el.nextElementSibling;
+  if (btn?.classList.contains('show-more')) btn.remove();
+}
+
+function copyCode(btn) {
+  const pre=btn.closest('pre');
+  const code=pre.querySelector('code')?.textContent||pre.textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',1500);
+  }).catch(()=>{});
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VIEW SESSION
+═══════════════════════════════════════════════════════════════ */
+let activeSessionIndex = -1;
+
+function viewSession(data, idx) {
+  currentSession = data;
+  activeSessionIndex = (idx !== undefined) ? idx : sessions.indexOf(data);
+
+  hide('upload-screen');
+  show('viewer-screen');
+  document.getElementById('load-btn').classList.remove('hidden');
+
+  const navTitle = document.getElementById('nav-title');
+  navTitle.textContent = data.title || data.id;
+  navTitle.classList.remove('hidden');
+  document.title = `${data.title||data.id} · OpenCode Visualizer`;
+
+  // Update active highlight in session panel
+  document.querySelectorAll('.sp-item').forEach((el, i) => {
+    el.classList.toggle('active', i === activeSessionIndex);
+  });
+
+  const stats = computeStats(data);
+  renderSidebar(data, stats);
+  renderChainBar(data, stats);
+  renderMessages(data);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SESSION PANEL
+═══════════════════════════════════════════════════════════════ */
+function buildSessionPanel() {
+  document.getElementById('sp-count').textContent = sessions.length;
+  document.getElementById('sp-list').innerHTML = sessions.map((data, i) => {
+    const stats = computeStats(data);
+    const as = agentStyle(data.agent || 'build');
+    const toolCount = Object.values(stats.toolCounts).reduce((a, b) => a + b, 0);
+    return `<div class="sp-item ${i===activeSessionIndex?'active':''}" onclick="viewSession(sessions[${i}],${i})">
+      <div class="sp-item-title" title="${esc(data.title||data.id)}">${esc(data.title||data.id)}</div>
+      <div class="sp-item-meta">
+        <span class="badge" style="background:${as.bg};color:${as.color};font-size:10px;padding:1px 6px">${esc(data.agent||'build')}</span>
+        <span style="font-size:11px;color:var(--orange)">${fmtCost(stats.cost)}</span>
+        <span style="font-size:11px;color:var(--text3)">${toolCount} tools</span>
+      </div>
+      <div class="sp-item-date">${fmtDateShort(data.time_created)}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterSessionPanel() {
+  const q = document.getElementById('sp-search').value.toLowerCase();
+  document.querySelectorAll('.sp-item').forEach((el, i) => {
+    const d = sessions[i];
+    const text = (d.title||'') + ' ' + (d.agent||'');
+    el.style.display = text.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function toggleSessionPanel() {
+  const panel = document.getElementById('session-panel');
+  panel.classList.toggle('collapsed');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+
+/* ═══════════════════════════════════════════════════════════════
+   FILE LOADING
+═══════════════════════════════════════════════════════════════ */
+function pickFiles() { document.getElementById('file-input').click(); }
+
+function onFilePick(e) {
+  loadFiles(e.target.files);
+  e.target.value = '';
+}
+
+function loadFiles(fileList) {
+  const files = Array.from(fileList);
+  if (!files.length) return;
+
+  Promise.all(files.map(f => f.text().then(txt => {
+    try { return JSON.parse(txt); } catch(e) { return null; }
+  }))).then(results => {
+    const valid = results.filter(Boolean);
+    if (!valid.length) { alert('No valid JSON session files found.'); return; }
+
+    valid.sort((a, b) => new Date(b.time_created||0) - new Date(a.time_created||0));
+    sessions = [...sessions, ...valid];
+
+    hide('upload-screen');
+    document.getElementById('load-btn').classList.remove('hidden');
+
+    if (sessions.length > 1) {
+      // Show and open the session panel
+      const panel = document.getElementById('session-panel');
+      panel.classList.remove('collapsed');
+      document.getElementById('sessions-btn').classList.remove('hidden');
+      buildSessionPanel();
+    }
+
+    // Always open the first (or newly added first) session
+    viewSession(sessions[0], 0);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DRAG & DROP
+═══════════════════════════════════════════════════════════════ */
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{ e.preventDefault(); dz.classList.remove('over'); loadFiles(e.dataTransfer.files); });
+
+// Allow dropping anywhere on the window
+window.addEventListener('dragover',e=>e.preventDefault());
+window.addEventListener('drop',e=>{
+  e.preventDefault();
+  if (e.dataTransfer.files.length) loadFiles(e.dataTransfer.files);
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════════════════════════════ */
+const SUN='<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+const MOON='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+function toggleTheme() {
+  const html=document.documentElement;
+  const isDark=html.dataset.theme==='dark';
+  html.dataset.theme=isDark?'light':'dark';
+  document.getElementById('hljs-dark').disabled=isDark;
+  document.getElementById('hljs-light').disabled=!isDark;
+  document.getElementById('theme-icon').innerHTML=isDark?SUN:MOON;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+═══════════════════════════════════════════════════════════════ */
+document.addEventListener('keydown',e=>{
+  if (e.key==='Escape' && sessions.length>1) toggleSessionPanel();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+marked.use({gfm:true, breaks:true});
+</script>
+</body>
+</html>

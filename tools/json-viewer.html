@@ -24,14 +24,17 @@
       height: 52px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-shrink: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .header-brand {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     .header-icon {
@@ -50,25 +53,30 @@
       font-size: 0.95rem;
       font-weight: 600;
       color: #e6edf3;
+      white-space: nowrap;
     }
 
     .header-sub {
       font-size: 0.75rem;
       color: #7d8590;
+      white-space: nowrap;
     }
 
     .header-sep {
       width: 1px;
       height: 24px;
       background: #30363d;
+      flex-shrink: 0;
     }
 
     .header-actions {
-      margin-left: auto;
       display: flex;
       gap: 6px;
       align-items: center;
+      flex-shrink: 0;
     }
+
+    .header-spacer { margin-left: auto; }
 
     .hbtn {
       padding: 5px 13px;
@@ -79,43 +87,187 @@
       font-weight: 500;
       transition: all 0.12s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .hbtn:active { transform: scale(0.96); }
+    .hbtn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
     .btn-ghost {
       background: transparent;
       border-color: #30363d;
       color: #8b949e;
     }
-    .btn-ghost:hover { background: #21262d; color: #c9d1d9; border-color: #8b949e; }
+    .btn-ghost:hover:not(:disabled) { background: #21262d; color: #c9d1d9; border-color: #8b949e; }
 
     .btn-primary {
       background: #238636;
       border-color: #2ea043;
       color: #fff;
     }
-    .btn-primary:hover { background: #2ea043; }
+    .btn-primary:hover:not(:disabled) { background: #2ea043; }
 
     .btn-accent {
       background: #1f3040;
       border-color: #2f81f7;
       color: #79c0ff;
     }
-    .btn-accent:hover { background: #2f81f726; }
+    .btn-accent:hover:not(:disabled) { background: #2f81f726; }
 
     .btn-danger {
       background: transparent;
       border-color: #30363d;
       color: #8b949e;
     }
-    .btn-danger:hover { background: #3d1b1b; border-color: #f85149; color: #f85149; }
+    .btn-danger:hover:not(:disabled) { background: #3d1b1b; border-color: #f85149; color: #f85149; }
 
-    /* ── Main ───────────────────────────────────────────────────────── */
+    /* ── Mode switch ────────────────────────────────────────────────── */
+    .mode-switch {
+      display: flex;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 7px;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: #8b949e;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .mode-btn:hover { color: #c9d1d9; }
+    .mode-btn.active { background: #30363d; color: #e6edf3; }
+
+    /* ── Checkbox label ─────────────────────────────────────────────── */
+    .chk-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: #8b949e;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chk-label input { accent-color: #4f46e5; width: 13px; height: 13px; cursor: pointer; }
+    .chk-label:hover { color: #c9d1d9; }
+
+    /* ── Diff nav (header) ──────────────────────────────────────────── */
+    .diff-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .diff-nav-btn { padding: 5px 9px; }
+    .diff-pos {
+      font-size: 0.74rem;
+      color: #8b949e;
+      min-width: 52px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Tab bar ────────────────────────────────────────────────────── */
+    .tabbar {
+      background: #0d1117;
+      border-bottom: 1px solid #30363d;
+      display: flex;
+      align-items: stretch;
+      height: 36px;
+      flex-shrink: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+    }
+    .tabbar::-webkit-scrollbar { height: 5px; }
+    .tabbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 8px 0 12px;
+      border-right: 1px solid #21262d;
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: #8b949e;
+      white-space: nowrap;
+      max-width: 190px;
+      flex-shrink: 0;
+      position: relative;
+      user-select: none;
+    }
+    .tab:hover { background: #161b22; color: #c9d1d9; }
+    .tab.active { background: #0d1117; color: #e6edf3; }
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: -1px;
+      height: 2px;
+      background: #4f46e5;
+    }
+    .tab-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .tab-dot.valid   { background: #3fb950; }
+    .tab-dot.invalid { background: #f85149; }
+    .tab-dot.empty   { background: #484f58; }
+
+    .tab-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 120px;
+    }
+    .tab-name[contenteditable="true"] {
+      outline: 1px solid #4f46e5;
+      background: #161b22;
+      border-radius: 3px;
+      padding: 0 3px;
+      cursor: text;
+      max-width: none;
+    }
+
+    .tab-close {
+      width: 16px; height: 16px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      color: #6e7681;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .tab-close:hover { background: #30363d; color: #f0f6fc; }
+
+    .tab-add {
+      width: 34px;
+      display: flex; align-items: center; justify-content: center;
+      color: #6e7681;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-size: 1rem;
+      border-right: 1px solid #21262d;
+    }
+    .tab-add:hover { background: #161b22; color: #c9d1d9; }
+
+    /* ── Main / views ───────────────────────────────────────────────── */
     main {
       flex: 1;
       display: flex;
       overflow: hidden;
       min-height: 0;
+    }
+
+    .view {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 0;
+      min-width: 0;
     }
 
     /* ── Panel ──────────────────────────────────────────────────────── */
@@ -160,6 +312,7 @@
       margin-left: auto;
       font-size: 0.72rem;
       color: #484f58;
+      white-space: nowrap;
     }
 
     /* ── Left panel (input) ─────────────────────────────────────────── */
@@ -236,9 +389,34 @@
       padding: 4px;
       font-style: italic;
     }
+    .viewer-placeholder-error { color: #f85149; }
+
+    /* ── Empty state (compare view) ─────────────────────────────────── */
+    .empty-state {
+      max-width: 420px;
+      margin: 48px auto 0;
+      text-align: center;
+      color: #6e7681;
+    }
+    .empty-state-icon {
+      font-size: 1.6rem;
+      color: #30363d;
+      margin-bottom: 10px;
+    }
+    .empty-state-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #8b949e;
+      margin-bottom: 6px;
+    }
+    .empty-state-sub {
+      font-size: 0.8rem;
+      color: #6e7681;
+      line-height: 1.6;
+    }
 
     /* ── JSON Tree ──────────────────────────────────────────────────── */
-    #viewer {
+    #viewer, #diff-viewer {
       font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
       font-size: 0.82rem;
       line-height: 1.75;
@@ -249,7 +427,7 @@
       display: flex;
       align-items: baseline;
       border-radius: 3px;
-      padding: 0 2px;
+      padding: 0 4px 0 0;
     }
     .jn-head:hover, .jn-leaf:hover { background: #161b22; }
 
@@ -284,7 +462,7 @@
     .jb    { color: #8b949e; }              /* bracket  { } [ ]   */
     .jb.click { cursor: pointer; }
     .jb.click:hover { color: #e6edf3; }
-    .jstr  { color: #a5d6a7; }              /* string value        */
+    .jstr  { color: #a5d6a7; white-space: pre-wrap; } /* string value  */
     .jnum  { color: #f2cc60; }              /* number              */
     .jbool { color: #ff9070; }              /* boolean             */
     .jnull { color: #7d8590; font-style: italic; }  /* null       */
@@ -307,6 +485,141 @@
       color: #484f58;
       font-style: italic;
       user-select: none;
+    }
+    .sum-changed { color: #e3b341; font-style: normal; }
+
+    /* ── Diff mode ──────────────────────────────────────────────────── */
+    .diff-marker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 13px;
+      min-width: 13px;
+      height: 1.75em;
+      flex-shrink: 0;
+      font-weight: 700;
+      user-select: none;
+    }
+    .jn-head.diff-added, .jn-leaf.diff-added, .jn-tail.diff-added {
+      background: rgba(63, 185, 80, 0.13);
+    }
+    .diff-added .diff-marker { color: #3fb950; }
+    .jn-head.diff-removed, .jn-leaf.diff-removed, .jn-tail.diff-removed {
+      background: rgba(248, 81, 73, 0.13);
+    }
+    .diff-removed .diff-marker { color: #f85149; }
+    .jn-leaf.diff-changed { background: rgba(230, 179, 65, 0.13); }
+    .diff-changed .diff-marker { color: #e3b341; }
+    .diff-old-val { color: #f5a3a0 !important; text-decoration: line-through; text-decoration-color: rgba(248,81,73,0.6); opacity: 0.85; }
+    .diff-new-val { color: #7ee787 !important; }
+    .diff-arrow { color: #6e7681; }
+
+    @keyframes diffFlashPulse {
+      0%   { box-shadow: 0 0 0 2px #4f46e5; }
+      100% { box-shadow: 0 0 0 2px transparent; }
+    }
+    .diff-flash { animation: diffFlashPulse 1s ease-out; border-radius: 4px; }
+
+    /* ── Compare toolbar ────────────────────────────────────────────── */
+    .compare-toolbar {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 0 16px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .compare-select-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+    .compare-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .tag-old { background: rgba(248,81,73,0.13); color: #f85149; }
+    .tag-new { background: rgba(63,185,80,0.13); color: #3fb950; }
+
+    .compare-toolbar select {
+      background: #0d1117;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 0.78rem;
+      max-width: 180px;
+      cursor: pointer;
+    }
+    .compare-toolbar select:hover { border-color: #8b949e; }
+    .compare-toolbar select:focus { outline: none; border-color: #4f46e5; }
+
+    .icon-btn {
+      width: 26px; height: 26px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: transparent;
+      color: #8b949e;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .icon-btn:hover { background: #21262d; color: #c9d1d9; border-color: #8b949e; }
+
+    .diff-summary {
+      font-size: 0.76rem;
+      color: #6e7681;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .diff-summary-some { color: #e3b341; }
+    .diff-summary-none { color: #3fb950; }
+
+    /* ── Dropzone overlay ───────────────────────────────────────────── */
+    .dropzone {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 17, 23, 0.92);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .dropzone.active { display: flex; }
+    .dropzone-inner {
+      border: 2px dashed #4f46e5;
+      border-radius: 16px;
+      padding: 56px 72px;
+      text-align: center;
+    }
+    .dropzone-icon {
+      width: 52px; height: 52px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+    .dropzone-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    .dropzone-sub {
+      font-size: 0.8rem;
+      color: #8b949e;
+      margin-top: 6px;
     }
 
     /* ── Toast ──────────────────────────────────────────────────────── */
@@ -334,7 +647,7 @@
 
     /* ── Responsive ─────────────────────────────────────────────────── */
     @media (max-width: 680px) {
-      main { flex-direction: column; }
+      .view-edit { flex-direction: column; }
       .panel-left { border-right: none; border-bottom: 1px solid #30363d; }
       .divider { width: 100%; height: 5px; cursor: row-resize; }
       .header-sub { display: none; }
@@ -343,59 +656,109 @@
 </head>
 <body>
 
+<input type="file" id="file-input" accept=".json,application/json,text/plain" multiple hidden>
+
+<div class="dropzone" id="dropzone">
+  <div class="dropzone-inner">
+    <div class="dropzone-icon">{ }</div>
+    <div class="dropzone-text">Drop JSON files to open</div>
+    <div class="dropzone-sub">Each file opens in its own tab</div>
+  </div>
+</div>
+
 <header>
   <div class="header-brand">
     <div class="header-icon">{ }</div>
     <div>
       <div class="header-title">JSON Viewer</div>
-      <div class="header-sub">Paste · Prettify · Explore</div>
+      <div class="header-sub">Paste · Compare · Explore</div>
     </div>
   </div>
 
   <div class="header-sep"></div>
 
-  <div class="header-actions">
+  <div class="mode-switch" id="mode-switch">
+    <button class="mode-btn active" data-mode="edit" onclick="setMode('edit')">Edit</button>
+    <button class="mode-btn" data-mode="compare" onclick="setMode('compare')">Compare</button>
+  </div>
+
+  <button class="hbtn btn-ghost" onclick="openFilePicker()" title="Open one or more .json files as new tabs">Open Files</button>
+
+  <div class="header-spacer"></div>
+
+  <div class="header-actions" id="edit-actions">
     <button class="hbtn btn-ghost"   onclick="expandAll()">Expand All</button>
     <button class="hbtn btn-ghost"   onclick="collapseAll()">Collapse All</button>
     <button class="hbtn btn-accent"  onclick="formatInput()">Format <kbd style="opacity:.6;font-size:.72em">Ctrl+↵</kbd></button>
     <button class="hbtn btn-primary" onclick="copyFormatted()">Copy JSON</button>
-    <button class="hbtn btn-danger"  onclick="clearAll()">Clear</button>
+    <button class="hbtn btn-danger"  onclick="clearActiveTab()">Clear</button>
+  </div>
+
+  <div class="header-actions" id="compare-actions" style="display:none">
+    <label class="chk-label"><input type="checkbox" id="hide-unchanged" checked onchange="renderDiff()"> Hide unchanged</label>
+    <div class="header-sep"></div>
+    <div class="diff-nav">
+      <button class="hbtn btn-ghost diff-nav-btn" id="diff-prev" onclick="gotoDiff(-1)" title="Previous difference (Alt+↑)">↑</button>
+      <span class="diff-pos" id="diff-pos">0 / 0</span>
+      <button class="hbtn btn-ghost diff-nav-btn" id="diff-next" onclick="gotoDiff(1)" title="Next difference (Alt+↓)">↓</button>
+    </div>
   </div>
 </header>
 
-<main>
-  <!-- Left: Input ──────────────────────────────────────── -->
-  <div class="panel panel-left" id="panel-left">
-    <div class="panel-bar">
-      <span class="panel-name">Input</span>
-      <span class="badge badge-empty" id="status-badge">Empty</span>
-      <span class="panel-meta" id="input-meta"></span>
+<div class="tabbar" id="tabbar"></div>
+
+<main id="main" data-mode="edit">
+  <!-- Edit view: single document, input + live tree ─────────────────── -->
+  <div class="view view-edit" id="view-edit">
+    <div class="panel panel-left" id="panel-left">
+      <div class="panel-bar">
+        <span class="panel-name">Input</span>
+        <span class="badge badge-empty" id="status-badge">Empty</span>
+        <span class="panel-meta" id="input-meta"></span>
+      </div>
+      <div class="input-wrap">
+        <textarea
+          id="json-input"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          placeholder='Paste or type JSON here…&#10;&#10;{&#10;  "name": "Alice",&#10;  "age": 30,&#10;  "hobbies": ["reading", "coding"],&#10;  "address": {&#10;    "city": "New York",&#10;    "zip": "10001"&#10;  }&#10;}'
+        ></textarea>
+        <div class="error-bar" id="error-bar"></div>
+      </div>
     </div>
-    <div class="input-wrap">
-      <textarea
-        id="json-input"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        placeholder='Paste or type JSON here…&#10;&#10;{&#10;  "name": "Alice",&#10;  "age": 30,&#10;  "hobbies": ["reading", "coding"],&#10;  "address": {&#10;    "city": "New York",&#10;    "zip": "10001"&#10;  }&#10;}'
-      ></textarea>
-      <div class="error-bar" id="error-bar"></div>
+
+    <div class="divider" id="divider"></div>
+
+    <div class="panel" id="panel-right">
+      <div class="panel-bar">
+        <span class="panel-name">Viewer</span>
+        <span class="panel-meta" id="viewer-meta"></span>
+      </div>
+      <div class="viewer-wrap" id="viewer-wrap">
+        <div class="viewer-placeholder">← Paste JSON in the input panel to explore it here</div>
+      </div>
     </div>
   </div>
 
-  <!-- Divider ──────────────────────────────────────────── -->
-  <div class="divider" id="divider"></div>
-
-  <!-- Right: Viewer ────────────────────────────────────── -->
-  <div class="panel" id="panel-right">
-    <div class="panel-bar">
-      <span class="panel-name">Viewer</span>
-      <span class="panel-meta" id="viewer-meta"></span>
-    </div>
-    <div class="viewer-wrap">
-      <div id="viewer">
-        <div class="viewer-placeholder">← Paste JSON in the input panel to explore it here</div>
+  <!-- Compare view: pick any two open tabs, see a git-style diff ────── -->
+  <div class="view view-compare" id="view-compare" style="display:none">
+    <div class="panel" style="flex:1;">
+      <div class="compare-toolbar">
+        <div class="compare-select-group">
+          <span class="compare-tag tag-old">− OLD</span>
+          <select id="compare-old" onchange="onCompareSelectChange()"></select>
+        </div>
+        <button class="icon-btn" id="compare-swap" onclick="swapCompare()" title="Swap old/new">⇄</button>
+        <div class="compare-select-group">
+          <span class="compare-tag tag-new">+ NEW</span>
+          <select id="compare-new" onchange="onCompareSelectChange()"></select>
+        </div>
+        <span class="diff-summary" id="diff-summary"></span>
+      </div>
+      <div class="viewer-wrap" id="diff-viewer-wrap">
+        <div id="diff-viewer"></div>
       </div>
     </div>
   </div>
@@ -404,7 +767,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Generic DOM helpers ────────────────────────────────────────────────────
 function mk(tag, cls) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -425,10 +788,12 @@ function typeOf(v) {
 }
 
 function escStr(s) {
+  // Note: real newline characters are intentionally left as-is (not turned
+  // into the literal "\n" escape sequence) so they render as actual line
+  // breaks in the viewer — paired with `white-space: pre-wrap` on `.jstr`.
   return s
     .replace(/\\/g, '\\\\')
     .replace(/"/g,  '\\"')
-    .replace(/\n/g, '\\n')
     .replace(/\r/g, '\\r')
     .replace(/\t/g, '\\t');
 }
@@ -437,12 +802,26 @@ function displayStr(s) {
   return '"' + escStr(s) + '"';
 }
 
-// ─── Expanded-string preference store (persists across re-renders) ────────────
-// Key: JSON path string (e.g. "address.city", "items[0].desc")
-const expandedStringPaths = new Set();
+function fmtBytes(bytes) {
+  return bytes < 1024 ? `${bytes} B`
+    : bytes < 1048576 ? `${(bytes / 1024).toFixed(1)} KB`
+    : `${(bytes / 1048576).toFixed(2)} MB`;
+}
 
-// ─── Tree builder ─────────────────────────────────────────────────────────────
-function buildNode(val, key, isLast, path = '') {
+function viewerMetaText(data) {
+  const type = typeOf(data);
+  if (type === 'object') {
+    const n = Object.keys(data).length;
+    return `Object · ${n} top-level ${n === 1 ? 'key' : 'keys'}`;
+  }
+  if (type === 'array') {
+    return `Array · ${data.length} ${data.length === 1 ? 'item' : 'items'}`;
+  }
+  return type.charAt(0).toUpperCase() + type.slice(1);
+}
+
+// ─── Plain (non-diff) tree builder — used by the Edit view ─────────────────
+function buildNode(val, key, isLast, path, tab) {
   const type    = typeOf(val);
   const wrapper = mk('div', 'jn');
 
@@ -495,7 +874,7 @@ function buildNode(val, key, isLast, path = '') {
         const childPath = isObj
           ? (path ? path + '.' + k : String(k))
           : (path ? path + '[' + k + ']' : '[' + k + ']');
-        body.appendChild(buildNode(v, isObj ? String(k) : null, i === count - 1, childPath));
+        body.appendChild(buildNode(v, isObj ? String(k) : null, i === count - 1, childPath, tab));
       });
       wrapper.appendChild(body);
 
@@ -549,7 +928,7 @@ function buildNode(val, key, isLast, path = '') {
       const extra      = escaped.length - 200;
       const shortTxt   = '"' + escaped.slice(0, 200) + '…"';
       const fullTxt    = '"' + escaped + '"';
-      const isExpanded = expandedStringPaths.has(path);
+      const isExpanded = tab.expandedPaths.has(path);
 
       const strEl = mk('span', 'jstr jstr-trunc');
       strEl.textContent      = isExpanded ? fullTxt : shortTxt;
@@ -562,13 +941,13 @@ function buildNode(val, key, isLast, path = '') {
       const toggle = () => {
         const exp = strEl.dataset.expanded === '1';
         if (exp) {
-          expandedStringPaths.delete(path);
+          tab.expandedPaths.delete(path);
           strEl.textContent      = shortTxt;
           strEl.title            = 'Click to expand';
           strEl.dataset.expanded = '0';
           hintEl.textContent     = `[+${extra} chars]`;
         } else {
-          expandedStringPaths.add(path);
+          tab.expandedPaths.add(path);
           strEl.textContent      = fullTxt;
           strEl.title            = 'Click to collapse';
           strEl.dataset.expanded = '1';
@@ -591,9 +970,36 @@ function buildNode(val, key, isLast, path = '') {
   return wrapper;
 }
 
-// ─── Expand / Collapse All ────────────────────────────────────────────────────
+function buildPlaceholder(text, isError) {
+  const d = mk('div', 'viewer-placeholder' + (isError ? ' viewer-placeholder-error' : ''));
+  d.textContent = text;
+  return d;
+}
+
+function buildViewerRoot(tab) {
+  const root = buildNode(tab.data, null, true, '', tab);
+  // Auto-expand root if small enough
+  const cnt = parseInt(root.dataset.count || '0');
+  if (cnt > 0 && cnt <= 200) {
+    const body = root.querySelector(':scope > .jn-body');
+    const tail = root.querySelector(':scope > .jn-tail');
+    const head = root.querySelector(':scope > .jn-head');
+    if (body && tail && head) {
+      root.dataset.collapsed = '0';
+      const tog = head.querySelector('.jn-tog');
+      if (tog) tog.textContent = '▼';
+      body.style.display = '';
+      tail.style.display = '';
+      const sumEl = head.querySelector('.jn-sum');
+      if (sumEl) sumEl.style.display = 'none';
+    }
+  }
+  return root;
+}
+
+// ─── Expand / Collapse All (Edit view) ──────────────────────────────────────
 function setAll(collapsed) {
-  document.querySelectorAll('#viewer .jn').forEach(node => {
+  document.querySelectorAll('#viewer-wrap .jn').forEach(node => {
     const count = parseInt(node.dataset.count || '0');
     if (!count) return;
 
@@ -616,126 +1022,296 @@ function setAll(collapsed) {
 function collapseAll() { setAll(true);  showToast('All collapsed'); }
 function expandAll()   { setAll(false); showToast('All expanded');  }
 
-// ─── Render ───────────────────────────────────────────────────────────────────
-let currentData = null;
+// ─── Tab model ───────────────────────────────────────────────────────────────
+// Each tab is an independent JSON document: its own raw text, parsed data,
+// validity state, cached viewer DOM (so switching tabs preserves scroll and
+// expand/collapse state) and its own set of "expanded long string" paths.
+let tabs         = [];
+let activeTabId  = null;
+let mode         = 'edit';        // 'edit' | 'compare'
+let compareOldId   = null;
+let compareNewId   = null;
+let compareUserSet = false; // becomes true once the user explicitly picks tabs to compare
+let tabSeq         = 0;
 
-function renderJSON(data) {
-  currentData = data;
-  const viewer = document.getElementById('viewer');
-  viewer.innerHTML = '';
-  viewer.appendChild(buildNode(data, null, true));
+const STORAGE_KEY = 'jsonViewer.tabs.v1';
 
-  // Auto-expand root if small enough
-  const root = viewer.firstChild;
-  if (root && root.dataset.count) {
-    const cnt = parseInt(root.dataset.count);
-    if (cnt > 0 && cnt <= 200) {
-      const body   = root.querySelector(':scope > .jn-body');
-      const tail   = root.querySelector(':scope > .jn-tail');
-      const head   = root.querySelector(':scope > .jn-head');
-      if (body && tail && head) {
-        root.dataset.collapsed = '0';
-        head.querySelector('.jn-tog').textContent = '▼';
-        body.style.display = '';
-        tail.style.display = '';
-        const sumEl = head.querySelector('.jn-sum');
-        if (sumEl) sumEl.style.display = 'none';
-      }
-    }
-  }
-
-  // Update viewer meta
-  const type = typeOf(data);
-  let meta = '';
-  if (type === 'object') {
-    const n = Object.keys(data).length;
-    meta = `Object · ${n} top-level ${n === 1 ? 'key' : 'keys'}`;
-  } else if (type === 'array') {
-    meta = `Array · ${data.length} ${data.length === 1 ? 'item' : 'items'}`;
-  } else {
-    meta = type.charAt(0).toUpperCase() + type.slice(1);
-  }
-  document.getElementById('viewer-meta').textContent = meta;
+function uid() {
+  return 'tab_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-// ─── Input handling ───────────────────────────────────────────────────────────
-const inputEl    = document.getElementById('json-input');
-const errorBar   = document.getElementById('error-bar');
-const statusBadge = document.getElementById('status-badge');
+function getActiveTab() {
+  return tabs.find(t => t.id === activeTabId) || null;
+}
 
-function processInput(text) {
-  const trimmed = text.trim();
-
+function parseTab(tab) {
+  const trimmed = tab.content.trim();
   if (!trimmed) {
-    document.getElementById('viewer').innerHTML =
-      '<div class="viewer-placeholder">← Paste JSON in the input panel to explore it here</div>';
+    tab.valid      = null;
+    tab.data       = null;
+    tab.error      = null;
+    tab.bytes      = 0;
+    tab.lines      = 0;
+    tab.viewerNode = buildPlaceholder('← Paste JSON in the input panel to explore it here');
+    return;
+  }
+  try {
+    tab.data       = JSON.parse(trimmed);
+    tab.valid      = true;
+    tab.error      = null;
+    tab.bytes      = new TextEncoder().encode(trimmed).length;
+    tab.lines      = trimmed.split('\n').length;
+    tab.viewerNode = buildViewerRoot(tab);
+  } catch (err) {
+    tab.valid      = false;
+    tab.data       = null;
+    tab.error      = err.message;
+    tab.bytes      = 0;
+    tab.lines      = 0;
+    tab.viewerNode = buildPlaceholder('Invalid JSON — check the error bar above the input', true);
+  }
+}
+
+function createTab(opts = {}) {
+  const { content = '', name = null, activate = true } = opts;
+  tabSeq++;
+  const tab = {
+    id:            uid(),
+    name:          name || `JSON ${tabSeq}`,
+    content,
+    expandedPaths: new Set(),
+    viewerNode:    null,
+    data:          null,
+    valid:         null,
+    error:         null,
+    bytes:         0,
+    lines:         0,
+  };
+  tabs.push(tab);
+  parseTab(tab);
+  refreshCompareSelectors();
+  if (activate) {
+    switchTab(tab.id);
+  } else {
+    renderTabBar();
+  }
+  persist();
+  return tab;
+}
+
+function switchTab(id) {
+  const tab = tabs.find(t => t.id === id);
+  if (!tab) return;
+  activeTabId = id;
+  inputEl.value = tab.content;
+  mountViewer(tab);
+  updateStatusUI(tab);
+  renderTabBar();
+  persist();
+}
+
+function closeTab(id) {
+  const idx = tabs.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  const wasActive = activeTabId === id;
+  tabs.splice(idx, 1);
+
+  if (tabs.length === 0) {
+    createTab();
+  } else if (wasActive) {
+    const nextIdx = Math.min(idx, tabs.length - 1);
+    switchTab(tabs[nextIdx].id);
+  } else {
+    renderTabBar();
+  }
+
+  refreshCompareSelectors();
+  if (mode === 'compare') renderDiff();
+  persist();
+}
+
+function cycleTab(delta) {
+  if (tabs.length < 2) return;
+  const idx = tabs.findIndex(t => t.id === activeTabId);
+  const next = (idx + delta + tabs.length) % tabs.length;
+  switchTab(tabs[next].id);
+}
+
+function mountViewer(tab) {
+  const wrap = document.getElementById('viewer-wrap');
+  wrap.innerHTML = '';
+  wrap.appendChild(tab.viewerNode);
+}
+
+function updateStatusUI(tab) {
+  const inputMeta  = document.getElementById('input-meta');
+  const viewerMeta = document.getElementById('viewer-meta');
+
+  if (tab.valid === null) {
     statusBadge.textContent = 'Empty';
     statusBadge.className   = 'badge badge-empty';
     errorBar.style.display  = 'none';
-    document.getElementById('viewer-meta').textContent = '';
-    document.getElementById('input-meta').textContent  = '';
-    currentData = null;
-    return;
-  }
-
-  try {
-    const data = JSON.parse(trimmed);
-    renderJSON(data);
-
+    inputMeta.textContent   = '';
+    viewerMeta.textContent  = '';
+  } else if (tab.valid === true) {
     statusBadge.textContent = '✓ Valid';
     statusBadge.className   = 'badge badge-valid';
     errorBar.style.display  = 'none';
-
-    const bytes   = new TextEncoder().encode(trimmed).length;
-    const lines   = trimmed.split('\n').length;
-    const sizeStr = bytes < 1024
-      ? `${bytes} B`
-      : bytes < 1048576
-        ? `${(bytes / 1024).toFixed(1)} KB`
-        : `${(bytes / 1048576).toFixed(2)} MB`;
-    document.getElementById('input-meta').textContent = `${lines} lines · ${sizeStr}`;
-
-  } catch (err) {
+    inputMeta.textContent   = `${tab.lines} lines · ${fmtBytes(tab.bytes)}`;
+    viewerMeta.textContent  = viewerMetaText(tab.data);
+  } else {
     statusBadge.textContent = '✗ Invalid';
     statusBadge.className   = 'badge badge-invalid';
-    errorBar.textContent    = err.message;
+    errorBar.textContent    = tab.error;
     errorBar.style.display  = 'block';
-    document.getElementById('viewer').innerHTML =
-      '<div class="viewer-placeholder" style="color:#f85149">Invalid JSON — check the error bar above the input</div>';
-    document.getElementById('viewer-meta').textContent = '';
-    currentData = null;
+    inputMeta.textContent   = '';
+    viewerMeta.textContent  = '';
   }
 }
 
-inputEl.addEventListener('input', () => processInput(inputEl.value));
+function updateTabDot(tab) {
+  const dot = document.querySelector(`.tab[data-id="${tab.id}"] .tab-dot`);
+  if (dot) dot.className = 'tab-dot ' + (tab.valid === true ? 'valid' : tab.valid === false ? 'invalid' : 'empty');
+}
 
-// Auto-format on paste if content is valid JSON
+// ─── Tab bar rendering ───────────────────────────────────────────────────────
+function renderTabBar() {
+  const bar = document.getElementById('tabbar');
+  bar.innerHTML = '';
+
+  tabs.forEach(tab => {
+    const el = mk('div', 'tab' + (tab.id === activeTabId ? ' active' : ''));
+    el.dataset.id = tab.id;
+    el.title = tab.name;
+
+    const dot = mk('span', 'tab-dot ' + (tab.valid === true ? 'valid' : tab.valid === false ? 'invalid' : 'empty'));
+    el.appendChild(dot);
+
+    const nameEl = mk('span', 'tab-name');
+    nameEl.textContent = tab.name;
+    el.appendChild(nameEl);
+
+    const closeEl = mk('span', 'tab-close');
+    closeEl.textContent = '×';
+    closeEl.title = 'Close tab';
+    el.appendChild(closeEl);
+
+    el.addEventListener('click', (e) => {
+      if (e.target === closeEl) return;
+      // Avoid a needless full tab-bar rebuild (which would tear down the DOM
+      // mid-gesture and break double-click-to-rename) when the tab clicked
+      // is already the active one.
+      if (tab.id !== activeTabId) switchTab(tab.id);
+    });
+    closeEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeTab(tab.id);
+    });
+    nameEl.addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      startRename(tab, nameEl);
+    });
+
+    bar.appendChild(el);
+  });
+
+  const addBtn = mk('div', 'tab-add');
+  addBtn.textContent = '+';
+  addBtn.title = 'New tab (Alt+T)';
+  addBtn.addEventListener('click', () => createTab());
+  bar.appendChild(addBtn);
+}
+
+function startRename(tab, nameEl) {
+  nameEl.contentEditable = 'true';
+  nameEl.spellcheck = false;
+  nameEl.focus();
+
+  const range = document.createRange();
+  range.selectNodeContents(nameEl);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  const finish = (commit) => {
+    nameEl.contentEditable = 'false';
+    nameEl.removeEventListener('blur', onBlur);
+    nameEl.removeEventListener('keydown', onKeydown);
+    if (commit) {
+      const newName = nameEl.textContent.trim() || tab.name;
+      tab.name = newName;
+      nameEl.textContent = newName;
+      const parentTab = nameEl.closest('.tab');
+      if (parentTab) parentTab.title = newName;
+      refreshCompareSelectors();
+      persist();
+    } else {
+      nameEl.textContent = tab.name;
+    }
+  };
+  const onBlur    = () => finish(true);
+  const onKeydown = (e) => {
+    if (e.key === 'Enter')  { e.preventDefault(); nameEl.blur(); }
+    if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+  };
+  nameEl.addEventListener('blur', onBlur);
+  nameEl.addEventListener('keydown', onKeydown);
+}
+
+// ─── Input handling (Edit view) ─────────────────────────────────────────────
+const inputEl     = document.getElementById('json-input');
+const errorBar    = document.getElementById('error-bar');
+const statusBadge = document.getElementById('status-badge');
+
+inputEl.addEventListener('input', () => {
+  const tab = getActiveTab();
+  if (!tab) return;
+  tab.content = inputEl.value;
+  parseTab(tab);
+  mountViewer(tab);
+  updateStatusUI(tab);
+  updateTabDot(tab);
+  schedulePersist();
+  if (mode === 'compare' && (tab.id === compareOldId || tab.id === compareNewId)) {
+    renderDiff();
+  }
+});
+
+// Auto-format on paste if content is valid, minified JSON
 inputEl.addEventListener('paste', () => {
-  // Run after the paste event updates the value
   setTimeout(() => {
+    const tab = getActiveTab();
+    if (!tab) return;
     const trimmed = inputEl.value.trim();
     if (!trimmed) return;
     try {
       const data = JSON.parse(trimmed);
-      // Only auto-format if input wasn't already pretty
       if (!trimmed.includes('\n')) {
         inputEl.value = JSON.stringify(data, null, 2);
       }
-      processInput(inputEl.value);
-    } catch {
-      processInput(inputEl.value);
-    }
+    } catch { /* leave as-is, processed below */ }
+    tab.content = inputEl.value;
+    parseTab(tab);
+    mountViewer(tab);
+    updateStatusUI(tab);
+    updateTabDot(tab);
+    persist();
   }, 0);
 });
 
-// ─── Toolbar actions ──────────────────────────────────────────────────────────
+// ─── Toolbar actions (Edit view) ─────────────────────────────────────────────
 function formatInput() {
-  const text = inputEl.value.trim();
-  if (!text) return;
+  const tab = getActiveTab();
+  if (!tab || !tab.content.trim()) return;
   try {
-    const data    = JSON.parse(text);
+    const data = JSON.parse(tab.content);
     inputEl.value = JSON.stringify(data, null, 2);
-    processInput(inputEl.value);
+    tab.content = inputEl.value;
+    parseTab(tab);
+    mountViewer(tab);
+    updateStatusUI(tab);
+    updateTabDot(tab);
+    persist();
     showToast('Formatted!');
   } catch {
     showToast('Cannot format — invalid JSON');
@@ -743,8 +1319,9 @@ function formatInput() {
 }
 
 function copyFormatted() {
-  if (!currentData) { showToast('Nothing to copy'); return; }
-  const text = JSON.stringify(currentData, null, 2);
+  const tab = getActiveTab();
+  if (!tab || tab.data === null) { showToast('Nothing to copy'); return; }
+  const text = JSON.stringify(tab.data, null, 2);
   navigator.clipboard.writeText(text)
     .then(() => showToast('Copied to clipboard!'))
     .catch(() => {
@@ -759,10 +1336,710 @@ function copyFormatted() {
     });
 }
 
-function clearAll() {
+function clearActiveTab() {
+  const tab = getActiveTab();
+  if (!tab) return;
   inputEl.value = '';
-  processInput('');
+  tab.content = '';
+  parseTab(tab);
+  mountViewer(tab);
+  updateStatusUI(tab);
+  updateTabDot(tab);
+  persist();
   inputEl.focus();
+}
+
+// ─── Opening files (button + drag & drop) ───────────────────────────────────
+const fileInput = document.getElementById('file-input');
+
+function openFilePicker() { fileInput.click(); }
+
+fileInput.addEventListener('change', () => {
+  loadFiles(fileInput.files);
+  fileInput.value = '';
+});
+
+function loadFiles(fileList) {
+  const files = Array.from(fileList || []);
+  if (!files.length) return;
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const name = file.name.replace(/\.json$/i, '') || null;
+      createTab({ content: String(reader.result), name, activate: false });
+      loaded++;
+      if (loaded === files.length) {
+        switchTab(tabs[tabs.length - 1].id);
+        setMode('edit');
+        showToast(`Opened ${files.length} file${files.length === 1 ? '' : 's'}`);
+      }
+    };
+    reader.onerror = () => showToast(`Could not read "${file.name}"`);
+    reader.readAsText(file);
+  });
+}
+
+let dragDepth = 0;
+const dropzone = document.getElementById('dropzone');
+
+window.addEventListener('dragenter', (e) => {
+  if (!e.dataTransfer || !Array.from(e.dataTransfer.types || []).includes('Files')) return;
+  e.preventDefault();
+  dragDepth++;
+  dropzone.classList.add('active');
+});
+window.addEventListener('dragover', (e) => {
+  if (!e.dataTransfer || !Array.from(e.dataTransfer.types || []).includes('Files')) return;
+  e.preventDefault();
+});
+window.addEventListener('dragleave', () => {
+  dragDepth = Math.max(0, dragDepth - 1);
+  if (dragDepth === 0) dropzone.classList.remove('active');
+});
+window.addEventListener('drop', (e) => {
+  if (!e.dataTransfer) return;
+  e.preventDefault();
+  dragDepth = 0;
+  dropzone.classList.remove('active');
+  if (e.dataTransfer.files && e.dataTransfer.files.length) {
+    loadFiles(e.dataTransfer.files);
+  }
+});
+
+// ─── Mode switching ──────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  document.getElementById('main').dataset.mode = m;
+  document.getElementById('view-edit').style.display    = m === 'edit'    ? '' : 'none';
+  document.getElementById('view-compare').style.display  = m === 'compare' ? '' : 'none';
+  document.getElementById('edit-actions').style.display    = m === 'edit'    ? '' : 'none';
+  document.getElementById('compare-actions').style.display = m === 'compare' ? '' : 'none';
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+  if (m === 'compare') {
+    refreshCompareSelectors();
+    renderDiff();
+  }
+  persist();
+}
+
+// ─── Compare selectors ───────────────────────────────────────────────────────
+function populateSelect(sel, selectedId) {
+  sel.innerHTML = '';
+  tabs.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = t.name;
+    sel.appendChild(opt);
+  });
+  if (selectedId) sel.value = selectedId;
+}
+
+function refreshCompareSelectors() {
+  if (!compareUserSet) {
+    // Until the user explicitly picks tabs to compare, default to the two
+    // most-recently-opened tabs so the comparison "follows" new documents
+    // as they're added (open two JSON blobs, immediately see a diff).
+    const n = tabs.length;
+    compareNewId = n > 0 ? tabs[n - 1].id : null;
+    compareOldId = n > 1 ? tabs[n - 2].id : (n > 0 ? tabs[0].id : null);
+  } else {
+    if (!tabs.some(t => t.id === compareOldId)) {
+      compareOldId = tabs[0] ? tabs[0].id : null;
+    }
+    if (!tabs.some(t => t.id === compareNewId)) {
+      const other = tabs.find(t => t.id !== compareOldId) || tabs[0];
+      compareNewId = other ? other.id : null;
+    }
+  }
+  populateSelect(document.getElementById('compare-old'), compareOldId);
+  populateSelect(document.getElementById('compare-new'), compareNewId);
+}
+
+function onCompareSelectChange() {
+  compareUserSet = true;
+  compareOldId = document.getElementById('compare-old').value;
+  compareNewId = document.getElementById('compare-new').value;
+  persist();
+  renderDiff();
+}
+
+function swapCompare() {
+  const oldSel = document.getElementById('compare-old');
+  const newSel = document.getElementById('compare-new');
+  const tmp = oldSel.value;
+  oldSel.value = newSel.value;
+  newSel.value = tmp;
+  onCompareSelectChange();
+}
+
+// ─── Diff engine ─────────────────────────────────────────────────────────────
+function deepEqual(a, b) {
+  if (a === b) return true;
+  const ta = typeOf(a), tb = typeOf(b);
+  if (ta !== tb) return false;
+  if (ta === 'object') {
+    const ka = Object.keys(a), kb = Object.keys(b);
+    if (ka.length !== kb.length) return false;
+    for (const k of ka) {
+      if (!Object.prototype.hasOwnProperty.call(b, k)) return false;
+      if (!deepEqual(a[k], b[k])) return false;
+    }
+    return true;
+  }
+  if (ta === 'array') {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) if (!deepEqual(a[i], b[i])) return false;
+    return true;
+  }
+  return false; // primitives already handled by === above
+}
+
+// Longest-common-subsequence based array diff — mirrors git's line diff so
+// insertions/removals in the middle of an array don't shift everything else.
+function lcsDiffArray(a, b) {
+  const n = a.length, m = b.length;
+  const MAX_CELLS = 4000000;
+
+  if (n * m > MAX_CELLS) {
+    // Fallback to a cheap positional diff to avoid locking up the browser.
+    const ops = [];
+    const len = Math.max(n, m);
+    for (let i = 0; i < len; i++) {
+      if (i < n && i < m) ops.push({ type: 'pair', ai: i, bi: i });
+      else if (i < n)     ops.push({ type: 'del', ai: i });
+      else                ops.push({ type: 'add', bi: i });
+    }
+    return ops;
+  }
+
+  const eq = new Uint8Array(n * m);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < m; j++) {
+      eq[i * m + j] = deepEqual(a[i], b[j]) ? 1 : 0;
+    }
+  }
+
+  const dp = new Int32Array((n + 1) * (m + 1));
+  const stride = m + 1;
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      dp[i * stride + j] = eq[i * m + j]
+        ? dp[(i + 1) * stride + (j + 1)] + 1
+        : Math.max(dp[(i + 1) * stride + j], dp[i * stride + (j + 1)]);
+    }
+  }
+
+  const ops = [];
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (eq[i * m + j]) {
+      ops.push({ type: 'pair', ai: i, bi: j });
+      i++; j++;
+    } else if (dp[(i + 1) * stride + j] >= dp[i * stride + (j + 1)]) {
+      ops.push({ type: 'del', ai: i });
+      i++;
+    } else {
+      ops.push({ type: 'add', bi: j });
+      j++;
+    }
+  }
+  while (i < n) { ops.push({ type: 'del', ai: i }); i++; }
+  while (j < m) { ops.push({ type: 'add', bi: j }); j++; }
+  return ops;
+}
+
+function objectDiffOps(a, b) {
+  const ops = [];
+  const bSeen = new Set();
+  for (const k of Object.keys(a)) {
+    if (Object.prototype.hasOwnProperty.call(b, k)) {
+      bSeen.add(k);
+      ops.push(pairOp(k, a[k], b[k]));
+    } else {
+      ops.push({ kind: 'removed', key: k, value: a[k] });
+    }
+  }
+  for (const k of Object.keys(b)) {
+    if (!bSeen.has(k)) ops.push({ kind: 'added', key: k, value: b[k] });
+  }
+  return ops;
+}
+
+function pairOp(key, av, bv) {
+  const ta = typeOf(av), tb = typeOf(bv);
+  const aCont = ta === 'object' || ta === 'array';
+  const bCont = tb === 'object' || tb === 'array';
+  if (ta !== tb || aCont !== bCont) {
+    return { kind: 'typechange', key, aValue: av, bValue: bv };
+  }
+  if (!aCont) {
+    return av === bv
+      ? { kind: 'same', key, value: av }
+      : { kind: 'changed', key, aValue: av, bValue: bv };
+  }
+  return { kind: 'container', key, aValue: av, bValue: bv, containerKind: ta };
+}
+
+function arrayDiffOps(a, b) {
+  return lcsDiffArray(a, b).map(op => {
+    if (op.type === 'pair') return { kind: 'same', key: null, value: a[op.ai] };
+    if (op.type === 'del')  return { kind: 'removed', key: null, value: a[op.ai] };
+    return { kind: 'added', key: null, value: b[op.bi] };
+  });
+}
+
+// Diff-mode string display: capped length, no interactive expand (keeps the
+// comparison view lightweight — switch to Edit mode to inspect full values).
+function diffStrDisplay(s) {
+  const esc = escStr(s);
+  return esc.length > 300 ? '"' + esc.slice(0, 300) + '…"' : '"' + esc + '"';
+}
+
+function diffLeafText(val) {
+  return typeOf(val) === 'string' ? diffStrDisplay(val) : String(val);
+}
+
+let diffAnchorEls   = [];
+let diffTotalCount  = 0;
+let diffCursor      = -1;
+
+function registerDiffAnchor(el) {
+  diffAnchorEls.push(el);
+  diffTotalCount++;
+  return 1;
+}
+
+// Renders `val` wholesale under a single diff status ('same' | 'added' | 'removed').
+// Used for LCS-matched array items (status 'same'), and for entire subtrees
+// that only exist on one side (status 'added' / 'removed').
+function buildDiffNode(val, key, isLast, path, status) {
+  const type    = typeOf(val);
+  const marker  = status === 'removed' ? '−' : status === 'added' ? '+' : ' ';
+  const wrapper = mk('div', 'jn');
+
+  if (type === 'object' || type === 'array') {
+    const isObj   = type === 'object';
+    const entries = isObj ? Object.entries(val) : val.map((v, i) => [i, v]);
+    const count   = entries.length;
+    const openBr  = isObj ? '{' : '[';
+    const closeBr = isObj ? '}' : ']';
+
+    wrapper.dataset.collapsed = '0';
+    wrapper.dataset.count     = String(count);
+    wrapper.dataset.diffcount = '0';
+    if (status !== 'same') wrapper.classList.add('diff-' + status);
+
+    const head = mk('div', 'jn-head' + (status !== 'same' ? ' diff-' + status : ''));
+    head.appendChild(tx('diff-marker', marker));
+
+    const tog = mk('span', count > 0 ? 'jn-tog clickable' : 'jn-tog');
+    tog.textContent = count > 0 ? '▼' : ' ';
+    head.appendChild(tog);
+
+    if (key !== null) {
+      head.appendChild(tx('jk', `"${key}"`));
+      head.appendChild(tx('jp', ': '));
+    }
+    const openEl = mk('span', count > 0 ? 'jb click' : 'jb');
+    openEl.textContent = openBr;
+    head.appendChild(openEl);
+
+    const sumEl = mk('span', 'jn-sum');
+    if (count === 0) {
+      sumEl.textContent = (isObj ? ' }' : ' ]') + (isLast ? '' : ',');
+    } else {
+      const noun = isObj ? (count === 1 ? 'key' : 'keys') : (count === 1 ? 'item' : 'items');
+      sumEl.textContent = ` ${count} ${noun} ${closeBr}${isLast ? '' : ','}`;
+      sumEl.style.display = 'none';
+    }
+    head.appendChild(sumEl);
+    wrapper.appendChild(head);
+
+    if (count > 0) {
+      const body = mk('div', 'jn-body');
+      entries.forEach(([k, v], i) => {
+        const childKey  = isObj ? String(k) : null;
+        const childPath = isObj
+          ? (path ? path + '.' + k : String(k))
+          : (path ? path + '[' + k + ']' : '[' + k + ']');
+        body.appendChild(buildDiffNode(v, childKey, i === count - 1, childPath, status));
+      });
+      wrapper.appendChild(body);
+
+      const tail = mk('div', 'jn-tail' + (status !== 'same' ? ' diff-' + status : ''));
+      tail.appendChild(tx('diff-marker', marker));
+      tail.appendChild(tx('jb', closeBr));
+      if (!isLast) tail.appendChild(tx('jp', ','));
+      wrapper.appendChild(tail);
+
+      const doToggle = (e) => {
+        e.stopPropagation();
+        const collapsed = wrapper.dataset.collapsed === '1';
+        wrapper.dataset.collapsed = collapsed ? '0' : '1';
+        tog.textContent    = collapsed ? '▼' : '▶';
+        body.style.display = collapsed ? '' : 'none';
+        tail.style.display = collapsed ? '' : 'none';
+        sumEl.style.display = collapsed ? 'none' : '';
+      };
+      tog.addEventListener('click', doToggle);
+      openEl.addEventListener('click', doToggle);
+    }
+
+  } else {
+    const row = mk('div', 'jn-leaf' + (status !== 'same' ? ' diff-' + status : ''));
+    row.appendChild(tx('diff-marker', marker));
+    const sp = mk('span', 'jn-tog');
+    sp.textContent = ' ';
+    row.appendChild(sp);
+
+    if (key !== null) {
+      row.appendChild(tx('jk', `"${key}"`));
+      row.appendChild(tx('jp', ': '));
+    }
+    const cls = { string: 'jstr', number: 'jnum', boolean: 'jbool', null: 'jnull' }[type];
+    row.appendChild(tx(cls, diffLeafText(val)));
+    if (!isLast) row.appendChild(tx('jp', ','));
+    wrapper.appendChild(row);
+  }
+
+  return wrapper;
+}
+
+// A single key/index whose primitive value changed on both sides — rendered
+// as one amber "~" line with an inline old → new arrow (git-diff-ish but
+// more compact for simple scalar edits).
+function buildChangedLeaf(aVal, bVal, key, isLast, path) {
+  const row = mk('div', 'jn-leaf diff-changed');
+  row.appendChild(tx('diff-marker', '~'));
+  const sp = mk('span', 'jn-tog');
+  sp.textContent = ' ';
+  row.appendChild(sp);
+
+  if (key !== null) {
+    row.appendChild(tx('jk', `"${key}"`));
+    row.appendChild(tx('jp', ': '));
+  }
+  const oldCls = { string: 'jstr', number: 'jnum', boolean: 'jbool', null: 'jnull' }[typeOf(aVal)];
+  const newCls = { string: 'jstr', number: 'jnum', boolean: 'jbool', null: 'jnull' }[typeOf(bVal)];
+
+  row.appendChild(tx(oldCls + ' diff-old-val', diffLeafText(aVal)));
+  row.appendChild(tx('diff-arrow', ' → '));
+  row.appendChild(tx(newCls + ' diff-new-val', diffLeafText(bVal)));
+
+  if (!isLast) row.appendChild(tx('jp', ','));
+  return row;
+}
+
+function buildDiffContainer(aVal, bVal, key, isLast, path, kind) {
+  const isObj   = kind === 'object';
+  const ops     = isObj ? objectDiffOps(aVal, bVal) : arrayDiffOps(aVal, bVal);
+  const count   = ops.length;
+  const openBr  = isObj ? '{' : '[';
+  const closeBr = isObj ? '}' : ']';
+
+  const wrapper = mk('div', 'jn');
+  wrapper.dataset.collapsed = '0';
+  wrapper.dataset.count     = String(count);
+
+  const head = mk('div', 'jn-head');
+  head.appendChild(tx('diff-marker', ' '));
+  const tog = mk('span', count > 0 ? 'jn-tog clickable' : 'jn-tog');
+  tog.textContent = count > 0 ? '▼' : ' ';
+  head.appendChild(tog);
+  if (key !== null) {
+    head.appendChild(tx('jk', `"${key}"`));
+    head.appendChild(tx('jp', ': '));
+  }
+  const openEl = mk('span', count > 0 ? 'jb click' : 'jb');
+  openEl.textContent = openBr;
+  head.appendChild(openEl);
+  const sumEl = mk('span', 'jn-sum');
+  head.appendChild(sumEl);
+  wrapper.appendChild(head);
+
+  let diffCount = 0;
+  let body = null, tail = null;
+
+  if (count > 0) {
+    body = mk('div', 'jn-body');
+    ops.forEach((op, i) => {
+      const isLastChild = i === count - 1;
+      const childKey  = isObj ? op.key : null;
+      const childPath = isObj
+        ? (path ? path + '.' + op.key : op.key)
+        : (path ? path + '[' + i + ']' : '[' + i + ']');
+
+      if (op.kind === 'same') {
+        body.appendChild(buildDiffNode(op.value, childKey, isLastChild, childPath, 'same'));
+      } else if (op.kind === 'removed') {
+        const node = buildDiffNode(op.value, childKey, isLastChild, childPath, 'removed');
+        body.appendChild(node);
+        diffCount += registerDiffAnchor(node);
+      } else if (op.kind === 'added') {
+        const node = buildDiffNode(op.value, childKey, isLastChild, childPath, 'added');
+        body.appendChild(node);
+        diffCount += registerDiffAnchor(node);
+      } else if (op.kind === 'changed') {
+        const node = buildChangedLeaf(op.aValue, op.bValue, childKey, isLastChild, childPath);
+        body.appendChild(node);
+        diffCount += registerDiffAnchor(node);
+      } else if (op.kind === 'typechange') {
+        const removedNode = buildDiffNode(op.aValue, childKey, false, childPath, 'removed');
+        body.appendChild(removedNode);
+        const addedNode = buildDiffNode(op.bValue, childKey, isLastChild, childPath, 'added');
+        body.appendChild(addedNode);
+        diffCount += registerDiffAnchor(removedNode);
+      } else if (op.kind === 'container') {
+        const node = buildDiffContainer(op.aValue, op.bValue, childKey, isLastChild, childPath, op.containerKind);
+        body.appendChild(node);
+        diffCount += parseInt(node.dataset.diffcount || '0');
+      }
+    });
+    wrapper.appendChild(body);
+
+    tail = mk('div', 'jn-tail');
+    tail.appendChild(tx('diff-marker', ' '));
+    tail.appendChild(tx('jb', closeBr));
+    if (!isLast) tail.appendChild(tx('jp', ','));
+    wrapper.appendChild(tail);
+
+    const doToggle = (e) => {
+      e.stopPropagation();
+      const collapsed = wrapper.dataset.collapsed === '1';
+      wrapper.dataset.collapsed = collapsed ? '0' : '1';
+      tog.textContent    = collapsed ? '▼' : '▶';
+      body.style.display = collapsed ? '' : 'none';
+      tail.style.display = collapsed ? '' : 'none';
+      sumEl.style.display = collapsed ? 'none' : '';
+    };
+    tog.addEventListener('click', doToggle);
+    openEl.addEventListener('click', doToggle);
+  }
+
+  wrapper.dataset.diffcount = String(diffCount);
+
+  if (count === 0) {
+    sumEl.textContent = (isObj ? ' }' : ' ]') + (isLast ? '' : ',');
+  } else {
+    const noun = isObj ? (count === 1 ? 'key' : 'keys') : (count === 1 ? 'item' : 'items');
+    sumEl.textContent = ` ${count} ${noun} ${closeBr}${isLast ? '' : ','}`;
+    sumEl.style.display = 'none';
+    if (diffCount > 0) sumEl.appendChild(tx('sum-changed', ` • ${diffCount} changed`));
+  }
+
+  return wrapper;
+}
+
+function diffCompareRoot(container, aVal, bVal, key, isLast, path) {
+  const ta = typeOf(aVal), tb = typeOf(bVal);
+  const aCont = ta === 'object' || ta === 'array';
+  const bCont = tb === 'object' || tb === 'array';
+
+  if (ta !== tb || aCont !== bCont) {
+    const removedNode = buildDiffNode(aVal, key, false, path, 'removed');
+    container.appendChild(removedNode);
+    const addedNode = buildDiffNode(bVal, key, isLast, path, 'added');
+    container.appendChild(addedNode);
+    registerDiffAnchor(removedNode);
+    return;
+  }
+  if (!aCont) {
+    if (aVal === bVal) {
+      container.appendChild(buildDiffNode(aVal, key, isLast, path, 'same'));
+    } else {
+      const node = buildChangedLeaf(aVal, bVal, key, isLast, path);
+      container.appendChild(node);
+      registerDiffAnchor(node);
+    }
+    return;
+  }
+  container.appendChild(buildDiffContainer(aVal, bVal, key, isLast, path, ta));
+}
+
+function buildEmptyState(icon, title, sub) {
+  const wrap = mk('div', 'empty-state');
+  wrap.appendChild(tx('empty-state-icon', icon));
+  wrap.appendChild(tx('empty-state-title', title));
+  if (sub) wrap.appendChild(tx('empty-state-sub', sub));
+  return wrap;
+}
+
+function applyHideUnchanged() {
+  const hide = document.getElementById('hide-unchanged').checked;
+  const root = document.getElementById('diff-viewer');
+  root.querySelectorAll('.jn').forEach(node => {
+    const count     = parseInt(node.dataset.count || '0');
+    const diffcount = parseInt(node.dataset.diffcount || '0');
+    if (!count) return;
+    if (node.classList.contains('diff-added') || node.classList.contains('diff-removed')) return;
+
+    const head = node.querySelector(':scope > .jn-head');
+    const body = node.querySelector(':scope > .jn-body');
+    const tail = node.querySelector(':scope > .jn-tail');
+    if (!head || !body || !tail) return;
+    const tog   = head.querySelector('.jn-tog');
+    const sumEl = head.querySelector('.jn-sum');
+
+    const shouldCollapse = hide && diffcount === 0;
+    node.dataset.collapsed = shouldCollapse ? '1' : '0';
+    if (tog) tog.textContent = shouldCollapse ? '▶' : '▼';
+    body.style.display = shouldCollapse ? 'none' : '';
+    tail.style.display = shouldCollapse ? 'none' : '';
+    if (sumEl) sumEl.style.display = shouldCollapse ? '' : 'none';
+  });
+}
+
+function updateDiffStats() {
+  const summaryEl = document.getElementById('diff-summary');
+  const posEl     = document.getElementById('diff-pos');
+  const prevBtn   = document.getElementById('diff-prev');
+  const nextBtn   = document.getElementById('diff-next');
+  const n = diffAnchorEls.length;
+
+  if (n === 0) {
+    summaryEl.textContent = 'No differences';
+    summaryEl.className   = 'diff-summary diff-summary-none';
+  } else {
+    summaryEl.textContent = `${n} difference${n === 1 ? '' : 's'}`;
+    summaryEl.className   = 'diff-summary diff-summary-some';
+  }
+  posEl.textContent  = n === 0 ? '0 / 0' : `${diffCursor + 1} / ${n}`;
+  prevBtn.disabled   = n === 0;
+  nextBtn.disabled   = n === 0;
+}
+
+function gotoDiff(delta) {
+  const n = diffAnchorEls.length;
+  if (!n) return;
+  diffCursor = (diffCursor + delta + n) % n;
+  const el = diffAnchorEls[diffCursor];
+
+  // Expand any collapsed ancestors so the target is actually visible.
+  let p = el.parentElement;
+  while (p) {
+    if (p.classList && p.classList.contains('jn') && p.dataset.collapsed === '1') {
+      const head  = p.querySelector(':scope > .jn-head');
+      const body  = p.querySelector(':scope > .jn-body');
+      const tail  = p.querySelector(':scope > .jn-tail');
+      const tog   = head && head.querySelector('.jn-tog');
+      const sumEl = head && head.querySelector('.jn-sum');
+      p.dataset.collapsed = '0';
+      if (tog) tog.textContent = '▼';
+      if (body) body.style.display = '';
+      if (tail) tail.style.display = '';
+      if (sumEl) sumEl.style.display = 'none';
+    }
+    p = p.parentElement;
+  }
+
+  el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  el.classList.remove('diff-flash');
+  void el.offsetWidth; // restart animation
+  el.classList.add('diff-flash');
+  updateDiffStats();
+}
+
+function renderDiff() {
+  const wrap = document.getElementById('diff-viewer');
+  wrap.innerHTML = '';
+  diffAnchorEls  = [];
+  diffTotalCount = 0;
+  diffCursor     = -1;
+
+  if (tabs.length < 2) {
+    wrap.appendChild(buildEmptyState('⇄', 'Open a second JSON document to compare',
+      'Use "+" in the tab bar or "Open Files" above to add another document, then pick two tabs below.'));
+    updateDiffStats();
+    return;
+  }
+
+  const a = tabs.find(t => t.id === compareOldId);
+  const b = tabs.find(t => t.id === compareNewId);
+  if (!a || !b) {
+    wrap.appendChild(buildEmptyState('⇄', 'Choose two tabs to compare', ''));
+    updateDiffStats();
+    return;
+  }
+  if (a.content.trim() === '' || b.content.trim() === '') {
+    const which = a.content.trim() === '' ? a.name : b.name;
+    wrap.appendChild(buildEmptyState('∅', `"${which}" is empty`, 'Add some JSON to that tab in Edit mode first.'));
+    updateDiffStats();
+    return;
+  }
+  if (a.valid !== true || b.valid !== true) {
+    const which = a.valid !== true ? a.name : b.name;
+    wrap.appendChild(buildEmptyState('✗', `"${which}" has invalid JSON`, 'Fix the syntax error in Edit mode before comparing.'));
+    updateDiffStats();
+    return;
+  }
+
+  diffCompareRoot(wrap, a.data, b.data, null, true, '');
+  applyHideUnchanged();
+  updateDiffStats();
+}
+
+// ─── Persistence (localStorage) ─────────────────────────────────────────────
+let persistTimer = null;
+function schedulePersist() {
+  clearTimeout(persistTimer);
+  persistTimer = setTimeout(persist, 400);
+}
+
+function persist() {
+  clearTimeout(persistTimer);
+  try {
+    const payload = {
+      version: 1,
+      mode, activeTabId, compareOldId, compareNewId, compareUserSet, tabSeq,
+      tabs: tabs.map(t => ({ id: t.id, name: t.name, content: t.content })),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (err) {
+    if (!persist.warned) {
+      persist.warned = true;
+      showToast('Could not save session (storage full)');
+    }
+  }
+}
+
+// Safety net: flush any pending debounced save (e.g. mid-keystroke) before
+// the tab/window actually closes, so the last few edits are never lost.
+window.addEventListener('beforeunload', persist);
+
+function loadPersisted() {
+  let raw;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch { raw = null; }
+  if (!raw) return false;
+
+  let payload;
+  try { payload = JSON.parse(raw); } catch { return false; }
+  if (!payload || !Array.isArray(payload.tabs) || payload.tabs.length === 0) return false;
+
+  tabSeq = payload.tabSeq || payload.tabs.length;
+  tabs = payload.tabs.map(t => {
+    const tab = {
+      id:            t.id || uid(),
+      name:          t.name || 'JSON',
+      content:       t.content || '',
+      expandedPaths: new Set(),
+      viewerNode:    null,
+      data:          null,
+      valid:         null,
+      error:         null,
+      bytes:         0,
+      lines:         0,
+    };
+    parseTab(tab);
+    return tab;
+  });
+
+  activeTabId  = tabs.some(t => t.id === payload.activeTabId) ? payload.activeTabId : tabs[0].id;
+  compareOldId   = payload.compareOldId || null;
+  compareNewId   = payload.compareNewId || null;
+  compareUserSet = !!payload.compareUserSet;
+  mode         = payload.mode === 'compare' ? 'compare' : 'edit';
+  return true;
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -780,14 +2057,40 @@ document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
     e.preventDefault();
     formatInput();
+    return;
+  }
+  if (e.altKey && e.key.toLowerCase() === 't') {
+    e.preventDefault();
+    createTab();
+    return;
+  }
+  if (e.altKey && e.key === 'ArrowRight') {
+    e.preventDefault();
+    cycleTab(1);
+    return;
+  }
+  if (e.altKey && e.key === 'ArrowLeft') {
+    e.preventDefault();
+    cycleTab(-1);
+    return;
+  }
+  if (e.altKey && e.key === 'ArrowDown' && mode === 'compare') {
+    e.preventDefault();
+    gotoDiff(1);
+    return;
+  }
+  if (e.altKey && e.key === 'ArrowUp' && mode === 'compare') {
+    e.preventDefault();
+    gotoDiff(-1);
+    return;
   }
 });
 
-// ─── Resizable divider ────────────────────────────────────────────────────────
+// ─── Resizable divider (Edit view) ──────────────────────────────────────────
 (function () {
   const divider   = document.getElementById('divider');
   const panelLeft = document.getElementById('panel-left');
-  const main      = document.querySelector('main');
+  const view      = document.getElementById('view-edit');
   let dragging = false, startX = 0, startW = 0;
 
   divider.addEventListener('mousedown', e => {
@@ -801,7 +2104,7 @@ document.addEventListener('keydown', e => {
 
   document.addEventListener('mousemove', e => {
     if (!dragging) return;
-    const totalW = main.getBoundingClientRect().width - divider.offsetWidth;
+    const totalW = view.getBoundingClientRect().width - divider.offsetWidth;
     const newW   = Math.max(180, Math.min(totalW - 180, startW + e.clientX - startX));
     panelLeft.style.flex = `0 0 ${newW}px`;
   });
@@ -812,6 +2115,18 @@ document.addEventListener('keydown', e => {
     document.body.style.cursor     = '';
     document.body.style.userSelect = '';
   });
+})();
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+(function boot() {
+  if (!loadPersisted()) {
+    createTab({ activate: false });
+    activeTabId = tabs[0].id;
+  }
+  renderTabBar();
+  switchTab(activeTabId);
+  refreshCompareSelectors();
+  setMode(mode);
 })();
 </script>
 </body>
