@@ -954,7 +954,13 @@ function buildNode(val, key, isLast, path, tab) {
           hintEl.textContent     = '[collapse]';
         }
       };
-      strEl.addEventListener('click', toggle);
+      strEl.addEventListener('click', () => {
+        // Don't toggle if the user just highlighted text inside the string
+        // (e.g. to copy it) — a drag-select still fires a click on mouseup.
+        const sel = window.getSelection();
+        if (sel && sel.toString().length > 0 && strEl.contains(sel.anchorNode)) return;
+        toggle();
+      });
       hintEl.addEventListener('click', toggle);
 
       row.appendChild(strEl);
