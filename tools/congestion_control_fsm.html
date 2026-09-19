@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCP Congestion Control FSM — Interactive Lab</title>
+<style>
+  :root{
+    --bg:#f2f0e9; --card:#ffffff; --card2:#faf9f4; --node:#ffffff;
+    --ink:#1c2530; --muted:#66707d; --line:#e3e0d6; --edge:#a6adb6;
+    --ss:#2563eb; --ca:#059669; --fr:#d97706; --to:#dc2626;
+    --ssT:#e9f0fe; --caT:#e6f7f0; --frT:#fdf3e2;
+    --shadow:0 1px 2px rgba(30,30,30,.05),0 8px 24px rgba(30,30,30,.06);
+    --halo:#ffffff;
+    --btnshadow:0 2px 8px rgba(0,0,0,.12);
+  }
+  [data-theme="dark"]{
+    --bg:#0c1117; --card:#141b23; --card2:#1a2330; --node:#182130;
+    --ink:#e6edf4; --muted:#8d9aa9; --line:rgba(255,255,255,.09); --edge:#5b6878;
+    --ss:#5b9bff; --ca:#3ddc97; --fr:#ffc24b; --to:#ff6b6b;
+    --ssT:rgba(91,155,255,.15); --caT:rgba(61,220,151,.13); --frT:rgba(255,194,75,.13);
+    --shadow:0 2px 4px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+    --halo:#141b23;
+    --btnshadow:0 2px 10px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  html{scrollbar-color:var(--edge) transparent}
+  body{
+    margin:0;color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    padding:22px 20px 40px;max-width:1240px;margin:0 auto;
+    background:var(--bg);
+    background-image:radial-gradient(1200px 500px at 70% -10%, color-mix(in srgb,var(--ss) 7%,transparent), transparent 60%);
+    transition:background .25s,color .25s;
+  }
+  h1{font-size:21px;margin:0;letter-spacing:-.01em}
+  h1 .grad{background:linear-gradient(90deg,var(--ss),var(--ca));-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:11.5px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);
+     display:flex;align-items:center;gap:8px;font-weight:700}
+  h2::before{content:'';width:4px;height:13px;border-radius:2px;
+     background:linear-gradient(180deg,var(--ss),var(--ca))}
+  h2 .spacer{margin-left:auto}
+  .sub{color:var(--muted);margin-top:3px;font-size:12.5px}
+  code,kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;
+           background:color-mix(in srgb,var(--ink) 6%,transparent);
+           border:1px solid var(--line);border-radius:4px;padding:0 4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+        padding:16px 18px;margin-top:14px;box-shadow:var(--shadow)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  /* ---------- header ---------- */
+  header.card{display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between;padding:14px 18px}
+  .title{display:flex;align-items:center;gap:13px}
+  .logo{width:38px;height:38px;border-radius:10px;flex:none;
+        background:linear-gradient(135deg,var(--ss),var(--ca));
+        display:flex;align-items:center;justify-content:center;box-shadow:var(--btnshadow)}
+  .hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  label.chk{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none}
+  label.chk b{color:var(--ink);font-weight:600}
+  select,input[type=number]{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);
+      border-radius:8px;background:var(--card2);color:var(--ink)}
+  input[type=checkbox]{accent-color:var(--ss);width:15px;height:15px}
+  .iconbtn{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0}
+  [data-theme="dark"] .i-moon{display:none}
+  [data-theme="light"] .i-sun{display:none}
+
+  /* ---------- layout ---------- */
+  .grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:14px}
+  @media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+  /* ---------- FSM diagram ---------- */
+  svg{width:100%;height:auto;display:block}
+  .node{cursor:default}
+  .node .body{fill:var(--node);stroke:var(--line);stroke-width:1.5;transition:all .2s}
+  .node .strip{opacity:.85}
+  .node text{font-weight:700;font-size:13.5px;fill:var(--ink)}
+  .node .sub2{font-weight:500;font-size:10.5px;fill:var(--muted)}
+  .node.SS.active .body{stroke:var(--ss);fill:var(--ssT);stroke-width:2.4;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--ss) 55%,transparent))}
+  .node.CA.active .body{stroke:var(--ca);fill:var(--caT);stroke-width:2.4;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--ca) 55%,transparent))}
+  .node.FR.active .body{stroke:var(--fr);fill:var(--frT);stroke-width:2.4;filter:drop-shadow(0 0 9px color-mix(in srgb,var(--fr) 55%,transparent))}
+  .node .stateline{stroke-width:0}
+  .edge{fill:none;stroke:var(--edge);stroke-width:1.7;transition:stroke .15s,stroke-width .15s}
+  .edge.timeout{stroke:var(--to);stroke-dasharray:6 4;stroke-width:1.5;opacity:.8}
+  .edge.flash{stroke-width:3.2;stroke-dasharray:none;opacity:1}
+  .elabel{font-size:11.5px;fill:var(--ink);text-anchor:middle;
+          paint-order:stroke;stroke:var(--halo);stroke-width:4px;stroke-linejoin:round}
+  .elabel.t2{font-size:10.5px;fill:var(--muted)}
+  .elabel.red{fill:var(--to)}
+  .elabel.event{font-weight:700}
+  .transit{filter:drop-shadow(0 0 5px currentColor)}
+
+  /* ---------- right panel ---------- */
+  .vars{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .var{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--card2)}
+  .var .k{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+  .var .v{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:21px;font-weight:700;
+          font-variant-numeric:tabular-nums;line-height:1.25}
+  .var .v small{font-size:11px;color:var(--muted);font-weight:500}
+  .var .delta{font-size:11px;font-weight:700;margin-left:4px}
+  .delta.up{color:var(--ca)} .delta.down{color:var(--to)} .delta.same{color:var(--muted)}
+  #stateBadge{display:inline-block;padding:3px 12px;border-radius:99px;color:#fff;font-size:12.5px;
+              font-weight:700;letter-spacing:.02em;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+
+  .evrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  button{font:inherit;font-weight:600;border:1px solid var(--line);border-radius:10px;
+         padding:9px 12px;background:var(--card2);color:var(--ink);cursor:pointer;
+         transition:transform .1s,box-shadow .15s,filter .15s}
+  button:hover{transform:translateY(-1px);box-shadow:var(--btnshadow);filter:brightness(1.06)}
+  button:active{transform:translateY(0);box-shadow:none}
+  button.ack{background:linear-gradient(180deg,color-mix(in srgb,var(--ss) 92%,#fff),var(--ss));color:#fff;border-color:transparent}
+  button.dup{background:linear-gradient(180deg,color-mix(in srgb,var(--fr) 92%,#fff),var(--fr));color:#fff;border-color:transparent}
+  button.to{background:linear-gradient(180deg,color-mix(in srgb,var(--to) 92%,#fff),var(--to));color:#fff;border-color:transparent}
+  button.ghost{background:var(--card2)}
+  button:disabled{opacity:.45;cursor:default;transform:none;box-shadow:none;filter:none}
+  .keyhint{font-size:10px;opacity:.75;font-weight:500;margin-left:4px}
+  .explain{margin-top:12px;min-height:48px;border-left:3px solid var(--line);
+           padding:8px 12px;font-size:13px;background:var(--card2);border-radius:0 10px 10px 0;
+           transition:border-color .3s;color:var(--ink)}
+  .autoplay{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .autoplay .sub{font-size:11.5px;min-width:82px;text-align:right}
+  input[type=range]{flex:1;min-width:90px;accent-color:var(--ss);height:4px}
+
+  /* ---------- chart ---------- */
+  #chart{width:100%;height:210px;display:block}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .dashline{width:18px;border-top:2px dashed var(--muted);display:inline-block}
+  .xmark{color:var(--to);font-weight:700}
+
+  /* ---------- log ---------- */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top}
+  th{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;
+     position:sticky;top:0;background:var(--card)}
+  td:last-child,th:last-child{white-space:normal;min-width:220px}
+  .logwrap{max-height:230px;overflow:auto;border-radius:8px}
+  .logwrap::-webkit-scrollbar{width:8px;height:8px}
+  .logwrap::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
+  tbody tr:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+  .stchip{font-size:10px;font-weight:700;color:#fff;border-radius:5px;padding:2px 7px;letter-spacing:.03em}
+
+  /* ---------- quiz ---------- */
+  #quizCard{display:none}
+  #quizCard.on{display:block}
+  .quiz-q{font-size:13.5px;margin-bottom:10px;line-height:1.9}
+  .chip{font-family:ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(--ink) 7%,transparent);
+        border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-weight:600;font-size:12.5px}
+  .opt{display:block;width:100%;text-align:left;margin:6px 0;font-weight:500;
+       font-family:ui-monospace,Menlo,monospace;font-size:13px}
+  .opt.correct{border-color:var(--ca);background:var(--caT);box-shadow:0 0 0 1px var(--ca)}
+  .opt.wrong{border-color:var(--to);background:color-mix(in srgb,var(--to) 12%,transparent)}
+  .quiz-fb{margin-top:10px;font-size:12.5px;min-height:20px;color:var(--muted)}
+  .score{font-size:12px;color:var(--muted);margin-left:auto;font-family:ui-monospace,Menlo,monospace}
+
+  details summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none;display:flex;align-items:center;gap:8px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:'▸';color:var(--muted);transition:transform .2s;display:inline-block}
+  details[open] summary::before{transform:rotate(90deg)}
+  details .inner{padding-top:12px}
+  ul.tight{margin:8px 0;padding-left:20px;color:var(--muted);font-size:13px}
+  ul.tight li{margin:4px 0}
+  ul.tight b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header class="card">
+  <div class="title">
+    <div class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 19 L8 6 L13 19 L18 6 L21 12" stroke="#fff" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div>
+      <h1>TCP Congestion Control <span class="grad">FSM Lab</span></h1>
+      <div class="sub">TCP Reno · cwnd in MSS · events: <b>new ACK</b> · <b>dup ACK</b> · <b>timeout</b></div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <label class="chk">ssthresh₀
+      <select id="initSsthresh">
+        <option>8</option><option selected>16</option><option>32</option><option>64</option>
+      </select>
+    </label>
+    <label class="chk"><input type="checkbox" id="tahoe"> <b>Tahoe</b> (3 dup = timeout)</label>
+    <button class="ghost" id="resetBtn">↺ Reset</button>
+    <button class="ghost iconbtn" id="themeBtn" title="Toggle theme">
+      <svg class="i-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="i-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="grid">
+  <!-- ============ FSM diagram ============ -->
+  <div class="card">
+    <h2>State machine</h2>
+    <svg viewBox="0 0 960 480" id="fsmSvg" aria-label="TCP congestion control FSM diagram">
+      <defs>
+        <marker id="m-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8a919c"/></marker>
+        <marker id="m-ss"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4a8dff"/></marker>
+        <marker id="m-ca"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2fbf8f"/></marker>
+        <marker id="m-fr"   viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#f0a832"/></marker>
+        <marker id="m-red"  viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ef5350"/></marker>
+      </defs>
+
+      <!-- ===== edges ===== -->
+      <path class="edge" id="e-ss-loop" marker-end="url(#m-gray)"
+            d="M 128 200 C 102 118 208 118 182 200"/>
+      <text class="elabel event" x="155" y="100">new ACK: cwnd += MSS</text>
+      <text class="elabel t2"   x="155" y="114">dup ACK: dupACKs++</text>
+
+      <path class="edge" id="e-ca-loop" marker-end="url(#m-gray)"
+            d="M 453 200 C 427 118 533 118 507 200"/>
+      <text class="elabel event" x="480" y="100">new ACK: cwnd += MSS·MSS/cwnd</text>
+      <text class="elabel t2"   x="480" y="114">dup ACK: dupACKs++</text>
+
+      <path class="edge" id="e-fr-loop" marker-end="url(#m-gray)"
+            d="M 812 270 C 796 344 876 344 862 270"/>
+      <text class="elabel event" x="838" y="362">dup ACK: cwnd += MSS</text>
+      <text class="elabel t2"   x="838" y="376">(inflate — keeps pipe full)</text>
+
+      <path class="edge" id="e-ss-ca" marker-end="url(#m-gray)"
+            d="M 242 210 C 298 148 342 148 393 206"/>
+      <text class="elabel event" x="317" y="140">cwnd ≥ ssthresh</text>
+
+      <path class="edge" id="e-ca-fr" marker-end="url(#m-gray)"
+            d="M 567 210 C 623 148 667 148 718 206"/>
+      <text class="elabel event" x="642" y="136">3 dup ACKs:</text>
+      <text class="elabel t2"   x="642" y="150">ssthresh←cwnd/2 · cwnd←ssthresh+3 · fast rtx</text>
+
+      <path class="edge" id="e-ss-fr" marker-end="url(#m-gray)"
+            d="M 205 196 C 330 36 640 36 798 196"/>
+      <text class="elabel t2" x="500" y="42">3 dup ACKs → fast retransmit (same rule as from CA)</text>
+
+      <path class="edge" id="e-fr-ca" marker-end="url(#m-gray)"
+            d="M 718 260 C 665 318 625 318 567 260"/>
+      <text class="elabel event" x="642" y="332">new ACK: cwnd ← ssthresh</text>
+      <text class="elabel t2"   x="642" y="346">(deflate)</text>
+
+      <path class="edge timeout" id="e-ca-to-ss" marker-end="url(#m-red)"
+            d="M 393 262 C 340 320 300 320 242 262"/>
+      <text class="elabel red event" x="317" y="338">timeout</text>
+
+      <path class="edge timeout" id="e-to-ss" marker-end="url(#m-red)"
+            d="M 126 270 C 102 348 208 348 182 270"/>
+      <text class="elabel red event" x="155" y="372">timeout</text>
+
+      <path class="edge timeout" id="e-fr-to-ss" marker-end="url(#m-red)"
+            d="M 788 272 C 640 412 330 412 204 274"/>
+      <text class="elabel red" x="470" y="428">timeout (any state): ssthresh ← cwnd/2 · cwnd ← 1 MSS · retransmit → Slow Start</text>
+
+      <!-- ===== nodes ===== -->
+      <g class="node SS" id="n-SS">
+        <rect class="body"  x="70"  y="200" width="170" height="70" rx="14"/>
+        <rect class="strip" x="84"  y="206" width="34"  height="5"  rx="2.5" fill="#4a8dff"/>
+        <text x="155" y="236" text-anchor="middle">SLOW START</text>
+        <text class="sub2" x="155" y="255" text-anchor="middle">cwnd ≈ ×2 per RTT</text>
+      </g>
+      <g class="node CA" id="n-CA">
+        <rect class="body"  x="395" y="200" width="170" height="70" rx="14"/>
+        <rect class="strip" x="409" y="206" width="34"  height="5"  rx="2.5" fill="#2fbf8f"/>
+        <text x="480" y="236" text-anchor="middle">CONG. AVOIDANCE</text>
+        <text class="sub2" x="480" y="255" text-anchor="middle">cwnd ≈ +1 MSS per RTT</text>
+      </g>
+      <g class="node FR" id="n-FR">
+        <rect class="body"  x="720" y="200" width="170" height="70" rx="14"/>
+        <rect class="strip" x="734" y="206" width="34"  height="5"  rx="2.5" fill="#f0a832"/>
+        <text x="805" y="236" text-anchor="middle">FAST RECOVERY</text>
+        <text class="sub2" x="805" y="255" text-anchor="middle">waiting for new ACK</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--ss)"></span>Slow Start</span>
+      <span><span class="dot" style="background:var(--ca)"></span>Congestion Avoidance</span>
+      <span><span class="dot" style="background:var(--fr)"></span>Fast Recovery</span>
+      <span><span class="dashline" style="border-color:var(--to)"></span>timeout transition</span>
+    </div>
+  </div>
+
+  <!-- ============ control panel ============ -->
+  <div>
+    <div class="card" style="margin-top:0">
+      <h2>Live sender</h2>
+      <div class="vars">
+        <div class="var"><div class="k">State</div><div class="v"><span id="stateBadge">—</span></div></div>
+        <div class="var"><div class="k">dup ACKs</div><div class="v" id="vDup">0</div></div>
+        <div class="var"><div class="k">cwnd</div><div class="v"><span id="vCwnd">1</span> <small>MSS</small><span class="delta" id="dCwnd"></span></div></div>
+        <div class="var"><div class="k">ssthresh</div><div class="v"><span id="vSst">16</span> <small>MSS</small><span class="delta" id="dSst"></span></div></div>
+      </div>
+
+      <div class="evrow">
+        <button class="ack" id="btnAck">New ACK<span class="keyhint">a</span></button>
+        <button class="dup" id="btnDup">Dup ACK<span class="keyhint">d</span></button>
+        <button class="to"  id="btnTo">Timeout<span class="keyhint">t</span></button>
+      </div>
+
+      <div class="explain" id="explain">Fire an event — a packet dot travels the edge taken. Keys: <kbd>a</kbd> new ACK, <kbd>d</kbd> dup ACK, <kbd>t</kbd> timeout.</div>
+
+      <div class="autoplay">
+        <button class="ghost" id="autoBtn" style="min-width:128px">▶ Autopilot</button>
+        <input type="range" id="speed" min="80" max="1200" value="450" step="10" title="tick interval (ms)">
+        <span class="sub" id="speedLbl">450 ms</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Quiz<span class="spacer"></span><button class="ghost" style="padding:3px 12px;font-size:12px" id="quizToggle">start</button></h2>
+      <div id="quizCard">
+        <div class="quiz-q" id="quizQ"></div>
+        <div id="quizOpts"></div>
+        <div class="quiz-fb" id="quizFb"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <button class="ghost" id="quizNext" style="display:none">Next →</button>
+          <span class="score" id="quizScore"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ chart ============ -->
+<div class="card">
+  <h2>cwnd over time — watch the sawtooth</h2>
+  <canvas id="chart"></canvas>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--ss)"></span>Slow Start</span>
+    <span><span class="dot" style="background:var(--ca)"></span>Congestion Avoidance</span>
+    <span><span class="dot" style="background:var(--fr)"></span>Fast Recovery</span>
+    <span><span class="xmark">✕</span>timeout</span>
+    <span><span class="dashline"></span>ssthresh</span>
+  </div>
+</div>
+
+<!-- ============ log ============ -->
+<div class="card">
+  <h2>Event log</h2>
+  <div class="logwrap">
+    <table>
+      <thead><tr><th>#</th><th>Event</th><th>Transition</th><th>cwnd</th><th>ssthresh</th><th>What happened</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ reference ============ -->
+<div class="card">
+  <details>
+    <summary>Reference — transition table &amp; key ideas</summary>
+    <div class="inner">
+      <table>
+        <thead><tr><th>State</th><th>Event</th><th>Action</th><th>Next</th></tr></thead>
+        <tbody>
+          <tr><td>Slow start</td><td>new ACK</td><td><code>cwnd += MSS</code></td><td>SS → CA once <code>cwnd ≥ ssthresh</code></td></tr>
+          <tr><td>Slow start</td><td>3 dup ACKs</td><td><code>ssthresh = cwnd/2</code>, <code>cwnd = ssthresh + 3</code>, fast retransmit</td><td>FR</td></tr>
+          <tr><td>Congestion avoidance</td><td>new ACK</td><td><code>cwnd += MSS·MSS/cwnd</code></td><td>CA</td></tr>
+          <tr><td>Congestion avoidance</td><td>3 dup ACKs</td><td><code>ssthresh = cwnd/2</code>, <code>cwnd = ssthresh + 3</code>, fast retransmit</td><td>FR</td></tr>
+          <tr><td>Fast recovery</td><td>dup ACK</td><td><code>cwnd += MSS</code> (inflate)</td><td>FR</td></tr>
+          <tr><td>Fast recovery</td><td>new ACK</td><td><code>cwnd = ssthresh</code> (deflate)</td><td>CA</td></tr>
+          <tr><td><i>any state</i></td><td>timeout</td><td><code>ssthresh = cwnd/2</code>, <code>cwnd = 1 MSS</code>, retransmit</td><td>SS</td></tr>
+        </tbody>
+      </table>
+      <ul class="tight">
+        <li><b>Two loss signals, two severities:</b> 3 dup ACKs = mild (later packets still arrive → halve cwnd, keep going). Timeout = severe (nothing gets through → cwnd = 1, restart slow start).</li>
+        <li><b>ssthresh remembers where congestion happened</b> (cwnd/2), so next time growth turns cautious <i>before</i> the old failure point → sawtooth.</li>
+        <li>Fast recovery's inflate (+1 MSS per dup ACK) keeps the pipe full while the missing segment is retransmitted; the cumulative new ACK deflates back to ssthresh.</li>
+        <li><code>ssthresh</code> uses <code>max(cwnd/2, 2)</code> here — real TCPs floor the window at ~2 MSS.</li>
+        <li>Tahoe mode: no fast recovery — 3 dup ACKs is treated exactly like a timeout.</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<script>
+"use strict";
+/* ================= FSM core (TCP Reno / Tahoe) ================= */
+const STATES = {
+  SS:{name:'Slow Start',           short:'SS'},
+  CA:{name:'Congestion Avoidance', short:'CA'},
+  FR:{name:'Fast Recovery',        short:'FR'},
+};
+const fmt = x => { const r = Math.round(x*100)/100; return Number.isInteger(r) ? String(r) : r.toFixed(2); };
+const half = c => Math.max(c/2, 2);               // ssthresh = cwnd/2, floored at 2 MSS
+
+/* theme-aware colors */
+let COLORS = {ss:'#4a8dff', ca:'#2fbf8f', fr:'#f0a832', to:'#ef5350', ink:'#1c2530', muted:'#8a919c', grid:'#eceae3'};
+function refreshColors(){
+  const cs = getComputedStyle(document.documentElement);
+  const v = n => cs.getPropertyValue(n).trim();
+  COLORS = {ss:v('--ss'), ca:v('--ca'), fr:v('--fr'), to:v('--to'),
+            ink:v('--ink'), muted:v('--muted'), grid:v('--line')};
+}
+function applyTheme(t){
+  document.documentElement.dataset.theme = t;
+  try{ localStorage.setItem('fsm-theme', t); }catch(e){}
+  refreshColors(); if(sim) drawChart();
+}
+(function initTheme(){
+  let t = 'dark';
+  try{ t = localStorage.getItem('fsm-theme')
+        || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); }catch(e){}
+  document.documentElement.dataset.theme = t;
+})();
+
+/* Pure transition: given (fsm, event, vars) → new vars + edge id + explanation. */
+function outcome(fsm, ev, cwnd, sst, dup, tahoe){
+  const r = {fsm, cwnd, sst, dup, edge:null, text:''};
+  if(ev === 'timeout'){
+    r.sst = half(cwnd); r.cwnd = 1; r.dup = 0; r.fsm = 'SS';
+    r.edge = fsm==='SS' ? 'e-to-ss' : (fsm==='CA' ? 'e-ca-to-ss' : 'e-fr-to-ss');
+    r.text = `Timeout in ${STATES[fsm].name} — severe loss signal: `+
+             `ssthresh ← cwnd/2 = ${fmt(r.sst)}, cwnd ← 1 MSS, retransmit → Slow Start.`;
+    return r;
+  }
+  if(fsm === 'FR'){
+    if(ev === 'ack'){
+      r.fsm='CA'; r.cwnd=sst; r.dup=0; r.edge='e-fr-ca';
+      r.text=`New ACK in Fast Recovery — the retransmission got through: deflate cwnd ← ssthresh = ${fmt(sst)} → Congestion Avoidance.`;
+    } else {
+      r.cwnd=cwnd+1; r.dup=dup+1; r.edge='e-fr-loop';
+      r.text=`Dup ACK in Fast Recovery — another segment left the network: inflate cwnd += 1 → ${fmt(r.cwnd)} (keeps the pipe full).`;
+    }
+    return r;
+  }
+  if(ev === 'ack'){
+    r.dup = 0;
+    if(fsm === 'SS'){
+      r.cwnd = cwnd+1;
+      if(r.cwnd >= sst){
+        r.fsm='CA'; r.edge='e-ss-ca';
+        r.text=`New ACK in Slow Start: cwnd += 1 → ${fmt(r.cwnd)} ≥ ssthresh ${fmt(sst)} → switch to Congestion Avoidance.`;
+      } else {
+        r.edge='e-ss-loop';
+        r.text=`New ACK in Slow Start: cwnd += 1 → ${fmt(r.cwnd)} (≈ doubling every RTT).`;
+      }
+    } else {
+      r.cwnd = cwnd + 1/cwnd;
+      r.edge='e-ca-loop';
+      r.text=`New ACK in Congestion Avoidance: cwnd += MSS·MSS/cwnd = +${fmt(1/cwnd)} → ${fmt(r.cwnd)} (≈ +1 MSS per RTT).`;
+    }
+    return r;
+  }
+  /* ev === 'dup' in SS or CA */
+  r.dup = dup + 1;
+  if(r.dup >= 3){
+    if(tahoe){
+      r.sst=half(cwnd); r.cwnd=1; r.dup=0; r.fsm='SS';
+      r.edge = fsm==='SS' ? 'e-to-ss' : 'e-ca-to-ss';
+      r.text=`3rd dup ACK — Tahoe treats it like a timeout: ssthresh ← ${fmt(r.sst)}, cwnd ← 1 → Slow Start.`;
+    } else {
+      r.sst=half(cwnd); r.cwnd=r.sst+3; r.fsm='FR';
+      r.edge = fsm==='SS' ? 'e-ss-fr' : 'e-ca-fr';
+      r.text=`3rd dup ACK in ${STATES[fsm].name} — mild loss signal: fast retransmit; `+
+             `ssthresh ← cwnd/2 = ${fmt(r.sst)}, cwnd ← ssthresh + 3 = ${fmt(r.cwnd)} → Fast Recovery.`;
+    }
+  } else {
+    r.edge = fsm==='SS' ? 'e-ss-loop' : 'e-ca-loop';
+    r.text=`Duplicate ACK #${r.dup} in ${STATES[fsm].name} — counted only, cwnd unchanged. The 3rd triggers fast retransmit.`;
+  }
+  return r;
+}
+
+/* ================= live simulation ================= */
+const $ = id => document.getElementById(id);
+const SVGNS = 'http://www.w3.org/2000/svg';
+let sim, autoTimer=null, script=[];
+
+function tahoe(){ return $('tahoe').checked; }
+function initSst(){ return parseFloat($('initSsthresh').value); }
+
+function reset(){
+  sim = {fsm:'SS', cwnd:1, sst:initSst(), dup:0, step:0,
+         history:[{step:0,cwnd:1,sst:initSst(),fsm:'SS',event:'init'}]};
+  script = [];
+  $('logBody').innerHTML='';
+  $('explain').innerHTML='Fire an event — a packet dot travels the edge taken. Keys: <kbd>a</kbd> new ACK, <kbd>d</kbd> dup ACK, <kbd>t</kbd> timeout.';
+  render(null);
+}
+
+function fire(ev){
+  const before = {fsm:sim.fsm, cwnd:sim.cwnd, sst:sim.sst};
+  const r = outcome(sim.fsm, ev, sim.cwnd, sim.sst, sim.dup, tahoe());
+  sim.fsm=r.fsm; sim.cwnd=r.cwnd; sim.sst=r.sst; sim.dup=r.dup; sim.step++;
+  sim.history.push({step:sim.step, cwnd:sim.cwnd, sst:sim.sst, fsm:sim.fsm, event:ev});
+  if(sim.history.length > 500) sim.history.splice(0, sim.history.length-500);
+  logRow(sim.step, ev, before, r);
+  $('explain').textContent = r.text;
+  render(r, before);
+}
+
+function chip(f){ return `<span class="stchip" style="background:${COLORS[f.toLowerCase()]}">${STATES[f].short}</span>`; }
+function logRow(n, ev, b, r){
+  const tr = document.createElement('tr');
+  const evName = ev==='ack'?'new ACK':ev==='dup'?'dup ACK':'TIMEOUT';
+  tr.innerHTML = `<td class="mono">${n}</td><td>${evName}</td>
+    <td>${chip(b.fsm)} → ${chip(r.fsm)}</td>
+    <td class="mono">${fmt(b.cwnd)} → ${fmt(r.cwnd)}</td>
+    <td class="mono">${fmt(r.sst)}</td><td>${r.text}</td>`;
+  const body = $('logBody');
+  body.prepend(tr);
+  while(body.rows.length > 40) body.deleteRow(-1);
+}
+
+/* ================= rendering ================= */
+const EDGE_NORMAL = 'url(#m-gray)', EDGE_TIMEOUT = 'url(#m-red)';
+function render(r, before){
+  $('vCwnd').textContent = fmt(sim.cwnd);
+  $('vSst').textContent  = fmt(sim.sst);
+  $('vDup').textContent  = sim.dup;
+  const badge = $('stateBadge');
+  badge.textContent = STATES[sim.fsm].name;
+  badge.style.background = COLORS[sim.fsm.toLowerCase()];
+  $('explain').style.borderLeftColor = COLORS[sim.fsm.toLowerCase()];
+  if(before){
+    delta($('dCwnd'), sim.cwnd - before.cwnd);
+    delta($('dSst'),  sim.sst  - before.sst);
+  } else { $('dCwnd').textContent=''; $('dSst').textContent=''; }
+  for(const k of Object.keys(STATES)) $('n-'+k).classList.toggle('active', k===sim.fsm);
+  if(r && r.edge){
+    const e = $(r.edge);
+    const col = r.edge.includes('to-ss') && e.classList.contains('timeout')
+                ? COLORS.to : COLORS[r.fsm.toLowerCase()];
+    e.classList.add('flash');
+    e.style.stroke = e.classList.contains('timeout') ? COLORS.to : col;
+    e.setAttribute('marker-end', e.classList.contains('timeout') ? EDGE_TIMEOUT
+                    : `url(#m-${r.fsm.toLowerCase()})`);
+    travelDot(e, col);
+    setTimeout(()=>{ e.classList.remove('flash'); e.style.stroke='';
+      e.setAttribute('marker-end', e.classList.contains('timeout') ? EDGE_TIMEOUT : EDGE_NORMAL);
+    }, 700);
+  }
+  drawChart();
+}
+function travelDot(edgeEl, color){
+  const dot = document.createElementNS(SVGNS,'circle');
+  dot.setAttribute('r','5.5');
+  dot.setAttribute('fill', color);
+  dot.setAttribute('class','transit');
+  dot.style.color = color;
+  const am = document.createElementNS(SVGNS,'animateMotion');
+  am.setAttribute('dur','0.6s');
+  am.setAttribute('fill','freeze');
+  am.setAttribute('path', edgeEl.getAttribute('d'));
+  dot.appendChild(am);
+  $('fsmSvg').appendChild(dot);
+  setTimeout(()=>dot.remove(), 700);
+}
+function delta(el, d){
+  el.textContent = d>0 ? ` ▲${fmt(d)}` : d<0 ? ` ▼${fmt(-d)}` : ' —';
+  el.className = 'delta ' + (d>0?'up':d<0?'down':'same');
+}
+
+/* ================= chart ================= */
+const chart = $('chart'), ctx = chart.getContext('2d');
+function drawChart(){
+  const dpr = window.devicePixelRatio||1;
+  const w = chart.clientWidth, h = chart.clientHeight;
+  if(chart.width!==w*dpr){ chart.width=w*dpr; chart.height=h*dpr; }
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  const hist = sim.history.slice(-140), N = hist.length;
+  const L=44, R=14, T=12, B=26, pw=w-L-R, ph=h-T-B;
+  const maxY = Math.max(20, Math.ceil(Math.max(...hist.map(p=>Math.max(p.cwnd,p.sst)))+4));
+  const X = i => L + (N>1 ? i*pw/(Math.max(N-1,40)) : pw/2);
+  const Y = v => T + ph*(1 - v/maxY);
+  ctx.font='10px ui-monospace,Menlo,monospace';
+  for(let g=0; g<=maxY; g+=5){
+    ctx.strokeStyle = g===0 ? COLORS.muted : COLORS.grid;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(L,Y(g)); ctx.lineTo(w-R,Y(g)); ctx.stroke();
+    ctx.fillStyle = COLORS.muted; ctx.fillText(g, 12, Y(g)+3);
+  }
+  ctx.fillText('cwnd (MSS)', 4, T+2);
+  // ssthresh dashed
+  ctx.setLineDash([5,4]); ctx.strokeStyle=COLORS.muted; ctx.lineWidth=1.3;
+  ctx.beginPath();
+  hist.forEach((p,i)=> i?ctx.lineTo(X(i),Y(p.sst)):ctx.moveTo(X(i),Y(p.sst)));
+  ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=COLORS.muted;
+  ctx.fillText('ssthresh', X(N-1)-44, Y(hist[N-1].sst)-6);
+  // cwnd gradient fill + line
+  const grad = ctx.createLinearGradient(0,T,0,T+ph);
+  grad.addColorStop(0, COLORS.ss+'33'); grad.addColorStop(1, COLORS.ss+'00');
+  ctx.beginPath();
+  hist.forEach((p,i)=> i?ctx.lineTo(X(i),Y(p.cwnd)):ctx.moveTo(X(i),Y(p.cwnd)));
+  ctx.lineTo(X(N-1), Y(0)); ctx.lineTo(X(0), Y(0)); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.strokeStyle=COLORS.ink; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.beginPath();
+  hist.forEach((p,i)=> i?ctx.lineTo(X(i),Y(p.cwnd)):ctx.moveTo(X(i),Y(p.cwnd)));
+  ctx.stroke();
+  // points
+  hist.forEach((p,i)=>{
+    if(p.event==='timeout'){
+      ctx.strokeStyle=COLORS.to; ctx.lineWidth=2.2;
+      const x=X(i),y=Y(p.cwnd);
+      ctx.beginPath(); ctx.moveTo(x-4,y-4); ctx.lineTo(x+4,y+4);
+      ctx.moveTo(x+4,y-4); ctx.lineTo(x-4,y+4); ctx.stroke();
+    } else if(i>0){
+      ctx.fillStyle = COLORS[p.fsm.toLowerCase()];
+      ctx.beginPath(); ctx.arc(X(i),Y(p.cwnd),3.2,0,7); ctx.fill();
+    }
+  });
+  ctx.fillStyle=COLORS.muted;
+  for(let i=0;i<N;i+=Math.ceil(N/8)) ctx.fillText(hist[i].step, X(i)-3, h-9);
+}
+
+/* ================= autopilot ================= */
+function autopilotTick(){
+  let ev;
+  if(script.length){ ev = script.shift(); }
+  else {
+    ev = 'ack';
+    const p = 0.03 + Math.max(0, sim.cwnd-8)*0.015;
+    if(Math.random() < p){
+      script = Math.random()<0.6
+        ? ['dup','dup','dup', Math.random()<0.5?'dup':'x', 'ack'].filter(e=>e!=='x')
+        : ['timeout'];
+      ev = script.shift();
+    }
+  }
+  fire(ev);
+}
+function setAuto(on){
+  if(on){ autoTimer = setInterval(autopilotTick, +$('speed').value);
+          $('autoBtn').textContent='⏸ Autopilot'; }
+  else  { clearInterval(autoTimer); autoTimer=null;
+          $('autoBtn').textContent='▶ Autopilot'; }
+}
+$('autoBtn').onclick = ()=> setAuto(!autoTimer);
+$('speed').oninput = e=>{
+  $('speedLbl').textContent = e.target.value+' ms';
+  if(autoTimer){ setAuto(false); setAuto(true); }
+};
+
+/* ================= quiz mode ================= */
+let quiz=null, qScore={ok:0,n:0};
+const ri = (a,b)=> a + Math.floor(Math.random()*(b-a+1));
+const pick = arr => arr[ri(0,arr.length-1)];
+
+function optText(o){ return `${STATES[o.fsm].short} · cwnd ${fmt(o.cwnd)} · ssthresh ${fmt(o.sst)}`; }
+function renderQuiz(){
+  const evName = quiz.ev==='ack'?'new ACK':quiz.ev==='dup'?'duplicate ACK':'TIMEOUT';
+  $('quizQ').innerHTML =
+    `State <span class="chip">${STATES[quiz.fsm].name}</span> · `+
+    `cwnd <span class="chip">${fmt(quiz.cwnd)}</span> · `+
+    `ssthresh <span class="chip">${fmt(quiz.sst)}</span> · `+
+    `dupACKs <span class="chip">${quiz.dup}</span><br>`+
+    `Event: <b>${evName}</b> → outcome?${tahoe()?' <i>(Tahoe)</i>':''}`;
+  const box=$('quizOpts'); box.innerHTML='';
+  quiz.list.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=optText(o);
+    b.onclick=()=>answerQuiz(b,o);
+    box.appendChild(b);
+  });
+  $('quizFb').textContent='';
+  $('quizNext').style.display='none';
+}
+function newQuestion(){
+  const fsm = pick(['SS','SS','SS','CA','CA','CA','CA','FR','FR']);
+  const sst = pick([4,8,12,16,24,32]);
+  let cwnd, dup;
+  if(fsm==='SS'){ cwnd = Math.random()<0.35 ? sst-1 : ri(1,Math.max(1,sst-1)); dup=ri(0,2); }
+  else if(fsm==='CA'){ cwnd = sst + ri(0,12); dup=ri(0,2); }
+  else { cwnd = sst+3+ri(0,4); dup=3+ri(0,3); }
+  const ev = Math.random()<0.5 ? 'ack' : (Math.random()<0.65 ? 'dup' : 'timeout');
+  const correct = outcome(fsm, ev, cwnd, sst, dup, tahoe());
+  const pool = new Map();
+  const key = o=>`${o.fsm}|${fmt(o.cwnd)}|${fmt(o.sst)}`;
+  const add = o=>{ const k=key(o); if(k!==key(correct)) pool.set(k,o); };
+  for(const other of ['ack','dup','timeout']) if(other!==ev) add(outcome(fsm,other,cwnd,sst,dup,tahoe()));
+  add({fsm:correct.fsm, cwnd, sst});
+  add({fsm:'SS', cwnd:1, sst});
+  add({fsm:'CA', cwnd:correct.sst, sst:correct.sst});
+  add({fsm:'FR', cwnd:half(cwnd)+3, sst:half(cwnd)});
+  add({fsm:correct.fsm, cwnd:correct.cwnd, sst:half(cwnd)});
+  const opts=[...pool.values()], chosen=[];
+  while(chosen.length<3 && opts.length) chosen.push(opts.splice(ri(0,opts.length-1),1)[0]);
+  chosen.push(correct);
+  for(let i=chosen.length-1;i>0;i--){ const j=ri(0,i); [chosen[i],chosen[j]]=[chosen[j],chosen[i]]; }
+  quiz={fsm,ev,cwnd,sst,dup,correct,list:chosen,answered:false};
+  renderQuiz();
+}
+function answerQuiz(btn, o){
+  if(quiz.answered) return; quiz.answered=true;
+  const ok = (o.fsm===quiz.correct.fsm && fmt(o.cwnd)===fmt(quiz.correct.cwnd) && fmt(o.sst)===fmt(quiz.correct.sst));
+  qScore.n++; if(ok) qScore.ok++;
+  [...$('quizOpts').children].forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===optText(quiz.correct)) b.classList.add('correct');
+  });
+  if(!ok) btn.classList.add('wrong');
+  $('quizFb').textContent = (ok?'✓ Correct. ':'✗ Not quite. ') + quiz.correct.text;
+  $('quizScore').textContent = `score ${qScore.ok}/${qScore.n}`;
+  $('quizNext').style.display='inline-block';
+}
+$('quizToggle').onclick = ()=>{
+  const on = $('quizCard').classList.toggle('on');
+  $('quizToggle').textContent = on?'stop':'start';
+  if(on){ qScore={ok:0,n:0}; $('quizScore').textContent=''; newQuestion(); }
+};
+$('quizNext').onclick = newQuestion;
+
+/* ================= wiring ================= */
+$('btnAck').onclick = ()=>fire('ack');
+$('btnDup').onclick = ()=>fire('dup');
+$('btnTo').onclick  = ()=>fire('timeout');
+$('resetBtn').onclick = ()=>{ setAuto(false); reset(); };
+$('initSsthresh').onchange = reset;
+$('themeBtn').onclick = ()=>{
+  applyTheme(document.documentElement.dataset.theme==='dark' ? 'light' : 'dark');
+};
+document.addEventListener('keydown', e=>{
+  if(e.target.matches('input,select,textarea')) return;
+  if(e.key==='a'||e.key==='A') fire('ack');
+  else if(e.key==='d'||e.key==='D') fire('dup');
+  else if(e.key==='t'||e.key==='T') fire('timeout');
+});
+window.addEventListener('resize', drawChart);
+refreshColors();
+reset();
+</script>
+</body>
+</html>
