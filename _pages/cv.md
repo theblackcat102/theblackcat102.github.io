@@ -11,6 +11,7 @@ redirect_from:
 
 Education
 ======
+* PhD in CSIE PhD (Year 2)
 * M.S. in ECE NYCU (NCTU)
 * B.S. in ECE NCTU
 
