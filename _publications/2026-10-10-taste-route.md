@@ -12,17 +12,17 @@ citation: 'Tam, Z.R., Wu, C.C., Yang, S.H., Ku, P., Kuang, B., Hsieh, T.T., Hsu,
 
 Video generation has come a long way, but choosing which model to use is still surprisingly difficult. Different generators have different strengths, and their prices vary substantially. We study the less-explored problem of routing among video generators: choosing a model for a particular request, user, and budget.
 
-![Will Smith eating spaghetti, 2023 to 2026](/images/will-smith-spaghetti.gif)
+![Will Smith eating spaghetti, 2023 to 2026](/images/will-smith-spaghetti.gif){: .align-center}
 
 So given a request (like prompt or image + prompt), which video model should be used to generate it? The natural answer is "send it to whichever model people like best". However after we have collected human preferences data, taste turned out to be surprisingly personal: even when the consensus of all the other annotators is used as an oracle, it agrees with an annotator's own favorite only 34-55% of the time. There is no single best video model for everyone, and the models differ a lot in how much each generation costs.
 
 People mostly agree on which videos are bad, but much less on which one is best. When a comparisons involve a rejected video, annotators agree 83-85% of the time. When both videos are acceptable and free of flagged defects, agreement drops to 57-62%. In one example, the consensus winner was everybody's second choice and nobody's favorite. This motivated us to collect quality judgments separately from personal preference rankings.
 
-![The consensus winner was everyone's second choice, while each annotator picked a different favorite](/images/exec-ba7028c8-8ee1-46e7-b3b9-62a8bcb913ac.png)
+![The consensus winner was everyone's second choice, while each annotator picked a different favorite](/images/exec-ba7028c8-8ee1-46e7-b3b9-62a8bcb913ac.webp)
 
 So we built TasteRoute, a personalized router that makes its choice before generating any video. It encodes the prompt and optional reference image, then scores candidate generators using a ranking model trained on preference feedback. The personalized version learns from an individual user's own comparisons. At inference time, we filter out generators above the budget and choose the highest-ranked affordable option.
 
-![How TasteRoute works: understand the request, personalize, filter by budget, then route](/images/exec-c368eb2f-87ee-4f74-9c61-872e5726a09e.png)
+![How TasteRoute works: understand the request, personalize, filter by budget, then route](/images/exec-c368eb2f-87ee-4f74-9c61-872e5726a09e.webp)
 
 Across text-to-video and image-to-video settings, TasteRoute's general routing performance is comparable to a strong nearest-neighbor baseline. Personalization becomes more useful as the budget expands and more generators become affordable. At budget caps of $1.00, $1.50, and $2.00 per video, TasteRoute-Personal achieves the highest ranking quality over affordable candidates and the lowest average generation cost among the compared routers. Its cost savings range from 8-12% relative to the most expensive alternative at each cap. Interestingly, the main router is trained without a cost penalty: these savings emerge because learning users' preferences sometimes leads to choosing cheaper generators.
 
