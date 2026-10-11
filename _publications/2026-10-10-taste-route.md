@@ -32,7 +32,7 @@ We are also releasing [TasteRoute-3k](https://huggingface.co/datasets/appier-ai-
 
 There is still plenty left to solve. On video pairs where users express opposite preferences, TasteRoute currently only reaches 55.2% accuracy, showing that directly conflicting tastes remain difficult to predict. Our results only covered nine annotators with fixed generator catalog, and the observed savings reflect their preferences rather than a guarantee that personalization always reduces cost. I personally also think learning preferences that generalize to more users and changing model catalogs is an important next step.
 
-<a href='https://arxiv.org/abs/2610.05896'><i class="ai ai-arxiv"></i> Download paper here</a> | <a href='https://huggingface.co/spaces/theblackcat102/tasteroute-demo'>🤗 Try the demo on Hugging Face Spaces</a>
+<p style="font-size: 1.25em"><a href='https://arxiv.org/abs/2610.05896'><i class="ai ai-arxiv"></i> Download paper here</a> | <a href='https://huggingface.co/spaces/theblackcat102/tasteroute-demo'>🤗 Try the demo on Hugging Face Spaces</a></p>
 
 ```bibtext
 @article{tam2026tasteroute,
