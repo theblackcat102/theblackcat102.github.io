@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), previously Sr Research Scientist 2 @ Appier AI Research
+PhD @ [Miu Lab](https://www.csie.ntu.edu.tw/~miulab/) under [Vivian Chen](https://www.csie.ntu.edu.tw/~yvchen/), previously Sr Research Scientist @ Appier AI Research
 
 
 ## About Me
@@ -26,8 +26,8 @@ Research-wise, I'm interested in the broad area of LLMs, with the goal of unders
 
 ## News
 
-- **[Sept. 2026]** 1 [paper](https://tool-use-smith.github.io/) accepted by NeurIPS Main, 2 accepted by NeurIPS ED Track ([paper](https://expectedharm.github.io/) Spotlight)
-- **[May. 2026]** One findings [paper](https://aclanthology.org/2026.findings-acl.1830/) accepted by ACL 2026.
+- **[Sept. 2026]** 1 [paper](https://tool-use-smith.github.io/) accepted by NeurIPS Main, 2 accepted by NeurIPS ED Track ([Expected Harm](https://expectedharm.github.io/) Spotlight, [Global PIQA](https://github.com/mrlbenchmarks/global-piqa))
+- **[May. 2026]** One findings [paper](https://aclanthology.org/2026.findings-acl.1830/) about Taiwan VLM benchmark accepted by ACL 2026.
 - **[Mar. 2026]** One [paper](https://aclanthology.org/2026.iwsds-1.7.pdf) accepted by IWSDS 2026. (best paper)
 - **[Feb. 2026]** One [paper](https://ieeexplore.ieee.org/abstract/document/11463343/) accepted by ICASSP 2026.
 - **[Sep. 2025]** One [paper](https://arxiv.org/abs/2501.14315) accepted by NeurIPS 2025.
@@ -43,7 +43,6 @@ Research-wise, I'm interested in the broad area of LLMs, with the goal of unders
 **[Joint Optimization of Tool Creation and Use for Large Language Model Agents](https://tool-use-smith.github.io/)**
 **ZR Tam**, CY Lin, YN Chen, SH Hua, HY Lee
 *NeurIPS 2025 Main*
-#Agents #ToolUse #RL
 
 We propose SMITH, a reinforcement learning framework that jointly trains tool creation and tool use within a single policy, with separate reward axes for schema, code, and outcome failures. A 4B model trained on 13 procedural reasoning tasks reaches 79.9 macro-average accuracy on held-out tasks—outperforming an untrained 30B tool-writer—and its tools transfer to models as small as 350M.
 
@@ -51,30 +50,26 @@ We propose SMITH, a reinforcement learning framework that jointly trains tool cr
 **[Expected Harm: Rethinking Safety Evaluation of (Mis)Aligned LLMs](https://expectedharm.github.io/)**
 YS Chen\*, **ZR Tam**\*, CK Wu, YN Chen
 *NeurIPS 2026 ED (Spotlight)*
-#Safety #Evaluation #Alignment
 
 We introduce Expected Harm metric combining severity with execution likelihood, revealing Inverse Risk Calibration where models refuse difficult-to-execute threats while remaining vulnerable to easily-executable ones. By exploiting this miscalibration, we increased jailbreak success rates by up to 2×.
 
 **[Let me speak freely? A study on the impact of format restrictions on performance of large language models](https://arxiv.org/abs/2408.02442)**
 **ZR Tam**\*, CK Wu\*, YL Tsai, CY Lin, HY Lee, YN Chen
 *EMNLP 2024 Industry Track*
-#Behavior #Constraints
 
 We found stricter format constraints generally lead to greater performance degradation in reasoning tasks across different language models, evaluating performance when restricted to structured formats versus free-form responses.
 
 **[TMMLU+: An Improved Traditional Chinese Evaluation Suite for Foundation Models](https://openreview.net/pdf?id=95TayIeqJ4)**
 **ZR Tam**, YS Chen, CK Wu, TH Yeh, WC Cheng, BY Lin, CH Li, MC Yeh, YN Chen
 *COLM 2024*
-#Multilingual #Benchmark
 
 A new benchmark designed for Traditional Chinese language understanding with 66 subjects from elementary to professional level, improving evaluation of foundation models on Traditional Chinese.
 
 **[OpenAssistant Conversations - Democratizing Large Language Model Alignment](https://proceedings.neurips.cc/paper_files/paper/2023/file/949f0f8f32267d297c2d4e3ee10a2e7e-Paper-Datasets_and_Benchmarks.pdf)**
 Andreas Köpf, ..., **ZR Tam**, ... et al.
 *NeurIPS D&B 2023 (Oral)*
-#Multilingual #RLHF #Dataset
 
-First full RLHF pipeline to train multilingual instruct-following LLMs with 161,443 messages in 35 languages, annotated with 461,292 quality ratings from 13,500 volunteers worldwide.
+First full RLHF pipeline to train multilingual instruct-following LLMs with 161,443 messages in 35 languages, annotated with 461,292 quality ratings from 13,500 volunteers worldwide. I'm responsible for training the earliest reward model [link](https://huggingface.co/OpenAssistant/reward-model-deberta-v3-large-v2) and currently still the most downloaded models on OpenAssistant huggingface past 1M downloads and going!
 
 
 ## Research Interests
