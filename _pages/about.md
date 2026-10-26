@@ -81,4 +81,6 @@ LLM Agents & Tool Use · LLM Safety · Behavioral Analysis · Audio Language Mod
 
 I'm also involved in [GlobalPIQA](https://arxiv.org/abs/2510.24081) project (2026 NeurIPS ED) contributing Malay dataset.
 
+## Academic Service
 
+Reviewers for ICLR, ARR, Neurips E&D; Area Chair for EMNLP Industry track 24-26, session chair; Tutorial speakers for ACML 2025
