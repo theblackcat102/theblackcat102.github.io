@@ -4,6 +4,9 @@ collection: publications
 permalink: /publication/2026-10-06-alpha-transfer
 excerpt: 'Within the same model family, merging coefficients that work well on a small model also work well on a large one. We introduce αTransfer, which searches merging coefficients on a small proxy model and applies them directly to a larger target, giving a 6x speedup and 70% memory reduction on vision transformers and a 20x speedup and 85% memory reduction on LLMs at comparable accuracy.'
 date: 2026-10-06
+header:
+  image: alpha_merge_cover.png
+  teaser: alpha_merge_cover.png
 category: conferences
 venue: 'arXiv preprint'
 paperurl: 'https://arxiv.org/abs/2610.07819'
