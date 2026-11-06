@@ -9,6 +9,9 @@ keywords:
   - fine-tuning
   - thinking machine
 comments: true
+header:
+  image: better_optimizer_cover.PNG
+  teaser: better_optimizer_cover.PNG
 title: "What is LoRA specialized Muon optimizer even mean?"
 ---
 
