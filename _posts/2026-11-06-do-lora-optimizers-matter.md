@@ -42,7 +42,7 @@ The four optimizers:
 
 - **anpaure's Dimuon variant**: I rely on the reverse-engineered Dimuon implementation [dimuon.py](https://github.com/anpaure/dimuon/blob/main/dimuon.py) by [X:@anpaure](https://x.com/anpaure)
 
-The first thing I notice compare to the PoLoRA design is the lack of A-B decomposition like what we see in PoLoRA $\sigma_A, \sigma_B$. Also in anpaure's Dimuon variant we rely on magic update size : $\sqrt{rank}x (rank / 32) ** 0.175$ fitted based on the gradient steps obtained comparing anpaure's Dimuon variant and adamw.
+The first thing I notice compare to the PoLoRA design is the lack of A-B decomposition like what we see in PoLoRA $\sigma_A, \sigma_B$. Also in anpaure's Dimuon variant we rely on magic update size : $\sqrt{\text{rank}} \times (\text{rank} / 32)^{0.175}$ fitted based on the gradient steps obtained comparing anpaure's Dimuon variant and adamw.
 
 One sad thing is we have no explaination of what does the "Di" even refer to.
 
@@ -154,7 +154,7 @@ The schedule is the other big lever. anpaure's Dimuon variant with a constant lr
 ## Open questions
 
 - **Does the conditioning advantage survive at a fixed, non-converged token budget?** If you stop at 200 steps without decay, or train for three epochs, "conditioning = speed" should either become a real final-quality gap or disappear. That's the experiment that would make the claim defensible.
-- **Why does anpaure's Dimuon variant's final lead grow with rank** when its conditioning advantage is transient at rank 16? The fixed-size Frobenius step is the main suspect.
+
 - **Which factor carries the effect?** Two weak leads point at B: shifting lr from A to B lands within 5e-5 of removing the conditioners at step 50, and B's statistic is the only one that separates the curves in the A-vs-B statistic ablation. Conditioning only A or only B for 200 steps would settle it cheaply.
 
 LoRA-specific optimizers I think is still a piece of dark magic art, a good optimizer for LoRA still requires some combinations which at my current knowledge is unexplainable. For example PoLoRA relies on $\sigma_A, \sigma_B$ in theory act as an annealing term (adding cosine would make it doule annealing), but remove cosine would make things worse. anpaure's Dimuon variant while it works, we still lack understand why is it so and hopefully thinking machine would one day release a blog saying more about this.
