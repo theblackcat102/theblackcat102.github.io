@@ -12,7 +12,7 @@ comments: true
 header:
   image: better_optimizer_cover.PNG
   teaser: better_optimizer_cover.PNG
-title: "What is LoRA specialized Muon optimizer even mean?"
+title: "What does LoRA specialized Muon optimizer even mean?"
 ---
 
 In October, Thinking Machines added [Dimuon](https://tinker-docs.thinkingmachines.ai/tinker/optimizers/) to Tinker, an optimizer built specifically for LoRA. They didn't share any details how the optimizer works other than good scaling curve across higher rank (against AdamW) and the name "Dimuon" hinting its a Muon variant. A few months earlier [PoLoRA](https://arxiv.org/abs/2607.17620) (Ghosh, Parshakova and Gower) proposed a preconditioned, orthogonalized optimizer for LoRA factors, and before that there were [LoRA-RITE](https://arxiv.org/abs/2410.20625), [LoRA+](https://arxiv.org/abs/2402.12354) and [Riemannion](https://arxiv.org/abs/2507.12142). The pitch is always similar: a LoRA adapter is a product $BA$, not two independent matrices, so an optimizer that treats A and B as flat parameter vectors (AdamW) or as two unrelated matrices (Muon) is leaving something on the table.
